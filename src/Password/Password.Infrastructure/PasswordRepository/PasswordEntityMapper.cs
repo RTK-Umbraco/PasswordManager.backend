@@ -8,7 +8,11 @@ internal static class PasswordEntityMapper
         return new PasswordEntity(
             model.Id,
             model.CreatedUtc,
-            model.ModifiedUtc
+            model.ModifiedUtc,
+            model.FriendlyName,
+            model.Url,
+            model.Username,
+            model.Password
             );
     }
 
@@ -17,7 +21,12 @@ internal static class PasswordEntityMapper
         return new PasswordModel(
             entity.Id,
             entity.CreatedUtc,
-            entity.ModifiedUtc
+            entity.ModifiedUtc,
+            entity.Deleted,
+            entity.FriendlyName,
+            entity.Url,
+            entity.Username,
+            entity.Password
             );
     }
 }
