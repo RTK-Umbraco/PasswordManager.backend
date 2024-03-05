@@ -1,5 +1,6 @@
 ﻿using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
+using PasswordManager.Password.Domain.Password;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace PasswordManager.Password.Api.Service.GetPassword;
@@ -21,6 +22,7 @@ public class GetPasswordEndpoint : EndpointBaseAsync.WithRequest<Guid>.WithActio
     ]
     public override async Task<ActionResult<PasswordResponse>> HandleAsync([FromRoute] Guid passwordId, CancellationToken cancellationToken = default)
     {
-        return new ActionResult<PasswordResponse>(new PasswordResponse(passwordId));
+        var passwordResponse = new PasswordModel(passwordId, DateTime.UtcNow, DateTime.UtcNow, false, "url", "friendlyName", "username", "password");
+        return new ActionResult<PasswordResponse>(PasswordResponseMapper.Map(passwordResponse));
     }
 }
