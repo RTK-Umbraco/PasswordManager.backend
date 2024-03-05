@@ -14,4 +14,9 @@ public static class PasswordResponseMapper
 
         return passwordResponse;
     }
+
+    public static IEnumerable<PasswordResponse> Map(IEnumerable<PasswordModel> passwordModels)
+    {
+        return passwordModels.Select(Map);
+    }
 }

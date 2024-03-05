@@ -1,5 +1,6 @@
 ﻿using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
+using PasswordManager.Password.ApplicationServices.GetPassword;
 using PasswordManager.Password.Domain.Password;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -7,8 +8,11 @@ namespace PasswordManager.Password.Api.Service.GetPassword;
 
 public class GetPasswordEndpoint : EndpointBaseAsync.WithRequest<Guid>.WithActionResult<PasswordResponse>
 {
-    public GetPasswordEndpoint()
+    private readonly IGetPasswordService _getPasswordService;
+
+    public GetPasswordEndpoint(IGetPasswordService getPasswordService)
     {
+        _getPasswordService = getPasswordService;
     }
 
     [HttpGet("api/passwords/{passwordId:guid}")]
@@ -22,7 +26,13 @@ public class GetPasswordEndpoint : EndpointBaseAsync.WithRequest<Guid>.WithActio
     ]
     public override async Task<ActionResult<PasswordResponse>> HandleAsync([FromRoute] Guid passwordId, CancellationToken cancellationToken = default)
     {
-        var passwordResponse = new PasswordModel(passwordId, DateTime.UtcNow, DateTime.UtcNow, false, "url", "friendlyName", "username", "password");
-        return new ActionResult<PasswordResponse>(PasswordResponseMapper.Map(passwordResponse));
+        var passwordModel = await _getPasswordService.GetPassword(passwordId);
+
+        if (passwordModel is null)
+            return Problem(title: "Password could not be found",
+                           detail: $"Password having id: '{passwordId}' not found", 
+                           statusCode: StatusCodes.Status404NotFound);
+
+        return new ActionResult<PasswordResponse>(PasswordResponseMapper.Map(passwordModel));
     }
 }
