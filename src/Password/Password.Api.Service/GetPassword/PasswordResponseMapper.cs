@@ -8,9 +8,9 @@ public static class PasswordResponseMapper
     {
         var passwordResponse = new PasswordResponse(passwordModel.Id,
                                                     passwordModel.Url,
-                                                    passwordModel.FriendlyName,
+                                                    passwordModel.Label,
                                                     passwordModel.Username,
-                                                    passwordModel.Password);
+                                                    passwordModel.Key);
 
         return passwordResponse;
     }

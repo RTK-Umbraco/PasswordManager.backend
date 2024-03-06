@@ -9,10 +9,10 @@ internal static class PasswordEntityMapper
             model.Id,
             model.CreatedUtc,
             model.ModifiedUtc,
-            model.FriendlyName,
+            model.Label,
             model.Url,
             model.Username,
-            model.Password
+            model.Key
             );
     }
 

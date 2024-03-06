@@ -9,6 +9,9 @@ public class BaseModel
     protected BaseModel(Guid id)
     {
         Id = id;
+        CreatedUtc = DateTime.UtcNow;
+        ModifiedUtc = DateTime.UtcNow;
+        Deleted = false;
     }
 
     protected BaseModel()
