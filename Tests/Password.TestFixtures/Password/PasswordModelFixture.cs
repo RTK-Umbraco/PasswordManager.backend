@@ -1,7 +1,7 @@
 ﻿using PasswordManager.Password.Domain.Password;
 
 namespace PasswordManager.Password.TestFixtures.Password;
-public static class PasswordFixture
+public static class PasswordModelFixture
 {
     public static PasswordModelBuilder Builder() => new();
 
