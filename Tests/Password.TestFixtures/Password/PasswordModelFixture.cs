@@ -30,5 +30,11 @@ public static class PasswordModelFixture
             _passwordId = passwordId;
             return this;
         }
+
+        public PasswordModelBuilder IsDeleted()
+        {
+            _deleted = true;
+            return this;
+        }
     }
 }

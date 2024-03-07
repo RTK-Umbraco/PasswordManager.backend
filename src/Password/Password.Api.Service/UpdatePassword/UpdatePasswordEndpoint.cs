@@ -32,7 +32,7 @@ public sealed class UpdatePasswordEndpoint : EndpointBaseAsync.WithRequest<Updat
     ]
     public override async Task<ActionResult<PasswordResponse>> HandleAsync([FromRoute] UpdatePasswordRequestWithBody request, CancellationToken cancellationToken = default)
     {
-        var updatePasswordModel = PasswordModel.UpdatePassword(request.,
+        var updatePasswordModel = PasswordModel.UpdatePassword(request.PasswordId,
                                                   request.Details.Url,
                                                   request.Details.FriendlyName,
                                                   request.Details.Username,

@@ -54,7 +54,7 @@ public class UpdatePasswordService : IUpdatePasswordService
         return OperationResult.Accepted(operation);
     }
 
-    public async Task UpdateUser(PasswordModel updatePasswordModel)
+    public async Task UpdatePassword(PasswordModel updatePasswordModel)
     {
         _logger.LogInformation($"Updating password: {updatePasswordModel.Id}");
 

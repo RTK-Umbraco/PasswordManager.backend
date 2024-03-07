@@ -6,5 +6,5 @@ namespace PasswordManager.Password.ApplicationServices.UpdatePassword;
 public interface IUpdatePasswordService
 {
     Task<OperationResult> RequestUpdatePassword(PasswordModel updatePasswordModel, OperationDetails operationDetails);
-    Task UpdateUser(PasswordModel updateUserModel);
+    Task UpdatePassword(PasswordModel updateUserModel);
 }
