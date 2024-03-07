@@ -1,9 +1,9 @@
 ﻿using PasswordManager.Password.Domain.Operations;
 using PasswordManager.Password.Domain.Password;
 
-namespace Password.Worker.Service.CreatePassword;
+namespace Password.Worker.Service.UpdatePassword;
 
-internal class CreatePasswordOperationHelper
+internal class UpdatePasswordOperationHelper
 {
     internal static PasswordModel Map(Guid passwordId, Operation operation)
     {
@@ -20,21 +20,21 @@ internal class CreatePasswordOperationHelper
 
     private static string GetPasswordUrl(Operation operation)
     {
-        return GetPasswordOperationData(operation, OperationDataConstants.PasswordCreateUrl);
+        return GetPasswordOperationData(operation, OperationDataConstants.NewPasswordUrl);
     }
 
     private static string GetPasswordLabel(Operation operation)
     {
-        return GetPasswordOperationData(operation, OperationDataConstants.PasswordCreateFriendlyName);
+        return GetPasswordOperationData(operation, OperationDataConstants.NewPasswordFriendlyName);
     }
 
     private static string GetPasswordUsername(Operation operation)
     {
-        return GetPasswordOperationData(operation, OperationDataConstants.PasswordCreateUsername);
+        return GetPasswordOperationData(operation, OperationDataConstants.NewPasswordUsername);
     }
 
     private static string GetPasswordKey(Operation operation)
     {
-        return GetPasswordOperationData(operation, OperationDataConstants.PasswordCreatePassword);
+        return GetPasswordOperationData(operation, OperationDataConstants.NewPasswordPassword);
     }
 }
