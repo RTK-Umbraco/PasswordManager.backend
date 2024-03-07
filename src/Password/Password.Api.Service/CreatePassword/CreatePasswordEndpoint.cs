@@ -1,48 +1,70 @@
 ﻿using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
 using PasswordManager.Password.Api.Service.GetOperation;
-using PasswordManager.Password.ApplicationServices.AddPassword;
+using PasswordManager.Password.Api.Service.Models;
+using PasswordManager.Password.ApplicationServices.CreatePassword;
 using PasswordManager.Password.Domain.Operations;
 using PasswordManager.Password.Domain.Password;
 using Swashbuckle.AspNetCore.Annotations;
+using System.Text.Json.Serialization;
 
-namespace PasswordManager.Password.Api.Service.CreatePassword
+namespace PasswordManager.Password.Api.Service.CreatePassword;
+public class CreatePasswordEndpoint : EndpointBaseAsync.WithRequest<CreatePasswordRequestWithBody>.WithoutResult
 {
-    public class CreatePasswordEndpoint : EndpointBaseAsync.WithRequest<CreatePasswordRequestWithBody>.WithoutResult
+    private readonly ICreatePasswordService _createPasswordService;
+
+    public CreatePasswordEndpoint(ICreatePasswordService createPasswordService)
     {
-        private readonly ICreatePasswordService _createPasswordService;
-
-        public CreatePasswordEndpoint(ICreatePasswordService createPasswordService)
-        {
-            _createPasswordService = createPasswordService;
-        }
-
-        [HttpPost("api/password")]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        [SwaggerOperation(
-        Summary = "Create password",
-        Description = "Creates password",
-        OperationId = "CreatePassword",
-        Tags = new[] { "Password" })
-    ]
-        public override async Task<ActionResult> HandleAsync([FromBody] CreatePasswordRequestWithBody request, CancellationToken cancellationToken = default)
-        {
-            var passwordModel = PasswordModel.CreatePassword(request.Url, request.Label, request.Username, request.Key);
-            
-            var operationResult = await _createPasswordService.RequestCreatePassword(passwordModel, new OperationDetails("CreatePasswordEndpoint"));
-
-            return operationResult.Status switch
-            {
-                OperationResultStatus.Accepted => Ok(),
-
-                OperationResultStatus.InvalidOperationRequest => Problem(title: "Cannot create password", detail: operationResult.GetMessage(),
-                    statusCode: StatusCodes.Status400BadRequest),
-                _ => Problem(title: "Unknown error requesting to creating password", detail: "Unknown error - check logs",
-                    statusCode: StatusCodes.Status500InternalServerError),
-            };
-        }
+        _createPasswordService = createPasswordService;
     }
 
-    public record CreatePasswordRequestWithBody(string Url, string Label, string Username, string Key);
+    [HttpPost("api/passwords")]
+    [ProducesResponseType(typeof(OperationAcceptedResponse), StatusCodes.Status202Accepted)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+    [SwaggerOperation(
+    Summary = "Create password",
+    Description = "Creates password",
+    OperationId = "CreatePassword",
+    Tags = new[] { "Password" })
+]
+    public override async Task<ActionResult> HandleAsync([FromBody] CreatePasswordRequestWithBody request, CancellationToken cancellationToken = default)
+    {
+        var passwordModel = PasswordModel.CreatePassword(request.Details.Url, request.Details.FriendlyName, request.Details.Username, request.Details.Password);
+
+        var operationResult = await _createPasswordService.RequestCreatePassword(passwordModel, new OperationDetails(request.CreatedByUserId));
+
+        return operationResult.Status switch
+        {
+            OperationResultStatus.Accepted => new AcceptedResult(
+                new Uri(GetOperationByRequestIdEndpoint.GetRelativePath(operationResult.GetOperation()), UriKind.Relative),
+                new OperationAcceptedResponse(operationResult.GetOperation().RequestId)),
+
+            OperationResultStatus.InvalidOperationRequest => Problem(title: "Cannot password user", detail: operationResult.GetMessage(),
+                statusCode: StatusCodes.Status400BadRequest),
+            _ => Problem(title: "Unknown error requesting to creating password", detail: "Unknown error - check logs",
+                statusCode: StatusCodes.Status500InternalServerError),
+        };
+    }
+}
+
+
+public sealed class CreatePasswordRequestWithBody : UserOperationRequest<CreatePasswordRequestDetails>
+{
+}
+
+[SwaggerSchema(Nullable = false, Required = new[] { "url", "friendlyName", "username", "password" })]
+public sealed class CreatePasswordRequestDetails
+{
+    [JsonPropertyName("url")]
+    public string Url { get; set; }
+
+    [JsonPropertyName("friendlyName")]
+    public string FriendlyName { get; set; }
+
+    [JsonPropertyName("username")]
+    public string Username { get; set; }
+
+    [JsonPropertyName("password")]
+    public string Password { get; set; }
 }
