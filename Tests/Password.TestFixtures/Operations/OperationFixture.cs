@@ -41,7 +41,7 @@ public static class OperationFixture
             return this;
         }
 
-        public OperationBuilder WithProjectId(Guid passwordId)
+        public OperationBuilder WithPasswordId(Guid passwordId)
         {
             _passwordId = passwordId;
             return this;
