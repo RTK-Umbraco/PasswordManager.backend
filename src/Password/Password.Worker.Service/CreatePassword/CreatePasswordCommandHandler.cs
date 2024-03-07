@@ -1,45 +1,44 @@
 ﻿using Rebus.Handlers;
 using Password.Messages.CreatePassword;
-using PasswordManager.Password.ApplicationServices.AddPassword;
 using PasswordManager.Password.ApplicationServices.Operations;
 using PasswordManager.Password.Domain.Operations;
+using PasswordManager.Password.ApplicationServices.CreatePassword;
 
-namespace Password.Worker.Service.CreatePassword
+namespace Password.Worker.Service.CreatePassword;
+
+public class CreatePasswordCommandHandler : IHandleMessages<CreatePasswordCommand>
 {
-    public class CreatePasswordCommandHandler : IHandleMessages<CreatePasswordCommand>
+    private readonly ICreatePasswordService _createPasswordService;
+    private readonly IOperationService _operationService;
+    private readonly ILogger<CreatePasswordCommandHandler> _logger;
+
+    public CreatePasswordCommandHandler(ICreatePasswordService createPasswordService, IOperationService operationService, ILogger<CreatePasswordCommandHandler> logger)
     {
-        private readonly ICreatePasswordService _createPasswordService;
-        private readonly IOperationService _operationService;
-        private readonly ILogger<CreatePasswordCommandHandler> _logger;
+        _createPasswordService = createPasswordService;
+        _operationService = operationService;
+        _logger = logger;
+    }
 
-        public CreatePasswordCommandHandler(ICreatePasswordService createPasswordService, IOperationService operationService, ILogger<CreatePasswordCommandHandler> logger)
+    public async Task Handle(CreatePasswordCommand message)
+    {
+        _logger.LogInformation($"Handling create password command: {message.RequestId}");
+
+        var operation = await _operationService.GetOperationByRequestId(message.RequestId);
+
+        if (operation == null)
         {
-            _createPasswordService = createPasswordService;
-            _operationService = operationService;
-            _logger = logger;
+            _logger.LogWarning($"Operation not found: {message.RequestId}");
+            return;
         }
 
-        public async Task Handle(CreatePasswordCommand message)
-        {
-            _logger.LogInformation($"Handling create password command: {message.RequestId}");
+        await _operationService.UpdateOperationStatus(message.RequestId, OperationStatus.Processing);
+        
+        var createPasswordModel = CreatePasswordOperationHelper.Map(operation.PasswordId, operation);
+        
+        await _createPasswordService.CreatePassword(createPasswordModel);
+        
+        await _operationService.UpdateOperationStatus(message.RequestId, OperationStatus.Completed);
 
-            var operation = await _operationService.GetOperationByRequestId(message.RequestId);
-
-            if (operation == null)
-            {
-                _logger.LogWarning($"Operation not found: {message.RequestId}");
-                return;
-            }
-
-            await _operationService.UpdateOperationStatus(message.RequestId, OperationStatus.Processing);
-            
-            var createPasswordModel = CreatePasswordOperationHelper.Map(operation.PasswordId, operation);
-            
-            await _createPasswordService.CreatePassword(createPasswordModel);
-            
-            await _operationService.UpdateOperationStatus(message.RequestId, OperationStatus.Completed);
-
-            OperationResult.Completed(operation);
-        }
+        OperationResult.Completed(operation);
     }
 }
