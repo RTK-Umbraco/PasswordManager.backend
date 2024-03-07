@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using Password.Messages.UpdatePassword;
@@ -170,7 +169,7 @@ internal sealed class UpdatePasswordServiceTests
     }
 
     [Test]
-    public async Task UpdatePassword_ThrowsException_WhenAnErrorOccuredUpdatingPassword()
+    public void UpdatePassword_ThrowsException_WhenAnErrorOccuredUpdatingPassword()
     {
         var passwordModel = PasswordModelFixture.Builder().WithId(_passwordId).Build();
 
