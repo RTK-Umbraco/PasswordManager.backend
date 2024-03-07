@@ -10,6 +10,17 @@ public class PasswordRepository : BaseRepository<PasswordModel, PasswordEntity>,
     {
     }
 
+    public async Task UpdatePassword(PasswordModel passwordModel)
+    {
+        var updatePasswordModel = await Get(passwordModel.Id);
+        if (updatePasswordModel == null)
+        {
+            throw new PasswordRepositoryException($"Could not update entity {typeof(PasswordEntity)} - could not find by Id: {passwordModel.Id}");
+        }
+
+        await Upsert(passwordModel);
+    }
+
     private DbSet<PasswordEntity> GetUserDbSet()
     {
         if (Context.Passwords is null)
@@ -26,4 +37,6 @@ public class PasswordRepository : BaseRepository<PasswordModel, PasswordEntity>,
     {
         return PasswordEntityMapper.Map(model);
     }
+
+    
 }
