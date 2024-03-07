@@ -48,7 +48,8 @@ public abstract class BaseRepository<T, TE> : IBaseRepository<T> where T : BaseM
         return Map(existingEntity);
     }
 
-    internal async Task<T> Add(T baseModel)
+    // Changed from internal to public - Bennie
+    public async Task<T> Add(T baseModel)
     {
         var entity = Map(baseModel);
         await _dbSet.AddAsync(entity);

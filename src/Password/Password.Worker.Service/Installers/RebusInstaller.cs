@@ -38,8 +38,6 @@ namespace PasswordManager.Password.Worker.Service.Installers
                         .AutomaticallyRenewPeekLock();
                     t.UseNativeDeadlettering();
                 })
-                //Routing here. Map command
-                //Example --> .MapAssemblyOf<CreateCustomerCommand>(Constants.ServiceBus.InputQueue))
                 .Options(o =>
                 {
                     o.RetryStrategy(maxDeliveryAttempts: 5);

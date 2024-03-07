@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PasswordManager.Password.ApplicationServices.AddPassword
+namespace PasswordManager.Password.ApplicationServices.UpdatePassword
 {
-    public interface ICreatePasswordService
+    public class UpdatePasswordService
     {
     }
 }

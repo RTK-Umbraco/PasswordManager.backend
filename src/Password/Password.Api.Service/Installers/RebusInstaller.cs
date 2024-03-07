@@ -1,5 +1,7 @@
-﻿using PasswordManager.Password.Infrastructure.Installers;
+﻿using Password.Messages.CreatePassword;
+using PasswordManager.Password.Infrastructure.Installers;
 using Rebus.Config;
+using Rebus.Routing.TypeBased;
 
 namespace PasswordManager.Password.Api.Service.Installers;
 
@@ -21,8 +23,8 @@ public class RebusInstaller : IDependencyInstaller
         serviceCollection.AddRebus((configure, provider) => configure
             .Logging(l => l.MicrosoftExtensionsLogging(provider.GetRequiredService<ILoggerFactory>()))
             .Transport(t => t.UseAzureServiceBusAsOneWayClient(serviceBusConnectionString))
-            //Routing here. Map command
-            //Example --> .MapAssemblyOf<CreateCustomerCommand>(Constants.ServiceBus.InputQueue))
+            .Routing(r => r.TypeBased()
+                .MapAssemblyOf<CreatePasswordCommand>(Infrastructure.Constants.ServiceBus.InputQueue))
         );
     }
 }
