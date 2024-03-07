@@ -20,7 +20,7 @@ public sealed class UpdatePasswordEndpoint : EndpointBaseAsync.WithRequest<Updat
         _updatePasswordService = updatePasswordService;
     }
 
-    [HttpPut("api/passwords/{userId:guid}")]
+    [HttpPut("api/passwords/{passwordId:guid}")]
     [ProducesResponseType(typeof(OperationAcceptedResponse), StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
@@ -32,7 +32,7 @@ public sealed class UpdatePasswordEndpoint : EndpointBaseAsync.WithRequest<Updat
     ]
     public override async Task<ActionResult<PasswordResponse>> HandleAsync([FromRoute] UpdatePasswordRequestWithBody request, CancellationToken cancellationToken = default)
     {
-        var updatePasswordModel = PasswordModel.UpdatePassword(request.UserId,
+        var updatePasswordModel = PasswordModel.UpdatePassword(request.,
                                                   request.Details.Url,
                                                   request.Details.FriendlyName,
                                                   request.Details.Username,

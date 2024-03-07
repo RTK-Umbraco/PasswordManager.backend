@@ -37,6 +37,4 @@ public class PasswordRepository : BaseRepository<PasswordModel, PasswordEntity>,
     {
         return PasswordEntityMapper.Map(model);
     }
-
-    
 }
