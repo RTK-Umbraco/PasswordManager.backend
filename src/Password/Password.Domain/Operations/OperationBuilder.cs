@@ -1,53 +1,40 @@
 ﻿using PasswordManager.Password.Domain.Password;
 
-namespace PasswordManager.Password.Domain.Operations
+namespace PasswordManager.Password.Domain.Operations;
+
+public static class OperationBuilder
 {
-    public static class OperationBuilder
+    private static Operation CreateOperation(Guid userId, OperationName operationName, string createdBy, Dictionary<string, string>? data)
+    => new(Guid.NewGuid(), Guid.NewGuid().ToString(), createdBy, userId, operationName, OperationStatus.Queued, DateTime.UtcNow, DateTime.UtcNow, null, data);
+
+    public static Operation CreatePassword(PasswordModel passwordModel, string createdBy)
     {
-        private static Operation CreateOperation(Guid passwordId, OperationName operationName, string createdBy, Dictionary<string, string>? data)
+        var data = new Dictionary<string, string>()
         {
-            return new(
-                Guid.NewGuid(),
-                Guid.NewGuid().ToString(),
-                createdBy,
-                passwordId,
-                operationName,
-                OperationStatus.Queued,
-                DateTime.UtcNow,
-                DateTime.UtcNow,
-                null,
-                data);
-        }
+            { OperationDataConstants.PasswordCreateUrl, passwordModel.Url },
+            { OperationDataConstants.PasswordCreateFriendlyName, passwordModel.FriendlyName },
+            { OperationDataConstants.PasswordCreateUsername, passwordModel.Username },
+            { OperationDataConstants.PasswordCreatePassword, passwordModel.Password },
+        };
 
-        public static Operation CreatePassword(PasswordModel passwordModel, string createdBy)
+        return CreateOperation(passwordModel.Id, OperationName.CreatePassword, createdBy, data);
+    }
+
+    public static Operation UpdatePassword(PasswordModel newPasswordModel, PasswordModel currentPasswordModel, string createdBy)
+    {
+        var data = new Dictionary<string, string>()
         {
-            var data = new Dictionary<string, string>()
-            {
-                { OperationDataConstants.PasswordCreateUrl, passwordModel.Url },
-                { OperationDataConstants.PasswordCreateLabel, passwordModel.Label },
-                { OperationDataConstants.PasswordCreateUsername, passwordModel.Username },
-                { OperationDataConstants.PasswordCreateKey, passwordModel.Key },
-            };
+            { OperationDataConstants.CurrentPasswordUrl, currentPasswordModel.Url },
+            { OperationDataConstants.CurrentPasswordFriendlyName, currentPasswordModel.FriendlyName },
+            { OperationDataConstants.CurrentPasswordUsername, currentPasswordModel.Username },
+            { OperationDataConstants.CurrentPasswordPassword, currentPasswordModel.Password},
 
-            return CreateOperation(passwordModel.Id, OperationName.CreatePassword, createdBy, data);
-        }
+            { OperationDataConstants.NewPasswordUrl , newPasswordModel.Url },
+            { OperationDataConstants.NewPasswordFriendlyName , newPasswordModel.FriendlyName },
+            { OperationDataConstants.NewPasswordUsername , newPasswordModel.Username},
+            { OperationDataConstants.NewPasswordPassword , newPasswordModel.Password},
+        };
 
-        public static Operation UpdatePassword(PasswordModel newPasswordModel, PasswordModel currentPasswordModel, string createdBy)
-        {
-            var data = new Dictionary<string, string>()
-            {
-                { OperationDataConstants.CurrentPasswordUrl, currentPasswordModel.Url },
-                { OperationDataConstants.CurrentPasswordLabel, currentPasswordModel.Label },
-                { OperationDataConstants.CurrentPasswordUsername, currentPasswordModel.Username },
-                { OperationDataConstants.CurrentPasswordKey, currentPasswordModel.Key},
-
-                { OperationDataConstants.NewPasswordUrl , newPasswordModel.Url },
-                { OperationDataConstants.NewPasswordLabel , newPasswordModel.Label },
-                { OperationDataConstants.NewPasswordUsername , newPasswordModel.Username},
-                { OperationDataConstants.NewPasswordKey , newPasswordModel.Key},
-            };
-
-            return CreateOperation(newPasswordModel.Id, OperationName.UpdatePassword, createdBy, data);
-        }
+        return CreateOperation(newPasswordModel.Id, OperationName.UpdatePassword, createdBy, data);
     }
 }

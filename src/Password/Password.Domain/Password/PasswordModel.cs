@@ -2,26 +2,34 @@
 public class PasswordModel : BaseModel
 {
     public string Url { get; }
-    public string Label { get; }
+    public string FriendlyName { get; }
     public string Username { get; }
-    public string Key { get; }
+    public string Password { get; }
 
-    public PasswordModel(Guid id, string url, string label, string username, string key) 
+    public PasswordModel(Guid id, DateTime createdUtc, DateTime modifiedUtc, bool deleted, string url, string friendlyName, string username, string password) : base(id, createdUtc, modifiedUtc, deleted)
+    {
+        Url = url;
+        FriendlyName = friendlyName;
+        Username = username;
+        Password = password;
+    }
+
+    public PasswordModel(Guid id, string url, string friendlyName, string username, string password) 
         : base(id)
     {
         Url = url;
-        Label = label;
+        FriendlyName = friendlyName;
         Username = username;
-        Key = key;
+        Password = password;
     }
 
-    public static PasswordModel CreatePassword(string url, string label, string username, string key)
+    public static PasswordModel CreatePassword(string url, string friendlyName, string username, string password)
     {
-        return new PasswordModel(Guid.NewGuid(), url, label, username, key);
+        return new PasswordModel(Guid.NewGuid(), url, friendlyName, username, password);
     }
 
-    public static PasswordModel UpdatePassword(Guid id, string url, string label, string username, string key)
+    public static PasswordModel UpdatePassword(Guid id, string url, string friendlyName, string username, string password)
     {
-        return new PasswordModel(id, url, label, username, key);
+        return new PasswordModel(id, url, friendlyName, username, password);
     }
 }
