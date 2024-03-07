@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using PasswordManager.Password.Domain.Operations;
+using PasswordManager.Password.Domain.Password;
 
 namespace PasswordManager.Password.ApplicationServices.UpdatePassword
 {
-    public class UpdatePasswordService
+    public class UpdatePasswordService : IUpdatePasswordService
     {
+        public Task<OperationResult> RequestUpdatePassword(PasswordModel updatePasswordModel, OperationDetails operationDetails)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

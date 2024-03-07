@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using PasswordManager.Password.Domain.Operations;
+using PasswordManager.Password.Domain.Password;
 
-namespace PasswordManager.Password.ApplicationServices.UpdatePassword
+namespace PasswordManager.Password.ApplicationServices.UpdatePassword;
+
+public interface IUpdatePasswordService
 {
-    public interface IUpdatePasswordService
-    {
-    }
+    Task<OperationResult> RequestUpdatePassword(PasswordModel updatePasswordModel, OperationDetails operationDetails);
 }
