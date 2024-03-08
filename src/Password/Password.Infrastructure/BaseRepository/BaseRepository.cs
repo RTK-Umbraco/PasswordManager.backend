@@ -9,7 +9,6 @@ public abstract class BaseRepository<T, TE> : IBaseRepository<T> where T : BaseM
 {
     private readonly DbSet<TE> _dbSet;
     protected readonly PasswordContext Context;
-    private PasswordContext context;
 
     protected BaseRepository(PasswordContext context)
     {

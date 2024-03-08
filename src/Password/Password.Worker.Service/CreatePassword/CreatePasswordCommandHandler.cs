@@ -6,7 +6,7 @@ using PasswordManager.Password.ApplicationServices.CreatePassword;
 
 namespace Password.Worker.Service.CreatePassword;
 
-public class CreatePasswordCommandHandler : IHandleMessages<CreatePasswordCommand>
+public sealed class CreatePasswordCommandHandler : IHandleMessages<CreatePasswordCommand>
 {
     private readonly ICreatePasswordService _createPasswordService;
     private readonly IOperationService _operationService;
