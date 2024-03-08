@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.VisualBasic;
 using Moq;
 using NUnit.Framework;
 using Password.Messages.UpdatePassword;
@@ -10,6 +11,7 @@ using PasswordManager.Password.Domain.Operations;
 using PasswordManager.Password.Domain.Password;
 using PasswordManager.Password.TestFixtures.Operations;
 using PasswordManager.Password.TestFixtures.Password;
+using Rebus.Bus;
 
 namespace PasswordManager.Password.Tests.UpdatePassword;
 internal sealed class UpdatePasswordCommandHandlerTests
@@ -17,6 +19,7 @@ internal sealed class UpdatePasswordCommandHandlerTests
     private Mock<IUpdatePasswordService> _updatePasswordServiceMock;
     private Mock<IOperationService> _operationServiceMock;
     private Mock<ILogger<UpdatePasswordCommandHandler>> _loggerMock;
+    private Mock<IBus> _busMock;
 
     private UpdatePasswordCommandHandler _updatePasswordCommandHandler;
     private const string _requestId = "request-id";
@@ -29,8 +32,8 @@ internal sealed class UpdatePasswordCommandHandlerTests
         _updatePasswordServiceMock = new Mock<IUpdatePasswordService>();
         _operationServiceMock = new Mock<IOperationService>();
         _loggerMock = new Mock<ILogger<UpdatePasswordCommandHandler>>();
-
-        _updatePasswordCommandHandler = new UpdatePasswordCommandHandler(_updatePasswordServiceMock.Object, _operationServiceMock.Object, _loggerMock.Object);
+        _busMock = new Mock<IBus>();
+        _updatePasswordCommandHandler = new UpdatePasswordCommandHandler(_updatePasswordServiceMock.Object, _operationServiceMock.Object, _loggerMock.Object, _busMock.Object);
     }
 
     [Test]
@@ -54,6 +57,7 @@ internal sealed class UpdatePasswordCommandHandlerTests
         _operationServiceMock.Verify(operation => operation.UpdateOperationStatus(It.Is<string>(id => id == _requestId), It.Is<OperationStatus>(operationStatus => operationStatus == OperationStatus.Processing)));
         _operationServiceMock.Verify(operation => operation.UpdateOperationStatus(It.Is<string>(id => id == _requestId), It.Is<OperationStatus>(operationStatus => operationStatus == OperationStatus.Completed)));
         _updatePasswordServiceMock.Verify(service => service.UpdatePassword(It.Is<PasswordModel>(id => id.Id == _passwordId)));
+        _busMock.Verify(bus => bus.Publish(It.Is<UpdatePasswordEvent>(msg => msg.PasswordId == _passwordId && msg.RequestId == _requestId), null));
     }
 
     [Test]
@@ -85,5 +89,6 @@ internal sealed class UpdatePasswordCommandHandlerTests
         Assert.ThrowsAsync<PasswordRepositoryException>(() => _updatePasswordCommandHandler.Handle(updatePasswordCommand));
         _operationServiceMock.Verify(operation => operation.UpdateOperationStatus(It.Is<string>(id => id == _requestId), It.Is<OperationStatus>(operationStatus => operationStatus == OperationStatus.Failed)));
         _operationServiceMock.Verify(operation => operation.UpdateOperationStatus(It.Is<string>(id => id == _requestId), It.Is<OperationStatus>(operationStatus => operationStatus == OperationStatus.Processing)));
+        _busMock.Verify(bus => bus.Publish(It.Is<UpdatePasswordFailedEvent>(msg => msg.PasswordId == _passwordId && msg.RequestId == _requestId), null));
     }
 }
