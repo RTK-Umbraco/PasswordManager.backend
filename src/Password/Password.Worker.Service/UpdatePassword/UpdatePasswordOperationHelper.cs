@@ -13,7 +13,7 @@ internal class UpdatePasswordOperationHelper
     private static string GetPasswordOperationData(Operation operation, string operationDataConstant)
     {
         if (operation.Data is null || operation.Data.TryGetValue(operationDataConstant, out var getPasswordOperationData) is false)
-            throw new InvalidOperationException($"Could not find password {operationDataConstant} in operation with request id {operation.RequestId} when creating password");
+            throw new InvalidOperationException($"Could not find password {operationDataConstant} in operation with request id {operation.RequestId} when update password");
 
         return getPasswordOperationData;
     }
