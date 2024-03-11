@@ -1,4 +1,6 @@
 ﻿using PasswordManager.Password.ApplicationServices.Repositories.Operations;
+using PasswordManager.Password.Domain.Operations;
+using Microsoft.Extensions.Logging;
 
 namespace PasswordManager.Password.ApplicationServices.Operations;
 internal class OperationService : IOperationService

@@ -1,4 +1,12 @@
-﻿namespace PasswordManager.Password.Tests.GeneratePassword
+﻿using NUnit.Framework;
+using PasswordManager.Password.ApplicationServices.PasswordGenerator;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PasswordManager.Password.Tests.GeneratePassword
 {
     [TestFixture]
     public class GeneratePasswordServiceTests

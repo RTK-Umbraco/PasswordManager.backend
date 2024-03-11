@@ -1,3 +1,8 @@
+using Rebus.Bus;
+using Rebus.Retry.Simple;
+using Rebus.Config;
+using PasswordManager.Password.Infrastructure.Installers;
+
 namespace PasswordManager.Password.Worker.Service.Installers
 {
     public class RebusInstaller : IDependencyInstaller

@@ -1,4 +1,9 @@
-﻿namespace PasswordManager.Password.Api.Service.Installers;
+﻿using Password.Messages.CreatePassword;
+using PasswordManager.Password.Infrastructure.Installers;
+using Rebus.Config;
+using Rebus.Routing.TypeBased;
+
+namespace PasswordManager.Password.Api.Service.Installers;
 
 public class RebusInstaller : IDependencyInstaller
 {

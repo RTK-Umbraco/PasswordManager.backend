@@ -1,4 +1,10 @@
-﻿namespace PasswordManager.Password.Domain.Operations
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PasswordManager.Password.Domain.Operations
 {
     public sealed class OperationResult
     {

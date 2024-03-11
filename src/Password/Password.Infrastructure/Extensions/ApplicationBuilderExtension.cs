@@ -1,4 +1,7 @@
 ﻿using PasswordManager.Password.Infrastructure.PasswordRepository;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace PasswordManager.Password.Infrastructure.Extensions;
 public static class ApplicationBuilderExtension

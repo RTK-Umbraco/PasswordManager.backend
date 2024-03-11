@@ -1,4 +1,6 @@
-﻿namespace PasswordManager.Password.Api.Service.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace PasswordManager.Password.Api.Service.Models;
 
 public abstract class UserOperationRequest<T> : OperationRequest
 {

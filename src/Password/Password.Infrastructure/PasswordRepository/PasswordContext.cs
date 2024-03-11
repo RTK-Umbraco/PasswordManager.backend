@@ -1,4 +1,5 @@
 ﻿using PasswordManager.Password.Infrastructure.OperationRepository;
+using Microsoft.EntityFrameworkCore;
 
 namespace PasswordManager.Password.Infrastructure.PasswordRepository;
 public class PasswordContext : DbContext

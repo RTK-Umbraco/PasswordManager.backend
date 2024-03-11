@@ -1,4 +1,6 @@
-﻿namespace PasswordManager.Password.TestFixtures.Operations;
+﻿using PasswordManager.Password.Domain.Operations;
+
+namespace PasswordManager.Password.TestFixtures.Operations;
 public static class OperationFixture
 {
     public static OperationBuilder Builder()

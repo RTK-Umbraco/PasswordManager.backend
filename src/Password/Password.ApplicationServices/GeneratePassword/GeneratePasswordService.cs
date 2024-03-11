@@ -1,4 +1,6 @@
-﻿namespace PasswordManager.Password.ApplicationServices.PasswordGenerator
+﻿using System.Security.Cryptography;
+
+namespace PasswordManager.Password.ApplicationServices.PasswordGenerator
 {
     public class GeneratePasswordService : IGeneratePasswordService
     {
@@ -10,55 +12,48 @@
 
         private const string _allCharacters = _upperCaseLetters + _lowerCaseLetters + _digits + _specialCharacters;
 
-        public string GeneratePassword(int passwordLength)
+        public Task<string> GeneratePassword(int length)
         {
             // Ensures that the password length is at least 8 characters
             // Which is the minimum length required by the NIST
-            if (passwordLength < 8)
+            if (length < 8)
             {
                 throw new ArgumentException("The password length must be at least 8 characters.");
             }
 
-            // Ensures that the password length is at most 128 characters
-            // Which is to prevent DoS attack
-            if (passwordLength > 128)
-            {
-                throw new ArgumentException("The password length must be at most 128 characters.");
-            }
-
-            char[] password = new char[passwordLength];
-            byte[] randomBytes = GenerateRandomBytes(passwordLength);
+            char[] password = new char[length];
+            byte[] randomBytes = GenerateRandomBytes(length);
 
             // Fills the password with random characters from the allCharacters string
-            for (int index = 0; index < passwordLength; index++)
+            for (int i = 0; i < length; i++)
             {
-                password[index] = _allCharacters[randomBytes[index] % _allCharacters.Length];
+                password[i] = _allCharacters[randomBytes[i] % _allCharacters.Length];
             }
 
             randomBytes = GenerateRandomBytes(4);
 
             // Ensures that the password contains at least one character from each character set
             // placed at a random position.
-            for (int index = 0; index < randomBytes.Length; index++)
+            for (int i = 0; i < randomBytes.Length; i++)
             {
-                switch (index)
+                switch (i)
                 {
                     case 0:
-                        password[randomBytes[index] % password.Length] = _upperCaseLetters[randomBytes[index] % _upperCaseLetters.Length];
+                        password[randomBytes[i] % password.Length] = _upperCaseLetters[randomBytes[i] % _upperCaseLetters.Length];
                         break;
                     case 1:
-                        password[randomBytes[index] % password.Length] = _lowerCaseLetters[randomBytes[index] % _lowerCaseLetters.Length];
+                        password[randomBytes[i] % password.Length] = _lowerCaseLetters[randomBytes[i] % _lowerCaseLetters.Length];
                         break;
                     case 2:
-                        password[randomBytes[index] % password.Length] = _digits[randomBytes[index] % _digits.Length];
+                        password[randomBytes[i] % password.Length] = _digits[randomBytes[i] % _digits.Length];
                         break;
                     case 3:
-                        password[randomBytes[index] % password.Length] = _specialCharacters[randomBytes[index] % _specialCharacters.Length];
+                        password[randomBytes[i] % password.Length] = _specialCharacters[randomBytes[i] % _specialCharacters.Length];
                         break;
                 }
             }
 
-            return string.Concat(password);
+            return Task.FromResult(string.Concat(password));
         }
 
         private byte[] GenerateRandomBytes(int length)

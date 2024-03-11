@@ -1,4 +1,6 @@
-﻿namespace PasswordManager.Password.ApplicationServices.Repositories;
+﻿using PasswordManager.Password.Domain;
+
+namespace PasswordManager.Password.ApplicationServices.Repositories;
 public interface IBaseRepository<T> where T : BaseModel
 {
     Task<T?> Get(Guid id);

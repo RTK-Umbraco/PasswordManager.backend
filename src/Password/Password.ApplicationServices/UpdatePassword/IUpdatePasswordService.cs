@@ -1,4 +1,7 @@
-﻿namespace PasswordManager.Password.ApplicationServices.UpdatePassword;
+﻿using PasswordManager.Password.Domain.Operations;
+using PasswordManager.Password.Domain.Password;
+
+namespace PasswordManager.Password.ApplicationServices.UpdatePassword;
 
 public interface IUpdatePasswordService
 {

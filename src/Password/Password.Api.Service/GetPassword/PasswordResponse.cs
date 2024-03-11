@@ -1,4 +1,7 @@
-﻿namespace PasswordManager.Password.Api.Service.GetPassword;
+﻿using Swashbuckle.AspNetCore.Annotations;
+using System.Text.Json.Serialization;
+
+namespace PasswordManager.Password.Api.Service.GetPassword;
 
 [SwaggerSchema(Nullable = false, Required = new[] { "id", "url", "friendlyName", "username", "password" })]
 public class PasswordResponse

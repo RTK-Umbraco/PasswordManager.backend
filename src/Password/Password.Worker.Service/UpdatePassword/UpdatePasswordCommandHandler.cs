@@ -1,4 +1,12 @@
-﻿namespace Password.Worker.Service.UpdatePassword;
+﻿using Password.Messages.UpdatePassword;
+using PasswordManager.Password.ApplicationServices.Operations;
+using PasswordManager.Password.ApplicationServices.Repositories.Password;
+using PasswordManager.Password.ApplicationServices.UpdatePassword;
+using PasswordManager.Password.Domain.Operations;
+using Rebus.Bus;
+using Rebus.Handlers;
+
+namespace Password.Worker.Service.UpdatePassword;
 
 public class UpdatePasswordCommandHandler : IHandleMessages<UpdatePasswordCommand>
 {

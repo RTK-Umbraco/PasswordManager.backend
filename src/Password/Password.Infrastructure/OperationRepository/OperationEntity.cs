@@ -1,4 +1,5 @@
-﻿using PasswordManager.Password.Infrastructure.BaseRepository;
+﻿using PasswordManager.Password.Domain.Operations;
+using PasswordManager.Password.Infrastructure.BaseRepository;
 
 namespace PasswordManager.Password.Infrastructure.OperationRepository;
 public class OperationEntity : BaseEntity

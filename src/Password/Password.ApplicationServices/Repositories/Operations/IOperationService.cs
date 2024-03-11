@@ -1,4 +1,6 @@
-﻿namespace PasswordManager.Password.ApplicationServices.Repositories.Operations;
+﻿using PasswordManager.Password.Domain.Operations;
+
+namespace PasswordManager.Password.ApplicationServices.Repositories.Operations;
 
 public interface IOperationService
 {

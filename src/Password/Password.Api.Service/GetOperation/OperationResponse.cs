@@ -1,4 +1,6 @@
-﻿namespace PasswordManager.Password.Api.Service.GetOperation;
+﻿using PasswordManager.Password.Domain.Operations;
+
+namespace PasswordManager.Password.Api.Service.GetOperation;
 public record OperationResponse(string RequestId, Guid CustomerId, OperationName OperationName,
     OperationStatus OperationStatus, string CreatedBy, DateTime CreatedUtc, DateTime? LastModifiedUtc,
     DateTime? CompletedUtc, Dictionary<string, string>? Data);

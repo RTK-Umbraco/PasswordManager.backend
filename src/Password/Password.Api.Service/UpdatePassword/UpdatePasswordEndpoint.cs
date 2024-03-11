@@ -1,6 +1,13 @@
-﻿using PasswordManager.Password.Api.Service.GetOperation;
+﻿using Ardalis.ApiEndpoints;
+using Microsoft.AspNetCore.Mvc;
+using PasswordManager.Password.Api.Service.GetOperation;
 using PasswordManager.Password.Api.Service.GetPassword;
 using PasswordManager.Password.Api.Service.Models;
+using PasswordManager.Password.ApplicationServices.UpdatePassword;
+using PasswordManager.Password.Domain.Operations;
+using PasswordManager.Password.Domain.Password;
+using Swashbuckle.AspNetCore.Annotations;
+using System.Text.Json.Serialization;
 
 namespace PasswordManager.Password.Api.Service.UpdatePassword;
 

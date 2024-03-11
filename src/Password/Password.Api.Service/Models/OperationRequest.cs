@@ -1,4 +1,7 @@
-﻿namespace PasswordManager.Password.Api.Service.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
+
+namespace PasswordManager.Password.Api.Service.Models;
 
 public abstract class OperationRequest
 {

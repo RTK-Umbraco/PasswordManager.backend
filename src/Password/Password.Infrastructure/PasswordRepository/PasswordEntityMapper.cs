@@ -1,4 +1,6 @@
-﻿namespace PasswordManager.Password.Infrastructure.PasswordRepository;
+﻿using PasswordManager.Password.Domain.Password;
+
+namespace PasswordManager.Password.Infrastructure.PasswordRepository;
 internal static class PasswordEntityMapper
 {
     internal static PasswordEntity Map(PasswordModel model)

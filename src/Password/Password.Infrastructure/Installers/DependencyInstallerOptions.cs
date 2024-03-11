@@ -1,4 +1,7 @@
-﻿namespace PasswordManager.Password.Infrastructure.Installers;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+
+namespace PasswordManager.Password.Infrastructure.Installers;
 /// <summary>
 ///     This class contains properties and configuration for installing dependencies
 /// </summary>

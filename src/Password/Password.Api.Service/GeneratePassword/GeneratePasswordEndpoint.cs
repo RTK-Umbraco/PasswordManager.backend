@@ -1,4 +1,10 @@
-﻿namespace PasswordManager.Password.Api.Service.GeneratePassword
+﻿using Ardalis.ApiEndpoints;
+using Microsoft.AspNetCore.Mvc;
+using PasswordManager.Password.Api.Service.GetPassword;
+using PasswordManager.Password.ApplicationServices.PasswordGenerator;
+using Swashbuckle.AspNetCore.Annotations;
+
+namespace PasswordManager.Password.Api.Service.GeneratePassword
 {
     public sealed class GeneratePasswordEndpoint : EndpointBaseAsync.WithoutRequest.WithActionResult<GeneratePasswordResponse>
     {
@@ -21,7 +27,7 @@
 
         public override async Task<ActionResult<GeneratePasswordResponse>> HandleAsync(CancellationToken cancellationToken)
         {
-            var password = new GeneratePasswordResponse(_generatePasswordService.GeneratePassword(20));
+            var password = new GeneratePasswordResponse(await _generatePasswordService.GeneratePassword(20));
 
             return Ok(password);
         }

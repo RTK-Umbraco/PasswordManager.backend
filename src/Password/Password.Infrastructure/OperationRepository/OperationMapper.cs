@@ -1,4 +1,7 @@
-﻿namespace PasswordManager.Password.Infrastructure.OperationRepository;
+﻿using PasswordManager.Password.Domain.Operations;
+using System.Text.Json;
+
+namespace PasswordManager.Password.Infrastructure.OperationRepository;
 internal static class OperationMapper
 {
     internal static OperationEntity Map(Operation operation)

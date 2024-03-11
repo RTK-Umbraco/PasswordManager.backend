@@ -1,8 +1,13 @@
-﻿using PasswordManager.Password.ApplicationServices.Repositories.Password;
+﻿using Microsoft.Extensions.Logging;
+using PasswordManager.Password.ApplicationServices.Repositories.Password;
+using PasswordManager.Password.Domain.Operations;
+using PasswordManager.Password.Domain.Password;
+using Rebus.Bus;
+using Password.Messages.CreatePassword;
 using PasswordManager.Password.ApplicationServices.Operations;
 
 namespace PasswordManager.Password.ApplicationServices.CreatePassword;
-public sealed class CreatePasswordService : ICreatePasswordService
+    public sealed class CreatePasswordService : ICreatePasswordService
 {
     private readonly IOperationService _operationService;
     private readonly IBus _bus;

@@ -1,5 +1,10 @@
-﻿using PasswordManager.Password.ApplicationServices.Operations;
+﻿using Microsoft.Extensions.Logging;
+using Password.Messages.UpdatePassword;
+using PasswordManager.Password.ApplicationServices.Operations;
 using PasswordManager.Password.ApplicationServices.Repositories.Password;
+using PasswordManager.Password.Domain.Operations;
+using PasswordManager.Password.Domain.Password;
+using Rebus.Bus;
 
 namespace PasswordManager.Password.ApplicationServices.UpdatePassword;
 

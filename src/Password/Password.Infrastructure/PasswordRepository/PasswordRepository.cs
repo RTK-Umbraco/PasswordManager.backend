@@ -1,4 +1,7 @@
-﻿using PasswordManager.Password.Infrastructure.BaseRepository;
+﻿using PasswordManager.Password.ApplicationServices.Repositories.Password;
+using PasswordManager.Password.Domain.Password;
+using PasswordManager.Password.Infrastructure.BaseRepository;
+using Microsoft.EntityFrameworkCore;
 
 namespace PasswordManager.Password.Infrastructure.PasswordRepository;
 public class PasswordRepository : BaseRepository<PasswordModel, PasswordEntity>, IPasswordRepository

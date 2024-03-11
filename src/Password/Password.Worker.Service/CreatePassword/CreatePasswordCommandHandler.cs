@@ -1,4 +1,10 @@
-﻿namespace Password.Worker.Service.CreatePassword;
+﻿using Rebus.Handlers;
+using Password.Messages.CreatePassword;
+using PasswordManager.Password.ApplicationServices.Operations;
+using PasswordManager.Password.Domain.Operations;
+using PasswordManager.Password.ApplicationServices.CreatePassword;
+
+namespace Password.Worker.Service.CreatePassword;
 
 public sealed class CreatePasswordCommandHandler : IHandleMessages<CreatePasswordCommand>
 {
