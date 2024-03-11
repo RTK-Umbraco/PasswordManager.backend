@@ -1,8 +1,4 @@
-﻿using PasswordManager.Password.Infrastructure.Installers;
-using Microsoft.OpenApi.Models;
-using System.Reflection;
-
-namespace PasswordManager.Password.Api.Service.Installers;
+﻿namespace PasswordManager.Password.Api.Service.Installers;
 
 public class SwaggerInstaller : IDependencyInstaller
 {

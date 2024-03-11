@@ -1,17 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using Moq;
-using NUnit.Framework;
-using Password.Messages.UpdatePassword;
-using PasswordManager.Password.ApplicationServices.Operations;
-using PasswordManager.Password.ApplicationServices.Repositories.Password;
-using PasswordManager.Password.ApplicationServices.UpdatePassword;
-using PasswordManager.Password.Domain.Operations;
-using PasswordManager.Password.Domain.Password;
-using PasswordManager.Password.TestFixtures.Operations;
-using PasswordManager.Password.TestFixtures.Password;
-using Rebus.Bus;
-
-namespace PasswordManager.Password.Tests.UpdatePassword;
+﻿namespace PasswordManager.Password.Tests.UpdatePassword;
 internal sealed class UpdatePasswordServiceTests
 {
     private Mock<IOperationService> _operationServiceMock;

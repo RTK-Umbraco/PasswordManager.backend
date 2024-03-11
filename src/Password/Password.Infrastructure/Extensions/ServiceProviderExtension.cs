@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
-using PasswordManager.Password.Infrastructure.Installers;
+﻿using PasswordManager.Password.Infrastructure.Installers;
 
 namespace PasswordManager.Password.Infrastructure.Extensions;
 public static class ServiceProviderExtension

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace PasswordManager.Password.Api.Service.Models;
+﻿namespace PasswordManager.Password.Api.Service.Models;
 
 public class UpdatePasswordOperationRequest<T> : OperationRequest
 {

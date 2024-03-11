@@ -1,12 +1,5 @@
-﻿using Ardalis.ApiEndpoints;
-using Microsoft.AspNetCore.Mvc;
-using PasswordManager.Password.Api.Service.GetOperation;
+﻿using PasswordManager.Password.Api.Service.GetOperation;
 using PasswordManager.Password.Api.Service.Models;
-using PasswordManager.Password.ApplicationServices.CreatePassword;
-using PasswordManager.Password.Domain.Operations;
-using PasswordManager.Password.Domain.Password;
-using Swashbuckle.AspNetCore.Annotations;
-using System.Text.Json.Serialization;
 
 namespace PasswordManager.Password.Api.Service.CreatePassword;
 public class CreatePasswordEndpoint : EndpointBaseAsync.WithRequest<CreatePasswordRequestWithBody>.WithoutResult

@@ -1,8 +1,4 @@
-﻿using Ardalis.ApiEndpoints;
-using Microsoft.AspNetCore.Mvc;
-using PasswordManager.Password.Api.Service.GetPassword;
-using PasswordManager.Password.ApplicationServices.GetPassword;
-using Swashbuckle.AspNetCore.Annotations;
+﻿using PasswordManager.Password.Api.Service.GetPassword;
 
 namespace PasswordManager.Password.Api.Service.GetPasswords;
 

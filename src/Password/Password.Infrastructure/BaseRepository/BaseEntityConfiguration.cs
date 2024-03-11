@@ -1,8 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore;
-
-namespace PasswordManager.Password.Infrastructure.BaseRepository;
+﻿namespace PasswordManager.Password.Infrastructure.BaseRepository;
 public abstract class BaseEntityConfiguration<T> : IEntityTypeConfiguration<T> where T : BaseEntity
 {
     private const string ClusterIdName = "ClusterId";

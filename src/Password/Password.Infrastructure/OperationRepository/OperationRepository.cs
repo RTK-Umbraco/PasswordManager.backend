@@ -1,9 +1,5 @@
-﻿using PasswordManager.Password.ApplicationServices.Repositories.Operations;
-using PasswordManager.Password.Domain.Operations;
-using PasswordManager.Password.Infrastructure.PasswordRepository;
+﻿using PasswordManager.Password.Infrastructure.PasswordRepository;
 using PasswordManager.Password.Infrastructure.BaseRepository;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Immutable;
 
 namespace PasswordManager.Password.Infrastructure.OperationRepository;
 public class OperationRepository : BaseRepository<Operation, OperationEntity>, IOperationRepository

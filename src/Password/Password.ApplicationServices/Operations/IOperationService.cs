@@ -1,6 +1,4 @@
-﻿using PasswordManager.Password.Domain.Operations;
-
-namespace PasswordManager.Password.ApplicationServices.Operations;
+﻿namespace PasswordManager.Password.ApplicationServices.Operations;
 public interface IOperationService
 {
     Task<Operation> QueueOperation(Operation operation);

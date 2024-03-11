@@ -1,6 +1,4 @@
 ﻿using PasswordManager.Password.Infrastructure.BaseRepository;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace PasswordManager.Password.Infrastructure.OperationRepository;
 internal class OperationEntityConfiguration : BaseEntityConfiguration<OperationEntity>

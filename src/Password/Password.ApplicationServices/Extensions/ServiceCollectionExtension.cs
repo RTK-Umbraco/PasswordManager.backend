@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using PasswordManager.Password.ApplicationServices.CreatePassword;
+﻿using PasswordManager.Password.ApplicationServices.CreatePassword;
 using PasswordManager.Password.ApplicationServices.GetPassword;
 using PasswordManager.Password.ApplicationServices.Operations;
 using PasswordManager.Password.ApplicationServices.PasswordGenerator;

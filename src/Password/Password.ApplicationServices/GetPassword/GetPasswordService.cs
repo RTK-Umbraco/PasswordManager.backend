@@ -1,6 +1,5 @@
 ﻿using PasswordManager.Password.ApplicationServices.PasswordGenerator;
 using PasswordManager.Password.ApplicationServices.Repositories.Password;
-using PasswordManager.Password.Domain.Password;
 
 namespace PasswordManager.Password.ApplicationServices.GetPassword;
 

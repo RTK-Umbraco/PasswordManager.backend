@@ -1,8 +1,4 @@
-﻿using System.Text.Json.Serialization;
-using PasswordManager.Password.ApplicationServices.Extensions;
-using PasswordManager.Password.Infrastructure.Extensions;
-
-namespace PasswordManager.Password.Api.Service;
+﻿namespace PasswordManager.Password.Api.Service;
 
 public class Startup
 {

@@ -1,7 +1,4 @@
-﻿using PasswordManager.Password.Domain.Operations;
-using PasswordManager.Password.Domain.Password;
-
-namespace PasswordManager.Password.ApplicationServices.CreatePassword;
+﻿namespace PasswordManager.Password.ApplicationServices.CreatePassword;
 
 public interface ICreatePasswordService
 {

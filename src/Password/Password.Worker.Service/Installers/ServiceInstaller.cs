@@ -1,5 +1,3 @@
-using PasswordManager.Password.Infrastructure.Installers;
-
 namespace PasswordManager.Password.Worker.Service.Installers
 {
     public class ServiceInstaller : IDependencyInstaller

@@ -1,7 +1,4 @@
-﻿using PasswordManager.Password.ApplicationServices.Extensions;
-using Rebus.Config;
-
-namespace PasswordManager.Password.Worker.Service;
+﻿namespace PasswordManager.Password.Worker.Service;
 
 public class Startup
 {

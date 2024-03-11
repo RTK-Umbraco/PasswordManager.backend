@@ -1,6 +1,4 @@
-﻿using PasswordManager.Password.Domain.Password;
-
-namespace PasswordManager.Password.Api.Service.GetPassword;
+﻿namespace PasswordManager.Password.Api.Service.GetPassword;
 
 internal static class PasswordResponseMapper
 {

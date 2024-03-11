@@ -1,9 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using PasswordManager.Password.Infrastructure.Startup;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using PasswordManager.Password.ApplicationServices.Repositories.Operations;
-using PasswordManager.Password.ApplicationServices.Repositories.Password;
+﻿using PasswordManager.Password.Infrastructure.Startup;
 using PasswordManager.Password.Infrastructure.PasswordRepository;
 
 namespace PasswordManager.Password.Infrastructure.Installers;

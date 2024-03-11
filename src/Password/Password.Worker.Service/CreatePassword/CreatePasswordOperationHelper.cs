@@ -1,7 +1,4 @@
-﻿using PasswordManager.Password.Domain.Operations;
-using PasswordManager.Password.Domain.Password;
-
-namespace Password.Worker.Service.CreatePassword;
+﻿namespace Password.Worker.Service.CreatePassword;
 
 internal class CreatePasswordOperationHelper
 {

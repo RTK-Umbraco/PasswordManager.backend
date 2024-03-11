@@ -1,8 +1,4 @@
-﻿using PasswordManager.Password.ApplicationServices.Repositories;
-using PasswordManager.Password.Domain;
-using PasswordManager.Password.Infrastructure.PasswordRepository;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Immutable;
+﻿using PasswordManager.Password.Infrastructure.PasswordRepository;
 
 namespace PasswordManager.Password.Infrastructure.BaseRepository;
 public abstract class BaseRepository<T, TE> : IBaseRepository<T> where T : BaseModel where TE : BaseEntity

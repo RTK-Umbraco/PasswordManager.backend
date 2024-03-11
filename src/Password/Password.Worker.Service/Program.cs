@@ -1,8 +1,3 @@
-using PasswordManager.Password.Infrastructure.Installers;
-using PasswordManager.Password.Infrastructure.Extensions;
-using PasswordManager.Password.Infrastructure.Startup;
-using Microsoft.AspNetCore;
-
 namespace PasswordManager.Password.Worker.Service;
 
 public class Program

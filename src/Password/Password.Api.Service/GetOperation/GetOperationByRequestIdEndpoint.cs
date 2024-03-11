@@ -1,10 +1,4 @@
-﻿using PasswordManager.Password.ApplicationServices.Repositories.Operations;
-using PasswordManager.Password.Domain.Operations;
-using Ardalis.ApiEndpoints;
-using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
-
-namespace PasswordManager.Password.Api.Service.GetOperation;
+﻿namespace PasswordManager.Password.Api.Service.GetOperation;
 
 public class GetOperationByRequestIdEndpoint : EndpointBaseAsync.WithRequest<string>.WithActionResult<OperationResponse>
 {

@@ -1,7 +1,4 @@
-﻿using Swashbuckle.AspNetCore.Annotations;
-using System.Text.Json.Serialization;
-
-namespace PasswordManager.Password.Api.Service.GeneratePassword
+﻿namespace PasswordManager.Password.Api.Service.GeneratePassword
 {
     [SwaggerSchema(Nullable = false, Required = new[] { "password" })]
     public class GeneratePasswordResponse
