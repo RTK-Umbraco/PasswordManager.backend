@@ -8,7 +8,7 @@ public class UserContext : DbContext
     {
     }
 
-    public DbSet<OperationEntity>? Operations { get; set; }
+    public DbSet<OperationEntity>? UsersOperations { get; set; }
     public DbSet<UserEntity>? Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
