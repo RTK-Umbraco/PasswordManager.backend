@@ -8,8 +8,9 @@ public class PasswordConfiguration : BaseEntityConfiguration<PasswordEntity>
     {
         base.Configure(builder);
 
-        builder.Property(p => p.FriendlyName).IsRequired();
+        builder.Property(p => p.UserId).IsRequired();
         builder.Property(p => p.Url).IsRequired();
+        builder.Property(p => p.FriendlyName).IsRequired();
         builder.Property(p => p.Password).IsRequired();
         builder.Property(p => p.Username).IsRequired();
         builder.Property(p => p.Deleted).IsRequired();
