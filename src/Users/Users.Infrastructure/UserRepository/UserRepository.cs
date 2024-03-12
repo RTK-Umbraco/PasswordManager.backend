@@ -2,6 +2,7 @@
 using PasswordManager.Users.Domain.Users;
 using PasswordManager.Users.Infrastructure.BaseRepository;
 using Microsoft.EntityFrameworkCore;
+using PasswordManager.Users.Domain.User;
 
 namespace PasswordManager.Users.Infrastructure.UserRepository;
 public class UserRepository : BaseRepository<UserModel, UserEntity>, IUserRepository

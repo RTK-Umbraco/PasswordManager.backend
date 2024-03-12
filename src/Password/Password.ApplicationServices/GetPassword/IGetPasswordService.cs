@@ -1,9 +1,4 @@
 ﻿using PasswordManager.Password.Domain.Password;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PasswordManager.Password.ApplicationServices.GetPassword
 {
@@ -11,5 +6,6 @@ namespace PasswordManager.Password.ApplicationServices.GetPassword
     {
         Task<PasswordModel?> GetPassword(Guid passwordId);
         Task<IEnumerable<PasswordModel>> GetPasswords();
+        Task<IEnumerable<PasswordModel>> GetUserPasswords(Guid userId);
     }
 }
