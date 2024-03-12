@@ -14,7 +14,7 @@ namespace PasswordManager.Password.Api.Service.GeneratePassword
             _generatePasswordService = generatePasswordService;
         }
 
-        [HttpGet("api/generate/password/{passwordLength:int}")]
+        [HttpGet("api/generate/password")]
         [ProducesResponseType(typeof(GeneratePasswordResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         [SwaggerOperation(
@@ -24,7 +24,7 @@ namespace PasswordManager.Password.Api.Service.GeneratePassword
         Tags = new[] { "Password" })
         ]
 
-        public override async Task<ActionResult<GeneratePasswordResponse>> HandleAsync([FromRoute] int passwordLength, CancellationToken cancellationToken)
+        public override async Task<ActionResult<GeneratePasswordResponse>> HandleAsync([FromQuery] int passwordLength, CancellationToken cancellationToken)
         {
             try
             {
