@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using PasswordManager.Password.ApplicationServices.PasswordGenerator;
 using Swashbuckle.AspNetCore.Annotations;
+using System.Text.Json.Serialization;
+using static PasswordManager.Password.Api.Service.GeneratePassword.GeneratePasswordEndpoint;
 
 namespace PasswordManager.Password.Api.Service.GeneratePassword
 {
-    public sealed class GeneratePasswordEndpoint : EndpointBaseAsync.WithRequest<int>.WithActionResult<GeneratePasswordResponse>
+    public sealed class GeneratePasswordEndpoint : EndpointBaseAsync.WithRequest<GeneratePasswordRequest>.WithActionResult<GeneratePasswordResponse>
     {
         private readonly IGeneratePasswordService _generatePasswordService;
 
@@ -24,11 +26,11 @@ namespace PasswordManager.Password.Api.Service.GeneratePassword
         Tags = new[] { "Password" })
         ]
 
-        public override async Task<ActionResult<GeneratePasswordResponse>> HandleAsync([FromQuery] int passwordLength, CancellationToken cancellationToken)
+        public override async Task<ActionResult<GeneratePasswordResponse>> HandleAsync([FromQuery] GeneratePasswordRequest request, CancellationToken cancellationToken)
         {
             try
             {
-                var password = new GeneratePasswordResponse(await _generatePasswordService.GeneratePassword(passwordLength));
+                var password = new GeneratePasswordResponse(await _generatePasswordService.GeneratePassword(request.PasswordLength));
                 return Ok(password);
             }
             catch (Exception ex)
@@ -37,6 +39,13 @@ namespace PasswordManager.Password.Api.Service.GeneratePassword
                                detail: $"Password could not be generated: {ex.Message}",
                                statusCode: StatusCodes.Status500InternalServerError);
             }
+        }
+
+        [SwaggerSchema(Nullable = false, Required = new[] { "passwordLength" })]
+        public sealed class GeneratePasswordRequest
+        {
+            [JsonPropertyName("passwordLength")]
+            public int PasswordLength { get; set; }
         }
     }
 }
