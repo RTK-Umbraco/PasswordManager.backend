@@ -4,7 +4,9 @@ namespace PasswordManager.Users.Infrastructure.UserRepository;
 
 public class UserEntity : BaseEntity
 {
-    public UserEntity(Guid id, DateTime createdUtc, DateTime modifiedUtc) : base(id, createdUtc, modifiedUtc)
+    public Guid FirebaseId { get; }
+    public UserEntity(Guid id, DateTime createdUtc, DateTime modifiedUtc, Guid firebaseId) : base(id, createdUtc, modifiedUtc)
     {
+        FirebaseId = firebaseId;
     }
 }

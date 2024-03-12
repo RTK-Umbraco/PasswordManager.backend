@@ -32,9 +32,9 @@ public class OperationRepository : BaseRepository<Operation, OperationEntity>, I
 
     private DbSet<OperationEntity> GetOperationsDbSet()
     {
-        if (Context.Operations is null)
+        if (Context.UsersOperations is null)
             throw new InvalidOperationException("Database configuration not setup correctly");
-        return Context.Operations;
+        return Context.UsersOperations;
     }
 
     protected override Operation Map(OperationEntity entity)

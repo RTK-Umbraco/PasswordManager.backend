@@ -8,7 +8,8 @@ internal static class UserEntityMapper
         return new UserEntity(
             model.Id,
             model.CreatedUtc,
-            model.ModifiedUtc
+            model.ModifiedUtc,
+            model.FirebaseId
             );
     }
 
@@ -17,7 +18,8 @@ internal static class UserEntityMapper
         return new UserModel(
             entity.Id,
             entity.CreatedUtc,
-            entity.ModifiedUtc
+            entity.ModifiedUtc,
+            entity.FirebaseId
             );
     }
 }
