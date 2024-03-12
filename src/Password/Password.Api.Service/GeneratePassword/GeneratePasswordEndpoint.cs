@@ -1,14 +1,11 @@
 ﻿using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
-using PasswordManager.Password.Api.Service.GetPassword;
-using PasswordManager.Password.Api.Service.Models;
 using PasswordManager.Password.ApplicationServices.PasswordGenerator;
 using Swashbuckle.AspNetCore.Annotations;
-using System.Text.Json.Serialization;
 
 namespace PasswordManager.Password.Api.Service.GeneratePassword
 {
-    public sealed class GeneratePasswordEndpoint : EndpointBaseAsync.WithRequest<CreatePasswordRequestWithBody>.WithActionResult<GeneratePasswordResponse>
+    public sealed class GeneratePasswordEndpoint : EndpointBaseAsync.WithRequest<int>.WithActionResult<GeneratePasswordResponse>
     {
         private readonly IGeneratePasswordService _generatePasswordService;
 
@@ -17,7 +14,7 @@ namespace PasswordManager.Password.Api.Service.GeneratePassword
             _generatePasswordService = generatePasswordService;
         }
 
-        [HttpGet("api/generate/password")]
+        [HttpGet("api/generate/password/{passwordLength:int}")]
         [ProducesResponseType(typeof(GeneratePasswordResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         [SwaggerOperation(
@@ -27,22 +24,19 @@ namespace PasswordManager.Password.Api.Service.GeneratePassword
         Tags = new[] { "Password" })
         ]
 
-        public override async Task<ActionResult<GeneratePasswordResponse>> HandleAsync([FromBody] CreatePasswordRequestWithBody request, CancellationToken cancellationToken)
+        public override async Task<ActionResult<GeneratePasswordResponse>> HandleAsync([FromRoute] int passwordLength, CancellationToken cancellationToken)
         {
-            var password = new GeneratePasswordResponse(await _generatePasswordService.GeneratePassword(request.Details.Length));
-
-            return Ok(password);
+            try
+            {
+                var password = new GeneratePasswordResponse(await _generatePasswordService.GeneratePassword(passwordLength));
+                return Ok(password);
+            }
+            catch (Exception ex)
+            {
+                return Problem(title: "Password could not be generated",
+                               detail: $"Password could not be generated: {ex.Message}",
+                               statusCode: StatusCodes.Status500InternalServerError);
+            }
         }
-    }
-
-    public sealed class  CreatePasswordRequestWithBody : UserOperationRequest<GeneratePasswordRequestDetails>
-    {
-    }
-
-    [SwaggerSchema(Nullable = false, Required = new[] { "length" })]
-    public sealed class GeneratePasswordRequestDetails
-    {
-        [JsonPropertyName("length")]
-        public int Length { get; set; }
     }
 }

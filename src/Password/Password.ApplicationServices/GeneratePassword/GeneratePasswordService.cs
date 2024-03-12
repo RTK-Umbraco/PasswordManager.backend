@@ -21,6 +21,14 @@ namespace PasswordManager.Password.ApplicationServices.PasswordGenerator
                 throw new ArgumentException("The password length must be at least 8 characters.");
             }
 
+            // Ensures that the password length is at most 128 characters
+            // Which is to prevent the password from being too long causing
+            // performance issues.
+            if (length > 128)
+            {
+                throw new ArgumentException("The password length must be at most 128 characters.");
+            }
+
             char[] password = new char[length];
             byte[] randomBytes = GenerateRandomBytes(length);
 
