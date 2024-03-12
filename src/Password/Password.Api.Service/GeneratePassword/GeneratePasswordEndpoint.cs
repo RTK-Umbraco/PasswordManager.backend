@@ -1,12 +1,13 @@
 ﻿using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
-using PasswordManager.Password.Api.Service.GetPassword;
 using PasswordManager.Password.ApplicationServices.PasswordGenerator;
 using Swashbuckle.AspNetCore.Annotations;
+using System.Text.Json.Serialization;
+using static PasswordManager.Password.Api.Service.GeneratePassword.GeneratePasswordEndpoint;
 
 namespace PasswordManager.Password.Api.Service.GeneratePassword
 {
-    public sealed class GeneratePasswordEndpoint : EndpointBaseAsync.WithoutRequest.WithActionResult<GeneratePasswordResponse>
+    public sealed class GeneratePasswordEndpoint : EndpointBaseAsync.WithRequest<GeneratePasswordRequest>.WithActionResult<GeneratePasswordResponse>
     {
         private readonly IGeneratePasswordService _generatePasswordService;
 
@@ -25,11 +26,26 @@ namespace PasswordManager.Password.Api.Service.GeneratePassword
         Tags = new[] { "Password" })
         ]
 
-        public override async Task<ActionResult<GeneratePasswordResponse>> HandleAsync(CancellationToken cancellationToken)
+        public override async Task<ActionResult<GeneratePasswordResponse>> HandleAsync([FromQuery] GeneratePasswordRequest request, CancellationToken cancellationToken)
         {
-            var password = new GeneratePasswordResponse(await _generatePasswordService.GeneratePassword(20));
+            try
+            {
+                var password = new GeneratePasswordResponse(await _generatePasswordService.GeneratePassword(request.PasswordLength));
+                return Ok(password);
+            }
+            catch (Exception ex)
+            {
+                return Problem(title: "Password could not be generated",
+                               detail: $"Password could not be generated: {ex.Message}",
+                               statusCode: StatusCodes.Status500InternalServerError);
+            }
+        }
 
-            return Ok(password);
+        [SwaggerSchema(Nullable = false, Required = new[] { "passwordLength" })]
+        public sealed class GeneratePasswordRequest
+        {
+            [JsonPropertyName("passwordLength")]
+            public int PasswordLength { get; set; }
         }
     }
 }
