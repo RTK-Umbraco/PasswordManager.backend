@@ -12,10 +12,17 @@ public sealed class PasswordComponent : IPasswordComponent
         _passwordRepository = passwordRepository;
     }
 
-    public async  Task<IEnumerable<PasswordModel>> GetUserPasswords(Guid userId)
+    public async  Task<UserPasswordModel> CreateUserPassword(UserPasswordModel userPasswordModel)
+    {
+        var passwordModel = await _passwordRepository.Add(UserPasswordModelMapper.Map(userPasswordModel));
+
+        return UserPasswordModelMapper.Map(passwordModel);
+    }
+
+    public async  Task<IEnumerable<UserPasswordModel>> GetUserPasswords(Guid userId)
     {
         var userPasswords = await _passwordRepository.GetUserPasswords(userId);
 
-        return userPasswords.Select(PasswordModelMapper.Map);
+        return userPasswords.Select(UserPasswordModelMapper.Map);
     }
 }

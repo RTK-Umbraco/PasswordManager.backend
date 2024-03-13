@@ -19,6 +19,7 @@ internal static class UserEntityMapper
             entity.Id,
             entity.CreatedUtc,
             entity.ModifiedUtc,
+            entity.Deleted,
             entity.FirebaseId
             );
     }

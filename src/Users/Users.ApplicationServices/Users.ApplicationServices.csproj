@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Password\Password.Infrastructure\Password.Infrastructure.csproj" />
     <ProjectReference Include="..\Users.Domain\Users.Domain.csproj" />
+    <ProjectReference Include="..\Users.Messages\Users.Messages.csproj" />
   </ItemGroup>
 
 </Project>
