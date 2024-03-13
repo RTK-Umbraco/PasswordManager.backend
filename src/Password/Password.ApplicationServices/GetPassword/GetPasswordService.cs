@@ -1,5 +1,4 @@
-﻿using PasswordManager.Password.ApplicationServices.PasswordGenerator;
-using PasswordManager.Password.ApplicationServices.Repositories.Password;
+﻿using PasswordManager.Password.ApplicationServices.Repositories.Password;
 using PasswordManager.Password.Domain.Password;
 
 namespace PasswordManager.Password.ApplicationServices.GetPassword;
@@ -21,10 +20,5 @@ public class GetPasswordService : IGetPasswordService
     public async Task<IEnumerable<PasswordModel>> GetPasswords()
     {
         return await _passwordRepository.GetAll();
-    }
-
-    public async Task<IEnumerable<PasswordModel>> GetUserPasswords(Guid userId)
-    {
-        return await _passwordRepository.GetUserPasswords(userId);
     }
 }

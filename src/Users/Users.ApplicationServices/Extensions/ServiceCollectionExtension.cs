@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using PasswordManager.Password.ApplicationServices.GetPassword;
 using PasswordManager.Password.ApplicationServices.Repositories.Password;
 using PasswordManager.Password.Infrastructure.PasswordRepository;
 using PasswordManager.Users.ApplicationServices.GetUserPasswords;
@@ -13,7 +12,6 @@ public static class ServiceCollectionExtension
         //Use scoped as method to add services
 
         services.AddScoped<IGetUserPasswordsService, GetUserPasswordsService>();
-        services.AddScoped<IGetPasswordService, GetPasswordService>();
         services.AddScoped<IPasswordRepository, PasswordRepository>();
         return services;
     }

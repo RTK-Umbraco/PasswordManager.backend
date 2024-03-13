@@ -1,20 +1,18 @@
-﻿using PasswordManager.Password.ApplicationServices.GetPassword;
+﻿using PasswordManager.Users.ApplicationServices.Components;
 using PasswordManager.Users.Domain.User;
 
 namespace PasswordManager.Users.ApplicationServices.GetUserPasswords;
-internal class GetUserPasswordsService : IGetUserPasswordsService
+public sealed class GetUserPasswordsService : IGetUserPasswordsService
 {
-    private readonly IGetPasswordService _getPasswordService;
+    private readonly IPasswordComponent _passwordComponent;
 
-    public GetUserPasswordsService(IGetPasswordService getPasswordService)
+    public GetUserPasswordsService(IPasswordComponent passwordComponent)
     {
-        _getPasswordService = getPasswordService;
+        _passwordComponent = passwordComponent;
     }
 
-    public async Task<IEnumerable<UserPasswordModel>> GetUserPasswords(Guid userId)
+    public async Task<IEnumerable<PasswordModel>> GetUserPasswords(Guid userId)
     {
-        var userPasswords = await _getPasswordService.GetUserPasswords(userId);
-
-        return userPasswords.Select(UserPasswordModelMapper.Map);
+        return await _passwordComponent.GetUserPasswords(userId);
     }
 }

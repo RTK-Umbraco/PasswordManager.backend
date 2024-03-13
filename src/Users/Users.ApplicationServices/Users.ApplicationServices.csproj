@@ -14,7 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Password\Password.ApplicationServices\Password.ApplicationServices.csproj" />
     <ProjectReference Include="..\..\Password\Password.Infrastructure\Password.Infrastructure.csproj" />
     <ProjectReference Include="..\Users.Domain\Users.Domain.csproj" />
   </ItemGroup>
