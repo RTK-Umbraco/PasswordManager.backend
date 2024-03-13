@@ -8,7 +8,7 @@ public class PasswordContext : DbContext
     {
     }
 
-    public DbSet<OperationEntity>? Operations { get; set; }
+    public DbSet<OperationEntity>? PasswordOperations { get; set; }
     public DbSet<PasswordEntity>? Passwords { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
