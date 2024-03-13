@@ -22,21 +22,21 @@ namespace PasswordManager.Password.Tests.GeneratePassword
         [Test]
         public void GeneratePassword_ThrowsArgumentException_WhenLengthIsLessThanMinimum()
         {
-            Assert.ThrowsAsync<ArgumentException>(() => _generatePasswordService.GeneratePassword(7));
+            Assert.ThrowsAsync<ArgumentException>(() => _generatePasswordService.GenerateKey(7));
         }
 
         [Test]
         public async Task GeneratePassword_ReturnsPasswordOfRequestedLength()
         {
             var passwordLength = 10;
-            var password = await _generatePasswordService.GeneratePassword(passwordLength);
+            var password = await _generatePasswordService.GenerateKey(passwordLength);
             Assert.That(password, Has.Length.EqualTo(passwordLength));
         }
 
         [Test]
         public async Task GeneratePassword_IncludesAllCharacterTypes()
         {
-            var password = await _generatePasswordService.GeneratePassword(12);
+            var password = await _generatePasswordService.GenerateKey(12);
             Assert.Multiple(() =>
             {
                 Assert.That(password.Any(char.IsUpper), Is.True, "Password does not contain an uppercase letter.");
@@ -49,8 +49,8 @@ namespace PasswordManager.Password.Tests.GeneratePassword
         [Test]
         public async Task GeneratePassword_GeneratesRandomPasswords()
         {
-            var password1 = await _generatePasswordService.GeneratePassword(12);
-            var password2 = await _generatePasswordService.GeneratePassword(12);
+            var password1 = await _generatePasswordService.GenerateKey(12);
+            var password2 = await _generatePasswordService.GenerateKey(12);
             Assert.That(password2, Is.Not.EqualTo(password1), "Generated passwords are not random.");
         }
     }

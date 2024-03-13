@@ -12,7 +12,7 @@ namespace PasswordManager.Password.ApplicationServices.PasswordGenerator
 
         private const string _allCharacters = _upperCaseLetters + _lowerCaseLetters + _digits + _specialCharacters;
 
-        public Task<string> GeneratePassword(int length)
+        public Task<string> GenerateKey(int length)
         {
             // Ensures that the password length is at least 8 characters
             // Which is the minimum length required by the NIST

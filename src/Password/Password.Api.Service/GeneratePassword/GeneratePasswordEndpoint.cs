@@ -8,11 +8,11 @@ namespace PasswordManager.Password.Api.Service.GeneratePassword
 {
     public sealed class GeneratePasswordEndpoint : EndpointBaseAsync.WithRequest<GeneratePasswordRequest>.WithActionResult<GeneratePasswordResponse>
     {
-        private readonly IGenerateSecureKeyService _generatePasswordService;
+        private readonly IGenerateSecureKeyService _generateSecureKeyService;
 
         public GeneratePasswordEndpoint(IGenerateSecureKeyService generatePasswordService)
         {
-            _generatePasswordService = generatePasswordService;
+            _generateSecureKeyService = generatePasswordService;
         }
 
         [HttpGet("api/password/generate")]
@@ -29,7 +29,7 @@ namespace PasswordManager.Password.Api.Service.GeneratePassword
         {
             try
             {
-                var password = new GeneratePasswordResponse(await _generatePasswordService.GeneratePassword(request.PasswordLength));
+                var password = new GeneratePasswordResponse(await _generateSecureKeyService.GenerateKey(request.PasswordLength));
                 return Ok(password);
             }
             catch (Exception ex)

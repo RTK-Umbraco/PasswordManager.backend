@@ -2,6 +2,6 @@
 {
     public interface IGenerateSecureKeyService
     {
-        Task<string> GeneratePassword(int length);
+        Task<string> GenerateKey(int length);
     }
 }
