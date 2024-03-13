@@ -1,5 +1,6 @@
 ﻿using PasswordManager.PaymentCards.Domain.Operations;
 using PasswordManager.PaymentCards.Infrastructure.BaseRepository;
+using System.Runtime.CompilerServices;
 
 namespace PasswordManager.PaymentCards.Infrastructure.OperationRepository;
 public class OperationEntity : BaseEntity
@@ -24,5 +25,10 @@ public class OperationEntity : BaseEntity
         Status = status;
         CompletedUtc = completedUtc;
         Data = data;
+    }
+
+    // Constructor for EF Core
+    public OperationEntity() : base(default)
+    {
     }
 }
