@@ -3,20 +3,19 @@ using Microsoft.AspNetCore.Mvc;
 using PasswordManager.Password.ApplicationServices.PasswordGenerator;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Text.Json.Serialization;
-using static PasswordManager.Password.Api.Service.GeneratePassword.GeneratePasswordEndpoint;
 
 namespace PasswordManager.Password.Api.Service.GeneratePassword
 {
     public sealed class GeneratePasswordEndpoint : EndpointBaseAsync.WithRequest<GeneratePasswordRequest>.WithActionResult<GeneratePasswordResponse>
     {
-        private readonly IGeneratePasswordService _generatePasswordService;
+        private readonly IGenerateSecureKeyService _generateSecureKeyService;
 
-        public GeneratePasswordEndpoint(IGeneratePasswordService generatePasswordService)
+        public GeneratePasswordEndpoint(IGenerateSecureKeyService generatePasswordService)
         {
-            _generatePasswordService = generatePasswordService;
+            _generateSecureKeyService = generatePasswordService;
         }
 
-        [HttpGet("api/generate/password")]
+        [HttpGet("api/password/generate")]
         [ProducesResponseType(typeof(GeneratePasswordResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         [SwaggerOperation(
@@ -30,7 +29,7 @@ namespace PasswordManager.Password.Api.Service.GeneratePassword
         {
             try
             {
-                var password = new GeneratePasswordResponse(await _generatePasswordService.GeneratePassword(request.PasswordLength));
+                var password = new GeneratePasswordResponse(await _generateSecureKeyService.GenerateKey(request.PasswordLength));
                 return Ok(password);
             }
             catch (Exception ex)
@@ -41,11 +40,12 @@ namespace PasswordManager.Password.Api.Service.GeneratePassword
             }
         }
 
-        [SwaggerSchema(Nullable = false, Required = new[] { "passwordLength" })]
-        public sealed class GeneratePasswordRequest
-        {
-            [JsonPropertyName("passwordLength")]
-            public int PasswordLength { get; set; }
-        }
+    }
+
+    [SwaggerSchema(Nullable = false, Required = new[] { "passwordLength" })]
+    public sealed class GeneratePasswordRequest
+    {
+        [JsonPropertyName("passwordLength")]
+        public int PasswordLength { get; set; }
     }
 }
