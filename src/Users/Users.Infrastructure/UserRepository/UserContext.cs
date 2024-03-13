@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 namespace PasswordManager.Users.Infrastructure.UserRepository;
 public class UserContext : DbContext
 {
-    public UserContext(DbContextOptions options) : base(options)
+    public UserContext(DbContextOptions<UserContext> options) : base(options)
     {
     }
 

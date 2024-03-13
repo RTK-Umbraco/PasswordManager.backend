@@ -21,10 +21,20 @@ public class PasswordRepository : BaseRepository<PasswordModel, PasswordEntity>,
         await Upsert(passwordModel);
     }
 
+    public async Task<IEnumerable<PasswordModel>> GetUserPasswords(Guid userId)
+    {
+        var userPasswords = await GetUserDbSet()
+            .Where(p => p.UserId == userId && p.Deleted == false)
+            .ToListAsync();
+
+        return userPasswords.Select(Map);
+    }
+
     private DbSet<PasswordEntity> GetUserDbSet()
     {
         if (Context.Passwords is null)
             throw new InvalidOperationException("Database configuration not setup correctly");
+        
         return Context.Passwords;
     }
 
