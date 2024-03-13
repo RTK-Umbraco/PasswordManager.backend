@@ -1,6 +1,6 @@
 ﻿namespace PasswordManager.Password.ApplicationServices.PasswordGenerator
 {
-    public interface IGeneratePasswordService
+    public interface IGenerateSecureKeyService
     {
         Task<string> GeneratePassword(int length);
     }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PasswordManager.Password.ApplicationServices.CreatePassword;
+using PasswordManager.Password.ApplicationServices.DeletePassword;
 using PasswordManager.Password.ApplicationServices.GetPassword;
 using PasswordManager.Password.ApplicationServices.Operations;
 using PasswordManager.Password.ApplicationServices.PasswordGenerator;
@@ -12,11 +13,12 @@ public static class ServiceCollectionExtension
     {
         //Add application service services
         //Use scoped as method to add services
-        services.AddScoped<IGetPasswordService, GetPasswordService>();
-        services.AddScoped<ICreatePasswordService, CreatePasswordService>();
         services.AddScoped<IOperationService, OperationService>();
+        services.AddScoped<ICreatePasswordService, CreatePasswordService>();
+        services.AddScoped<IGetPasswordService, GetPasswordService>();
         services.AddScoped<IUpdatePasswordService, UpdatePasswordService>();
-        services.AddScoped<IGeneratePasswordService, GeneratePasswordService>();
+        services.AddScoped<IDeletePasswordService, DeletePasswordService>();
+        services.AddScoped<IGenerateSecureKeyService, GenerateSecureKeyService>();
 
         return services;
     }

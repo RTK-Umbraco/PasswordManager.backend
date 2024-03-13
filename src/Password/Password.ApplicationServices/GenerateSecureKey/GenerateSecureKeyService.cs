@@ -2,7 +2,7 @@
 
 namespace PasswordManager.Password.ApplicationServices.PasswordGenerator
 {
-    public class GeneratePasswordService : IGeneratePasswordService
+    public class GenerateSecureKeyService : IGenerateSecureKeyService
     {
         // The character sets used to generate the password
         private const string _upperCaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";

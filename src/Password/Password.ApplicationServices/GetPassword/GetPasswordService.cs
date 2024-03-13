@@ -7,9 +7,9 @@ namespace PasswordManager.Password.ApplicationServices.GetPassword;
 public class GetPasswordService : IGetPasswordService
 {
     private readonly IPasswordRepository _passwordRepository;
-    private readonly IGeneratePasswordService _passwordGeneratorService;
+    private readonly IGenerateSecureKeyService _passwordGeneratorService;
 
-    public GetPasswordService(IPasswordRepository passwordRepository, IGeneratePasswordService passwordGeneratorService)
+    public GetPasswordService(IPasswordRepository passwordRepository, IGenerateSecureKeyService passwordGeneratorService)
     {
         _passwordRepository = passwordRepository;
         _passwordGeneratorService = passwordGeneratorService;

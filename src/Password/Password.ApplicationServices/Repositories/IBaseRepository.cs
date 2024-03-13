@@ -7,4 +7,5 @@ public interface IBaseRepository<T> where T : BaseModel
     Task<ICollection<T>> GetAll();
     Task<T> Upsert(T baseModel);
     Task<T> Add(T baseModel);
+    Task Delete(Guid id);
 }

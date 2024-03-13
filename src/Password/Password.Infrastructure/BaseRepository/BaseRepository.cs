@@ -59,6 +59,15 @@ public abstract class BaseRepository<T, TE> : IBaseRepository<T> where T : BaseM
         return Map(entity);
     }
 
+    public async Task Delete(Guid id)
+    {
+        var entity = await GetTracked(id);
+        if (entity is null) return;
+
+        entity.Deleted = true;
+        await SaveAsync(entity);
+    }
+
     private async Task<TE?> GetTracked(Guid id)
     {
         var fetchedEntity = await _dbSet

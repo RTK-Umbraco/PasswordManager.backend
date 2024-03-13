@@ -11,12 +11,12 @@ namespace PasswordManager.Password.Tests.GeneratePassword
     [TestFixture]
     public class GeneratePasswordServiceTests
     {
-        private GeneratePasswordService _generatePasswordService;
+        private GenerateSecureKeyService _generatePasswordService;
 
         [SetUp]
         public void Setup()
         {
-            _generatePasswordService = new GeneratePasswordService();
+            _generatePasswordService = new GenerateSecureKeyService();
         }
 
         [Test]
