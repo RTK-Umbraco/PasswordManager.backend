@@ -21,9 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Users.ApplicationServices\Users.ApplicationServices.csproj" />
-    <ProjectReference Include="..\Users.Domain\Users.Domain.csproj" />
-    <ProjectReference Include="..\Users.Infrastructure\Users.Infrastructure.csproj" />
+    <ProjectReference Include="..\KeyVaults.ApplicationServices\KeyVaults.ApplicationServices.csproj" />
+    <ProjectReference Include="..\KeyVaults.Domain\KeyVaults.Domain.csproj" />
+    <ProjectReference Include="..\KeyVaults.Infrastructure\KeyVaults.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
