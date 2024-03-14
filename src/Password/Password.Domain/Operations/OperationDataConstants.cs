@@ -20,5 +20,12 @@
         public static string NewPasswordUsername => "newPasswordUsername";
         public static string NewPasswordPassword => "newPasswordPassword";
         #endregion
+
+        #region Delete Password
+        public static string DeletePasswordUrl => "deletePasswordUrl";
+        public static string DeletePasswordFriendlyName => "deletePasswordFriendlyName";
+        public static string DeletePasswordUsername => "deletePasswordUsername";
+        public static string DeletePasswordPassword => "deletePasswordPassword";
+        #endregion
     }
 }

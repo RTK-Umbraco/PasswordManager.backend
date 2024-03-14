@@ -3,4 +3,5 @@ public enum OperationName
 {
     CreatePassword,
     UpdatePassword,
+    DeletePassword
 }
