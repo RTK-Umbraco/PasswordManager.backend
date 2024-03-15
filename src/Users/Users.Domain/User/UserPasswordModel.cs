@@ -18,10 +18,18 @@ public sealed class UserPasswordModel
         Password = password;
     }
 
+    public UserPasswordModel(Guid userId, string url, string friendlyName, string username, string password)
+    {
+        UserId = userId;
+        Url = url;
+        FriendlyName = friendlyName;
+        Username = username;
+        Password = password;
+    }
+
     public static UserPasswordModel CreateUserPassword(Guid userId, string url, string friendlyName, string username, string password)
     {
-        var passwordId = Guid.NewGuid();
-        var userPasswordModel = new UserPasswordModel(userId, passwordId, url, friendlyName, username, password);
+        var userPasswordModel = new UserPasswordModel(userId, url, friendlyName, username, password);
 
         return userPasswordModel;
     }

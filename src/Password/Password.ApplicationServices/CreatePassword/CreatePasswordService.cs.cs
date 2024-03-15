@@ -40,9 +40,7 @@ namespace PasswordManager.Password.ApplicationServices.CreatePassword;
     {
         _logger.LogInformation($"Creating password: {passwordModel.Id}");
 
-        var password = new PasswordModel(passwordModel.Id, passwordModel.Url, passwordModel.FriendlyName, passwordModel.Username, passwordModel.Password);
-
-        await _passwordRepository.Add(password);
+        await _passwordRepository.Add(passwordModel);
 
         _logger.LogInformation($"Password created: {passwordModel.Id}");
 

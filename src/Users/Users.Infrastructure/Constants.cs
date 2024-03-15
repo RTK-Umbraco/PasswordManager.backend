@@ -41,4 +41,14 @@ public static class Constants
         public const string ServiceBusConnectionString = "ServiceBusConnectionString";
         public const string SqlDbConnectionString = "SqlDbConnectionString";
     }
+
+    public static class EnvironmentVariables
+    {
+        public const string PasswordEndpoint = "PasswordEndpoint";
+    }
+
+    public static class HttpClientNames
+    {
+        public static string Password => "password-http-client";
+    }
 }

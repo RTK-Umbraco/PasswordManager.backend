@@ -3,6 +3,7 @@
     public sealed class OperationDataConstants
     {
         #region Create Password
+        public static string PasswordCreateUserId => "createPasswordUserId";
         public static string PasswordCreateUrl => "createPasswordUrl";
         public static string PasswordCreateFriendlyName => "createPasswordFriendlyName";
         public static string PasswordCreateUsername => "createPasswordUsername";

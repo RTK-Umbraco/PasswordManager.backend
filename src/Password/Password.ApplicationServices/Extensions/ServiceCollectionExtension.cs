@@ -17,7 +17,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<IOperationService, OperationService>();
         services.AddScoped<IUpdatePasswordService, UpdatePasswordService>();
         services.AddScoped<IGeneratePasswordService, GeneratePasswordService>();
-
+        
         return services;
     }
 }

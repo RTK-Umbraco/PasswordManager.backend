@@ -43,8 +43,16 @@ public class CreateUserPasswordService : ICreateUserPasswordService
 
         return OperationResult.Accepted(operation);
     }
+
     public async Task CreateUserPassword(UserPasswordModel userPasswordModel)
     {
-        await _passwordComponent.CreateUserPassword(userPasswordModel);
+        try
+        {
+            await _passwordComponent.CreateUserPassword(userPasswordModel);
+        }
+        catch (PasswordComponentException exception)
+        {
+            throw new CreateUserPasswordServiceException($"Error calling password service to request password for user {userPasswordModel.UserId}", exception);
+        }
     }
 }
