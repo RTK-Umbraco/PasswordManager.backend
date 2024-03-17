@@ -5,6 +5,7 @@ public class BaseEntity
     public DateTime CreatedUtc { get; }
     public DateTime ModifiedUtc { get; set; }
     public bool Deleted { get; set; } = false;
+
     public BaseEntity(Guid id, DateTime createdUtc, DateTime modifiedUtc)
     {
         Id = id;

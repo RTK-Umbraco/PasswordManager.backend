@@ -6,46 +6,29 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Immutable;
 
 namespace PasswordManager.KeyVaults.Infrastructure.OperationRepository;
-public class OperationRepository : BaseRepository<Operation, OperationEntity>, IOperationRepository
+public class OperationRepository : BaseRepository<Operation, OperationEntity, SecurityKeyContext>, IOperationRepository
 {
     public OperationRepository(SecurityKeyContext context) : base(context)
     {
+        MapEntityToModel = OperationMapper.Map;
+        MapModelToEntity = OperationMapper.Map;
     }
 
     public async Task<Operation?> GetByRequestId(string requestId)
     {
-        var operationEntity = await GetOperationsDbSet()
+        var operationEntity = await Context.Operations
             .Where(x => x.RequestId == requestId)
             .AsNoTracking()
             .SingleOrDefaultAsync();
-        return operationEntity is null ? null : Map(operationEntity);
+        return operationEntity is null ? null : MapEntityToModel(operationEntity);
     }
 
     public async Task<ICollection<Operation>> GetSecurityKeyOperations(Guid securitykeyId)
     {
-        var securitykey = await GetOperationsDbSet()
+        var securitykey = await Context.Operations
                     .Where(x => x.SecurityKeyId == securitykeyId)
                     .AsNoTracking()
                     .ToListAsync();
-        return securitykey.Select(Map).ToImmutableHashSet();
+        return securitykey.Select(MapEntityToModel).ToImmutableHashSet();
     }
-
-    private DbSet<OperationEntity> GetOperationsDbSet()
-    {
-        if (Context.Operations is null)
-            throw new InvalidOperationException("Database configuration not setup correctly");
-        return Context.Operations;
-    }
-
-    protected override Operation Map(OperationEntity entity)
-    {
-        return OperationMapper.Map(entity);
-    }
-
-    protected override OperationEntity Map(Operation model)
-    {
-        return OperationMapper.Map(model);
-    }
-
-  
 }

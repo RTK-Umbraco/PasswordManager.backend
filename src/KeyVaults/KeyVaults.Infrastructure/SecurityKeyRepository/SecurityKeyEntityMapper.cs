@@ -8,7 +8,10 @@ internal static class SecurityKeyEntityMapper
         return new SecurityKeyEntity(
             model.Id,
             model.CreatedUtc,
-            model.ModifiedUtc
+            model.ModifiedUtc,
+            model.Deleted,
+            model.SecretKey,
+            model.ObjectId
             );
     }
 
@@ -17,7 +20,10 @@ internal static class SecurityKeyEntityMapper
         return new SecurityKeyModel(
             entity.Id,
             entity.CreatedUtc,
-            entity.ModifiedUtc
+            entity.ModifiedUtc,
+            entity.Deleted,
+            entity.SecretKey,
+            entity.ObjectId
             );
     }
 }

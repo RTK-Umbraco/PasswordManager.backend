@@ -2,6 +2,8 @@ using Rebus.Bus;
 using Rebus.Retry.Simple;
 using Rebus.Config;
 using PasswordManager.KeyVaults.Infrastructure.Installers;
+using KeyVaults.Messages.CreateSecurityKey;
+using Rebus.Routing.TypeBased;
 
 namespace PasswordManager.KeyVaults.Worker.Service.Installers
 {
@@ -38,8 +40,8 @@ namespace PasswordManager.KeyVaults.Worker.Service.Installers
                         .AutomaticallyRenewPeekLock();
                     t.UseNativeDeadlettering();
                 })
-                //Routing here. Map command
-                //Example --> .MapAssemblyOf<CreateCustomerCommand>(Constants.ServiceBus.InputQueue))
+                .Routing(r => r.TypeBased()
+                .MapAssemblyOf<CreateSecurityKeyCommand>(Constants.ServiceBus.InputQueue))
                 .Options(o =>
                 {
                     o.RetryStrategy(maxDeliveryAttempts: 5);

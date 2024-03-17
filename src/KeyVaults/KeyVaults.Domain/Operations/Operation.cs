@@ -4,18 +4,18 @@ public class Operation : BaseModel
     public string RequestId { get; private set; }
     public Guid SecurityKeyId { get; }
     public string CreatedBy { get; }
-    public OperationName Name { get; }
+    public OperationType Name { get; }
     public OperationStatus Status { get; private set; }
     public DateTime? CompletedUtc { get; private set; }
     public Dictionary<string, string>? Data { get; private set; }
 
-    public Operation(Guid id, string requestId, string createdBy, Guid securitykeyId, OperationName name,
-       OperationStatus status, DateTime createdUtc, DateTime modifiedUtc, DateTime? completedUtc,
-       Dictionary<string, string>? data) : base(id)
+    public Operation(Guid id, string requestId, string createdBy, Guid securityKeyId, OperationType name, OperationStatus status, 
+        DateTime createdUtc, DateTime modifiedUtc, DateTime? completedUtc, Dictionary<string, string>? data) : base(id)
+        
     {
         RequestId = requestId;
         CreatedBy = createdBy;
-        SecurityKeyId = securitykeyId;
+        SecurityKeyId = securityKeyId;
         Name = name;
         Status = status;
         CreatedUtc = createdUtc;
@@ -24,7 +24,7 @@ public class Operation : BaseModel
         Data = data;
     }
 
-    public Operation(string createdBy, Guid securitykeyId, OperationName name, OperationStatus status)
+    public Operation(string createdBy, Guid securitykeyId, OperationType name, OperationStatus status)
     {
         Id = Guid.NewGuid();
         RequestId = Guid.NewGuid().ToString();
