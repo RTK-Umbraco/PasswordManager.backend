@@ -31,12 +31,4 @@ public sealed class PasswordComponent : IPasswordComponent
             throw new PasswordComponentException("Error calling PasswordApiClient.CreatePasswordAsync", exception);
         }
     }
-
-    public async Task<IEnumerable<UserPasswordModel>> GetUserPasswords(Guid userId)
-    {
-        //var userPasswords = await _passwordmanagerPasswordApiClient.get(userId);
-
-        //return userPasswords.Select(UserPasswordModelMapper.Map);
-        throw new NotImplementedException();
-    }
 }

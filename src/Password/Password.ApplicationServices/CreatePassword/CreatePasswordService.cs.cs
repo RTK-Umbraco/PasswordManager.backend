@@ -26,7 +26,6 @@ namespace PasswordManager.Password.ApplicationServices.CreatePassword;
     {
         _logger.LogInformation($"Request creating password {passwordModel.Id}");
 
-        //Encrypt password here. The reason why is that we don't want to store the plain text password in the operation table. 
         var operation = await _operationService.QueueOperation(OperationBuilder.CreatePassword(passwordModel, operationDetails.CreatedBy));
 
         await _bus.Send(new CreatePasswordCommand(operation.RequestId));
