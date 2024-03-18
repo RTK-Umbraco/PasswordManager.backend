@@ -8,8 +8,8 @@ public class SecurityKeyContext : DbContext
     {
     }
 
-    public DbSet<OperationEntity>? Operations { get; set; }
-    public DbSet<SecurityKeyEntity>? SecurityKeys { get; set; }
+    public DbSet<OperationEntity> Operations { get; set; }
+    public DbSet<SecurityKeyEntity> SecurityKeys { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -6,19 +6,36 @@ internal static class OperationMapper
 {
     internal static OperationEntity Map(Operation operation)
     {
-        var entity = new OperationEntity(operation.Id, operation.CreatedUtc, operation.ModifiedUtc,
-            operation.RequestId, operation.SecurityKeyId, operation.CreatedBy, operation.Name, operation.Status,
+        var entity = new OperationEntity(
+            operation.Id, 
+            operation.CreatedUtc, 
+            operation.ModifiedUtc,
+            operation.RequestId, 
+            operation.SecurityKeyId, 
+            operation.CreatedBy, 
+            operation.Name, 
+            operation.Status,
             operation.CompletedUtc,
-            DictionaryToString(operation.Data));
+            DictionaryToString(operation.Data),
+            operation.Deleted
+            );
         return entity;
     }
 
     internal static Operation Map(OperationEntity operation)
     {
-        var model = new Operation(operation.Id, operation.RequestId, operation.CreatedBy, operation.SecurityKeyId,
-            operation.OperationName, operation.Status,
-            operation.CreatedUtc, operation.ModifiedUtc,
-            operation.CompletedUtc, StringToDictionary(operation.Data));
+        var model = new Operation(operation.Id, 
+            operation.RequestId, 
+            operation.CreatedBy, 
+            operation.SecurityKeyId,
+            operation.OperationName,
+            operation.Status,
+            operation.CreatedUtc, 
+            operation.ModifiedUtc,
+            operation.CompletedUtc, 
+            StringToDictionary(operation.Data)
+            );
+
         return model;
     }
 

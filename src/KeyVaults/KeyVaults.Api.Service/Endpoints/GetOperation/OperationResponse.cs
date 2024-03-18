@@ -1,7 +1,7 @@
 ﻿using PasswordManager.KeyVaults.Domain.Operations;
 
-namespace PasswordManager.KeyVaults.Api.Service.GetOperation;
-public record OperationResponse(string RequestId, Guid CustomerId, OperationName OperationName,
+namespace PasswordManager.KeyVaults.Api.Service.Endpoints.GetOperation;
+public record OperationResponse(string RequestId, Guid CustomerId, OperationType OperationName,
     OperationStatus OperationStatus, string CreatedBy, DateTime CreatedUtc, DateTime? LastModifiedUtc,
     DateTime? CompletedUtc, Dictionary<string, string>? Data);
 

@@ -1,10 +1,10 @@
-﻿using PasswordManager.KeyVaults.ApplicationServices.Repositories.Operations;
+﻿using PasswordManager.KeyVaults.ApplicationServices.Operations;
 using PasswordManager.KeyVaults.Domain.Operations;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace PasswordManager.KeyVaults.Api.Service.GetOperation;
+namespace PasswordManager.KeyVaults.Api.Service.Endpoints.GetOperation;
 
 public class GetOperationByRequestIdEndpoint : EndpointBaseAsync.WithRequest<string>.WithActionResult<OperationResponse>
 {

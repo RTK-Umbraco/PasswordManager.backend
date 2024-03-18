@@ -34,7 +34,7 @@ namespace PasswordManager.Password.Worker.Service.Installers
                 {
                     t.UseAzureServiceBus(
                             connectionString: serviceBusConnectionString,
-                            inputQueueAddress: Constants.ServiceBus.InputQueue)
+                            inputQueueAddress: Constants.ServiceBus.InputQueue) 
                         .AutomaticallyRenewPeekLock();
                     t.UseNativeDeadlettering();
                 })

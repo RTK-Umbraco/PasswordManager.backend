@@ -4,26 +4,18 @@ using PasswordManager.KeyVaults.Infrastructure.BaseRepository;
 using Microsoft.EntityFrameworkCore;
 
 namespace PasswordManager.KeyVaults.Infrastructure.SecurityKeyRepository;
-public class SecurityKeyRepository : BaseRepository<SecurityKeyModel, SecurityKeyEntity>, ISecurityKeyRepository
+public class SecurityKeyRepository : BaseRepository<SecurityKeyModel, SecurityKeyEntity, SecurityKeyContext>, ISecurityKeyRepository
 {
     public SecurityKeyRepository(SecurityKeyContext context) : base(context)
     {
+        MapEntityToModel = SecurityKeyEntityMapper.Map;
+        MapModelToEntity = SecurityKeyEntityMapper.Map;
     }
 
-    private DbSet<SecurityKeyEntity> GetUserDbSet()
-    {
-        if (Context.SecurityKeys is null)
-            throw new InvalidOperationException("Database configuration not setup correctly");
-        return Context.SecurityKeys;
-    }
-
-    protected override SecurityKeyModel Map(SecurityKeyEntity entity)
-    {
-        return SecurityKeyEntityMapper.Map(entity);
-    }
-
-    protected override SecurityKeyEntity Map(SecurityKeyModel model)
-    {
-        return SecurityKeyEntityMapper.Map(model);
-    }
+    public async Task<SecurityKeyModel?> GetSecurityKeyByObjectId(Guid objectId) =>
+        await Context.SecurityKeys
+        .AsNoTracking()
+        .Where(x => x.ObjectId == objectId && !x.Deleted)
+        .Select(x => MapEntityToModel(x))
+        .FirstOrDefaultAsync();
 }
