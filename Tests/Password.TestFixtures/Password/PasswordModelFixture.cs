@@ -8,6 +8,7 @@ public static class PasswordModelFixture
     public sealed class PasswordModelBuilder
     {
         private Guid _passwordId = Guid.NewGuid();
+        private Guid _userId = Guid.NewGuid();
         private DateTime _createdUtc = DateTime.UtcNow.AddDays(-1);
         private DateTime _modifiedUtc = DateTime.UtcNow;
         private bool _deleted = false;
@@ -20,7 +21,7 @@ public static class PasswordModelFixture
 
         public PasswordModel Build()
         {
-            var passwordModel = new PasswordModel(_passwordId, _createdUtc, _modifiedUtc, _deleted, _url, _friendlyName, _username, _password);
+            var passwordModel = new PasswordModel(_passwordId, _createdUtc, _modifiedUtc, _deleted, _userId, _url, _friendlyName, _username, _password);
 
             return passwordModel;
         }

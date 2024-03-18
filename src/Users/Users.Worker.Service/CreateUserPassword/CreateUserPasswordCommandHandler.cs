@@ -6,7 +6,6 @@ using Rebus.Handlers;
 using Users.Messages.CreateUserPassword;
 
 namespace Users.Worker.Service.CreateUserPassword;
-
 public class CreateUserPasswordCommandHandler : IHandleMessages<CreateUserPasswordCommand>
 {
     private readonly ICreateUserPasswordService _createUserPasswordService;
@@ -29,7 +28,7 @@ public class CreateUserPasswordCommandHandler : IHandleMessages<CreateUserPasswo
 
         var operation = await _operationService.GetOperationByRequestId(requestId);
 
-        if (operation == null)
+        if (operation is null)
         {
             _logger.LogWarning($"Operation not found: {requestId}");
             throw new InvalidOperationException($"Could not find operation with request id {requestId} when updating password");
@@ -39,12 +38,34 @@ public class CreateUserPasswordCommandHandler : IHandleMessages<CreateUserPasswo
 
         var createPasswordModel = CreateUserPasswordOperationHelper.Map(operation.UserId, operation);
 
-        await _createUserPasswordService.CreateUserPassword(createPasswordModel);
+        try
+        {
+            await _createUserPasswordService.CreateUserPassword(createPasswordModel);
+            await PublishSuccessEventAndMarkOperationAsCompleted(createPasswordModel.UserId, requestId);
 
+            OperationResult.Completed(operation);
+        }
+        catch (CreateUserPasswordServiceException exception)
+        {
+            await PublishFailedEventAndMarkOperationAsFailed(createPasswordModel.UserId, requestId, exception.Message);
+            throw;
+        }
+    }
+
+    private async Task PublishFailedEventAndMarkOperationAsFailed(Guid userId, string requestId, string message)
+    {
+        await _bus.Publish(new CreateUserPasswordFailedEvent(userId, requestId, message ?? string.Empty));
+        await SetOperationStatus(requestId, OperationStatus.Failed);
+    }
+
+    private async Task PublishSuccessEventAndMarkOperationAsCompleted(Guid userId, string requestId)
+    {
         await _operationService.UpdateOperationStatus(requestId, OperationStatus.Completed);
+        await _bus.Publish(new CreateUserPasswordEvent(userId, requestId));
+    }
 
-        await _bus.Publish(new CreateUserPasswordEvent(createPasswordModel.UserId, requestId));
-
-        OperationResult.Completed(operation);
+    private async Task SetOperationStatus(string requestId, OperationStatus operationStatus)
+    {
+        await _operationService.UpdateOperationStatus(requestId, operationStatus);
     }
 }

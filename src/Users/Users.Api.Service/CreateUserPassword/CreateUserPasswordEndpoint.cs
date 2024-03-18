@@ -9,7 +9,7 @@ using PasswordManager.Users.Domain.User;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Text.Json.Serialization;
 
-namespace PasswordManager.Users.Api.Service.CreateUserPassoword;
+namespace PasswordManager.Users.Api.Service.CreateUserPassword;
 
 public class CreateUserPasswordEndpoint : EndpointBaseAsync.WithRequest<CreateUserPasswordRequestWithBody>.WithoutResult
 {
@@ -50,7 +50,6 @@ public class CreateUserPasswordEndpoint : EndpointBaseAsync.WithRequest<CreateUs
         };
     }
 }
-
 
 public sealed class CreateUserPasswordRequestWithBody : UserOperationRequest<CreateUserPasswordRequestDetails>
 {

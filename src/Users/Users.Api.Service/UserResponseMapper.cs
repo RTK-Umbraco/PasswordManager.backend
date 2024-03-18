@@ -1,5 +1,4 @@
-﻿using PasswordManager.Password.Domain.Password;
-using PasswordManager.Users.Api.Service.GetUser;
+﻿using PasswordManager.Users.Api.Service.GetUser;
 using PasswordManager.Users.Domain.Users;
 
 namespace PasswordManager.Users.Api.Service;

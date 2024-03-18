@@ -7,7 +7,7 @@ public class CreateUserPasswordOperationHelper
 {
     internal static UserPasswordModel Map(Guid userId, Operation operation)
     {
-        return new UserPasswordModel(userId, GetPasswordId(operation), GetPasswordUrl(operation), GetPasswordLabel(operation), GetPasswordUsername(operation), GetPasswordKey(operation));
+        return new UserPasswordModel(userId, GetPasswordUrl(operation), GetPasswordLabel(operation), GetPasswordUsername(operation), GetPasswordKey(operation));
     }
 
     private static string GetPasswordOperationData(Operation operation, string operationDataConstant)
@@ -16,18 +16,6 @@ public class CreateUserPasswordOperationHelper
             throw new InvalidOperationException($"Could not find password {operationDataConstant} in operation with request id {operation.RequestId} when creating password");
 
         return getPasswordOperationData;
-    }
-
-    private static Guid GetPasswordId(Operation operation)
-    {
-        var passwordIdEntryString = GetPasswordOperationData(operation, OperationDataConstants.CreateUserPasswordId);
-
-        if (Guid.TryParse(passwordIdEntryString, out Guid passwordId))
-        {
-            return passwordId;
-        }
-
-        throw new InvalidOperationException($"Could not find user passwordId in operation with request id {operation.RequestId} when creating user password");
     }
 
     private static string GetPasswordUrl(Operation operation)

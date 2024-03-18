@@ -35,9 +35,9 @@ public class PasswordModel : BaseModel
         Password = password;
     }
 
-    public static PasswordModel CreatePassword(string url, string friendlyName, string username, string password)
+    public static PasswordModel CreatePassword(Guid userId, string url, string friendlyName, string username, string password)
     {
-        return new PasswordModel(Guid.NewGuid(), url, friendlyName, username, password);
+        return new PasswordModel(Guid.NewGuid(), userId, url, friendlyName, username, password);
     }
 
     public static PasswordModel UpdatePassword(Guid id, string url, string friendlyName, string username, string password)

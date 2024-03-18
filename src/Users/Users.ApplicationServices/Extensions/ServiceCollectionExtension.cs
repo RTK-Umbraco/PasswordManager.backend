@@ -1,6 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using PasswordManager.Password.ApplicationServices.Repositories.Password;
-using PasswordManager.Password.Infrastructure.PasswordRepository;
 using PasswordManager.Users.ApplicationServices.CreateUserPassword;
 using PasswordManager.Users.ApplicationServices.GetUser;
 using PasswordManager.Users.ApplicationServices.GetUserPasswords;
@@ -16,7 +14,6 @@ public static class ServiceCollectionExtension
 
         services.AddScoped<IGetUserPasswordsService, GetUserPasswordsService>();
         services.AddScoped<IGetUserService, GetUserService>();
-        services.AddScoped<IPasswordRepository, PasswordRepository>();
         services.AddScoped<ICreateUserPasswordService, CreateUserPasswordService>();
         services.AddScoped<IOperationService, OperationService>();
         

@@ -31,10 +31,12 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Password\PasswordManager.Password.Client\PasswordManager.Password.Client.csproj" />
     <ProjectReference Include="..\Users.ApplicationServices\Users.ApplicationServices.csproj" />
     <ProjectReference Include="..\Users.Domain\Users.Domain.csproj" />
   </ItemGroup>
