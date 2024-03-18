@@ -115,9 +115,6 @@ namespace PasswordManager.KeyVaults.Infrastructure.Migrations
                     b.Property<DateTime>("ModifiedUtc")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("ObjectId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("SecretKey")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

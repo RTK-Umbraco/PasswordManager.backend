@@ -8,10 +8,8 @@ using System.Collections.Immutable;
 namespace PasswordManager.KeyVaults.Infrastructure.OperationRepository;
 public class OperationRepository : BaseRepository<Operation, OperationEntity, SecurityKeyContext>, IOperationRepository
 {
-    public OperationRepository(SecurityKeyContext context) : base(context)
+    public OperationRepository(SecurityKeyContext context) : base(context, OperationMapper.Map, OperationMapper.Map)
     {
-        MapEntityToModel = OperationMapper.Map;
-        MapModelToEntity = OperationMapper.Map;
     }
 
     public async Task<Operation?> GetByRequestId(string requestId)

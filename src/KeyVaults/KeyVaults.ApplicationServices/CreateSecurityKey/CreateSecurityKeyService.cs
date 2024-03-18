@@ -27,12 +27,12 @@ namespace PasswordManager.KeyVaults.ApplicationServices.CreateSecurityKey
         {
             _logger.LogInformation($"Request creation of SecurityKey {securityKeyModel.Id}");
 
-            // Checks if a security key already exists for objectId
-            var existingSecurityKey = await _securityKeyRepository.GetSecurityKeyByObjectId(securityKeyModel.ObjectId);
+            // Checks if a security key already exists
+            var existingSecurityKey = await _securityKeyRepository.GetById(securityKeyModel.Id);
             if (existingSecurityKey != null)
             {
-                _logger.LogInformation($"A SecurityKey already exists for objectId: {securityKeyModel.Id}");
-                return OperationResult.InvalidState($"A SecurityKey already exists for objectId: {securityKeyModel.Id}");
+                _logger.LogInformation($"SecurityKey with ID: {securityKeyModel.Id}, already exists");
+                return OperationResult.InvalidState($"SecurityKey with ID: {securityKeyModel.Id}, already exists");
             }
 
             // Queues the operation

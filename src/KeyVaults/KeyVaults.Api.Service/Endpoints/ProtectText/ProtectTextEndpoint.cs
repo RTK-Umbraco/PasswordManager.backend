@@ -23,7 +23,7 @@ namespace PasswordManager.KeyVaults.Api.Service.Endpoints.ProtectText
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(
         Summary = "Protects text",
-        Description = "Creates a SecurityKey object and returns received text in protected form",
+        Description = "Creates a SecurityKey object and returns received text in protected form along with a SecurityKeyId",
         OperationId = "ProtectText",
         Tags = new[] { "KeyVault" })
         ]
@@ -33,9 +33,9 @@ namespace PasswordManager.KeyVaults.Api.Service.Endpoints.ProtectText
             {
                 OperationDetails operationDetails = new OperationDetails(request.CreatedByUserId);
 
-                var protectedText = await _keyVaultManagerService.RequestProtect(request.Details.ObjectId, request.Details.PlainText, operationDetails);
+                var protectedText = await _keyVaultManagerService.RequestProtect(request.Details.PlainText, operationDetails);
 
-                var response = new ProtectedTextResponse(protectedText);
+                var response = new ProtectedTextResponse(protectedText.SecurityKeyId, protectedText.ProtectedText);
 
                 return Ok(response);
             }
@@ -54,12 +54,9 @@ namespace PasswordManager.KeyVaults.Api.Service.Endpoints.ProtectText
     {
     }
 
-    [SwaggerSchema(Nullable = false, Required = new[] { "objectId", "plainText" })]
+    [SwaggerSchema(Nullable = false, Required = new[] { "plainText" })]
     public sealed class ProtectTextRequestDetails
     {
-        [JsonPropertyName("objectId")]
-        public Guid ObjectId { get; set; }
-
         [JsonPropertyName("plainText")]
         public string PlainText { get; set; }
     }

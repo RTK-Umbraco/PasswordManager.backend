@@ -17,13 +17,15 @@ public abstract class BaseRepository<TModel, TEntity, TContext> : IBaseRepositor
     protected Func<TEntity, TModel> MapEntityToModel { get; set; }
     protected Func<TModel, TEntity> MapModelToEntity { get; set; }
 
-    protected BaseRepository(TContext context)
+    protected BaseRepository(TContext context, Func<TEntity, TModel> mapEntityToModel, Func<TModel, TEntity> mapModelToEntity)
     {
         Context = context;
         _dbSet = context.Set<TEntity>();
+        MapEntityToModel = mapEntityToModel ?? throw new ArgumentNullException(nameof(mapEntityToModel));
+        MapModelToEntity = mapModelToEntity ?? throw new ArgumentNullException(nameof(mapModelToEntity));
     }
 
-    public async Task<TModel?> Get(Guid id) =>
+    public async Task<TModel?> GetById(Guid id) =>
         await _dbSet
             .AsNoTracking()
             .Where(e => e.Id == id && !e.Deleted)

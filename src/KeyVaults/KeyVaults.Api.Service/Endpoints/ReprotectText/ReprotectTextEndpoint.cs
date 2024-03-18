@@ -33,9 +33,9 @@ namespace PasswordManager.KeyVaults.Api.Service.Endpoints.ReprotectText
             {
                 OperationDetails operationDetails = new OperationDetails(request.CreatedByUserId);
 
-                var protectedText = await _keyVaultManagerService.RequestReprotect(request.Details.ObjectId, request.Details.ProtectedText, operationDetails);
+                var protectedText = await _keyVaultManagerService.RequestReprotect(request.Details.SecurityKeyId, request.Details.ProtectedText, operationDetails);
 
-                var response = new ProtectedTextResponse(protectedText);
+                var response = new ProtectedTextResponse(request.Details.SecurityKeyId, protectedText);
 
                 return Ok(response);
             }
@@ -54,11 +54,11 @@ namespace PasswordManager.KeyVaults.Api.Service.Endpoints.ReprotectText
     { 
     }
 
-    [SwaggerSchema(Nullable = false, Required = new[] { "objectId", "protectedText" })]
+    [SwaggerSchema(Nullable = false, Required = new[] { "securityKeyId", "protectedText" })]
     public sealed class ReprotectTextRequestDetails
     {
-        [JsonPropertyName("objectId")]
-        public Guid ObjectId { get; set; }
+        [JsonPropertyName("securityKeyId")]
+        public Guid SecurityKeyId { get; set; }
 
         [JsonPropertyName("protectedText")]
         public string ProtectedText { get; set; }
