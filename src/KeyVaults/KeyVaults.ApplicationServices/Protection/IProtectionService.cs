@@ -2,8 +2,8 @@
 {
     public interface IProtectionService
     {
-        string Protect(string plainText, string key);
-        string Unprotect(string protectedText, string key);
+        string Protect(string item, string key);
+        string Unprotect(string protectedItem, string key);
         string GenerateSecretKey(int length);
     }
 }
