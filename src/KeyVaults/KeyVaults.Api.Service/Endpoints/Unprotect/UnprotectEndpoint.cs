@@ -6,13 +6,13 @@ using PasswordManager.KeyVaults.Domain.Operations;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Text.Json.Serialization;
 
-namespace PasswordManager.KeyVaults.Api.Service.Endpoints.UnprotectText
+namespace PasswordManager.KeyVaults.Api.Service.Endpoints.Unprotect
 {
-    public class UnprotectTextEndpoint : EndpointBaseAsync.WithRequest<UnprotectTextRequestWithBody>.WithActionResult<ProtectedTextResponse>
+    public class UnprotectEndpoint : EndpointBaseAsync.WithRequest<UnprotectItemRequestWithBody>.WithActionResult<ProtectedItemResponse>
     {
         private readonly IKeyVaultManagerService _keyVaultManagerService;
 
-        public UnprotectTextEndpoint(IKeyVaultManagerService keyVaultManagerService)
+        public UnprotectEndpoint(IKeyVaultManagerService keyVaultManagerService)
         {
             _keyVaultManagerService = keyVaultManagerService;
         }
@@ -22,20 +22,20 @@ namespace PasswordManager.KeyVaults.Api.Service.Endpoints.UnprotectText
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(
-        Summary = "Unprotects text",
-        Description = "Unprotects text from received objectId and protectedText",
-        OperationId = "UnprotectText",
+        Summary = "Unprotects item",
+        Description = "Unprotects item from received objectId and protectedItem",
+        OperationId = "UnprotectItem",
         Tags = new[] { "KeyVault" })
         ]
-        public override async Task<ActionResult<ProtectedTextResponse>> HandleAsync([FromQuery] UnprotectTextRequestWithBody request, CancellationToken cancellationToken = default)
+        public override async Task<ActionResult<ProtectedItemResponse>> HandleAsync([FromQuery] UnprotectItemRequestWithBody request, CancellationToken cancellationToken = default)
         {
             try
             {
                 OperationDetails operationDetails = new OperationDetails(request.CreatedByUserId);
 
-                var unprotectedText = await _keyVaultManagerService.RequestUnprotect(request.Details.SecurityKeyId, request.Details.ProtectedText, operationDetails);
+                var unprotectedItem = await _keyVaultManagerService.RequestUnprotect(request.Details.SecurityKeyId, request.Details.ProtectedItem, operationDetails);
 
-                var response = new UnprotectedTextResponse(unprotectedText);
+                var response = new ItemResponse(unprotectedItem);
 
                 return Ok(response);
             }
@@ -50,17 +50,17 @@ namespace PasswordManager.KeyVaults.Api.Service.Endpoints.UnprotectText
         }
     }
 
-    public sealed class UnprotectTextRequestWithBody : SecurityKeyOperationRequest<UnprotectTextRequestDetails>
+    public sealed class UnprotectItemRequestWithBody : SecurityKeyOperationRequest<UnprotectItemRequestDetails>
     {
     }
 
-    [SwaggerSchema(Nullable = false, Required = new[] { "securityKeyId", "protectedText" })]
-    public sealed class UnprotectTextRequestDetails
+    [SwaggerSchema(Nullable = false, Required = new[] { "securityKeyId", "protectedItem" })]
+    public sealed class UnprotectItemRequestDetails
     {
         [JsonPropertyName("securityKeyId")]
         public Guid SecurityKeyId { get; set; }
 
-        [JsonPropertyName("protectedText")]
-        public string ProtectedText { get; set; }
+        [JsonPropertyName("protectedItem")]
+        public string ProtectedItem { get; set; }
     }
 }
