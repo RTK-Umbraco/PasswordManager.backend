@@ -12,7 +12,6 @@ namespace PasswordManager.KeyVaults.Domain.Operations
             var data = new Dictionary<string, string>
             {
                 { OperationDataConstants.CreateSecurityKeySecretKey, securityKeyModel.SecretKey },
-                { OperationDataConstants.CreateSecurityKeyObjectId, securityKeyModel.ObjectId.ToString() },
             };
 
             return CreateOperation(securityKeyModel.Id, OperationType.CreateSecurityKey, createdBy, data);
@@ -23,7 +22,6 @@ namespace PasswordManager.KeyVaults.Domain.Operations
             var data = new Dictionary<string, string>
             {
                 { OperationDataConstants.UpdateSecurityKeySecretKey, securityKeyModel.SecretKey },
-                { OperationDataConstants.UpdateSecurityKeyObjectId, securityKeyModel.ObjectId.ToString() },
             };
 
             return CreateOperation(securityKeyModel.Id, OperationType.UpdateSecurityKey, createdBy, data);
@@ -34,7 +32,6 @@ namespace PasswordManager.KeyVaults.Domain.Operations
             var data = new Dictionary<string, string>
             {
                 { OperationDataConstants.DeleteSecurityKeySecretKey, securityKeyModel.SecretKey },
-                { OperationDataConstants.DeleteSecurityKeyObjectId, securityKeyModel.ObjectId.ToString() },
             };
 
             return CreateOperation(securityKeyModel.Id, OperationType.DeleteSecurityKey, createdBy, data);

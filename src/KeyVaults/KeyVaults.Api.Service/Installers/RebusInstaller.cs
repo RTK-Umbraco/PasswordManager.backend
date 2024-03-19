@@ -13,7 +13,7 @@ public class RebusInstaller : IDependencyInstaller
         if (options.HostEnvironment.IsEnvironment("integration-test")) return;
 
         var serviceBusConnectionString =
-            options.Configuration[Infrastructure.Constants.ConfigurationKeys.ServiceBusConnectionString];
+        options.Configuration[Infrastructure.Constants.ConfigurationKeys.ServiceBusConnectionString];
 
         if (string.IsNullOrWhiteSpace(serviceBusConnectionString))
             throw new InvalidOperationException("Unable to resolve service bus connection string named " +

@@ -6,13 +6,13 @@ using PasswordManager.KeyVaults.Domain.Operations;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Text.Json.Serialization;
 
-namespace PasswordManager.KeyVaults.Api.Service.Endpoints.ProtectText
+namespace PasswordManager.KeyVaults.Api.Service.Endpoints.Protect
 {
-    public class ProtectTextEndpoint : EndpointBaseAsync.WithRequest<ProtectTextRequestWithBody>.WithActionResult<ProtectedTextResponse>
+    public class ProtectEndpoint : EndpointBaseAsync.WithRequest<ProtectItemRequestWithBody>.WithActionResult<ProtectedItemResponse>
     {
         private readonly IKeyVaultManagerService _keyVaultManagerService;
 
-        public ProtectTextEndpoint(IKeyVaultManagerService keyVaultManagerService)
+        public ProtectEndpoint(IKeyVaultManagerService keyVaultManagerService)
         {
             _keyVaultManagerService = keyVaultManagerService;
         }
@@ -22,20 +22,20 @@ namespace PasswordManager.KeyVaults.Api.Service.Endpoints.ProtectText
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(
-        Summary = "Protects text",
-        Description = "Creates a SecurityKey object and returns received text in protected form",
-        OperationId = "ProtectText",
+        Summary = "Protects an item",
+        Description = "Creates a SecurityKey object and returns received item in protected form along with a SecurityKeyId",
+        OperationId = "ProtectItem",
         Tags = new[] { "KeyVault" })
         ]
-        public override async Task<ActionResult<ProtectedTextResponse>> HandleAsync([FromQuery] ProtectTextRequestWithBody request, CancellationToken cancellationToken = default)
+        public override async Task<ActionResult<ProtectedItemResponse>> HandleAsync([FromQuery] ProtectItemRequestWithBody request, CancellationToken cancellationToken = default)
         {
             try
             {
                 OperationDetails operationDetails = new OperationDetails(request.CreatedByUserId);
 
-                var protectedText = await _keyVaultManagerService.RequestProtect(request.Details.ObjectId, request.Details.PlainText, operationDetails);
+                var protectedItem = await _keyVaultManagerService.RequestProtect(request.Details.Item, operationDetails);
 
-                var response = new ProtectedTextResponse(protectedText);
+                var response = new ProtectedItemResponse(protectedItem.SecurityKeyId, protectedItem.ProtectedItem);
 
                 return Ok(response);
             }
@@ -50,17 +50,14 @@ namespace PasswordManager.KeyVaults.Api.Service.Endpoints.ProtectText
         }
     }
 
-    public sealed class ProtectTextRequestWithBody : SecurityKeyOperationRequest<ProtectTextRequestDetails>
+    public sealed class ProtectItemRequestWithBody : SecurityKeyOperationRequest<ProtectItemRequestDetails>
     {
     }
 
-    [SwaggerSchema(Nullable = false, Required = new[] { "objectId", "plainText" })]
-    public sealed class ProtectTextRequestDetails
+    [SwaggerSchema(Nullable = false, Required = new[] { "item" })]
+    public sealed class ProtectItemRequestDetails
     {
-        [JsonPropertyName("objectId")]
-        public Guid ObjectId { get; set; }
-
-        [JsonPropertyName("plainText")]
-        public string PlainText { get; set; }
+        [JsonPropertyName("item")]
+        public string Item { get; set; }
     }
 }

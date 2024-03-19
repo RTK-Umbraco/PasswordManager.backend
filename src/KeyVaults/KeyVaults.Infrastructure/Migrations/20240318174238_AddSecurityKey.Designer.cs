@@ -12,7 +12,7 @@ using PasswordManager.KeyVaults.Infrastructure.SecurityKeyRepository;
 namespace PasswordManager.KeyVaults.Infrastructure.Migrations
 {
     [DbContext(typeof(SecurityKeyContext))]
-    [Migration("20240316121815_AddSecurityKey")]
+    [Migration("20240318174238_AddSecurityKey")]
     partial class AddSecurityKey
     {
         /// <inheritdoc />
@@ -117,9 +117,6 @@ namespace PasswordManager.KeyVaults.Infrastructure.Migrations
 
                     b.Property<DateTime>("ModifiedUtc")
                         .HasColumnType("datetime2");
-
-                    b.Property<Guid>("ObjectId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("SecretKey")
                         .IsRequired()

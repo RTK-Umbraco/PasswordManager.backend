@@ -23,15 +23,15 @@ namespace PasswordManager.KeyVaults.ApplicationServices.DeleteSecurityKey
             _bus = bus;
         }
 
-        public async Task<OperationResult> RequestDeleteSecurityKey(Guid objectId, OperationDetails operationDetails)
+        public async Task<OperationResult> RequestDeleteSecurityKey(Guid securityKeyId, OperationDetails operationDetails)
         {
-            _logger.LogInformation($"Request deletion of security key with objectId: {objectId}");
+            _logger.LogInformation($"Request deletion of SecurityKey with ID: {securityKeyId}");
 
-            var securityKey = await _securityKeyRepository.GetSecurityKeyByObjectId(objectId);
+            var securityKey = await _securityKeyRepository.GetById(securityKeyId);
 
             if (securityKey == null)
             {
-                _logger.LogWarning($"Security key with objectId: {objectId} not found");
+                _logger.LogWarning($"SecurityKey with ID: {securityKeyId}, not found");
                 return OperationResult.InvalidState("Security key does not exist or is already deleted");
             }
 
@@ -39,14 +39,14 @@ namespace PasswordManager.KeyVaults.ApplicationServices.DeleteSecurityKey
 
             await _bus.Send(new DeleteSecurityKeyCommand(operation.RequestId));
 
-            _logger.LogInformation($"Request sent to worker for deleting security key: {securityKey.Id} - requestId: {operation.RequestId}");
+            _logger.LogInformation($"Request sent to worker for deleting SecurityKey: {securityKey.Id} - requestId: {operation.RequestId}");
 
             return OperationResult.Accepted(operation);
         }
 
         public Task DeleteSecurityKey(Guid securityKeyId)
         {
-            _logger.LogInformation($"Deleting security key: {securityKeyId}");
+            _logger.LogInformation($"Deleting SecurityKey: {securityKeyId}");
 
             return _securityKeyRepository.Delete(securityKeyId);
         }
