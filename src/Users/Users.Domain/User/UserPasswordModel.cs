@@ -6,7 +6,7 @@ public sealed class UserPasswordModel
     public string Url { get; }
     public string FriendlyName { get; }
     public string Username { get; }
-    public string Password { get; }
+    public string Password { get; private set; }
 
     public UserPasswordModel(Guid userId, Guid passwordId, string url, string friendlyName, string username, string password)
     {
@@ -32,5 +32,10 @@ public sealed class UserPasswordModel
         var userPasswordModel = new UserPasswordModel(userId, url, friendlyName, username, password);
 
         return userPasswordModel;
+    }
+
+    public string SetEncryptedPassword(string encryptedPassword)
+    {
+        return Password = encryptedPassword;
     }
 }

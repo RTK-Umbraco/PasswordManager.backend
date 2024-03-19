@@ -14,13 +14,15 @@ public class CreateUserPasswordService : ICreateUserPasswordService
     private readonly IOperationService _operationService;
     private readonly IBus _bus;
     private readonly IPasswordComponent _passwordComponent;
+    private readonly IKeyVaultComponent _keyVaultComponent;
 
-    public CreateUserPasswordService(IUserRepository userRepository, IOperationService operationService, IBus bus, IPasswordComponent passwordComponent)
+    public CreateUserPasswordService(IUserRepository userRepository, IOperationService operationService, IBus bus, IPasswordComponent passwordComponent, IKeyVaultComponent keyVaultComponent)
     {
         _userRepository = userRepository;
         _operationService = operationService;
         _bus = bus;
         _passwordComponent = passwordComponent;
+        _keyVaultComponent = keyVaultComponent;
     }
 
     public async Task<OperationResult> RequestCreateUserPassword(UserPasswordModel userPasswordModel, OperationDetails operationDetails)
@@ -36,6 +38,16 @@ public class CreateUserPasswordService : ICreateUserPasswordService
         {
             return OperationResult.InvalidState("Cannot create user password because user was marked as deleted");
         }
+
+        var encryptedPassword = await _keyVaultComponent.CreateEncryptedPassword(userPasswordModel);
+
+        if (encryptedPassword is null)
+        {
+            return OperationResult.InvalidState("Cannot create encrypted password for user");
+
+        }
+
+        userPasswordModel.SetEncryptedPassword(encryptedPassword);
 
         var operation = await _operationService.QueueOperation(OperationBuilder.CreateUserPassword(userPasswordModel, operationDetails.CreatedBy));
 

@@ -36,6 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\KeyVaults\KeyVaults.Client\KeyVaults.Client.csproj" />
     <ProjectReference Include="..\..\Password\PasswordManager.Password.Client\PasswordManager.Password.Client.csproj" />
     <ProjectReference Include="..\Users.ApplicationServices\Users.ApplicationServices.csproj" />
     <ProjectReference Include="..\Users.Domain\Users.Domain.csproj" />

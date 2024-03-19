@@ -50,5 +50,6 @@ public static class Constants
     public static class HttpClientNames
     {
         public static string Password => "password-http-client";
+        public static string KeyVault => "keyvault-http-client";
     }
 }

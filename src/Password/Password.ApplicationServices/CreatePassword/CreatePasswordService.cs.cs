@@ -7,7 +7,7 @@ using Password.Messages.CreatePassword;
 using PasswordManager.Password.ApplicationServices.Operations;
 
 namespace PasswordManager.Password.ApplicationServices.CreatePassword;
-    public sealed class CreatePasswordService : ICreatePasswordService
+public sealed class CreatePasswordService : ICreatePasswordService
 {
     private readonly IOperationService _operationService;
     private readonly IBus _bus;
@@ -38,11 +38,17 @@ namespace PasswordManager.Password.ApplicationServices.CreatePassword;
     public async Task CreatePassword(PasswordModel passwordModel)
     {
         _logger.LogInformation($"Creating password: {passwordModel.Id}");
+        try
+        {
+            await _passwordRepository.Add(passwordModel);
 
-        await _passwordRepository.Add(passwordModel);
+            _logger.LogInformation($"Password created: {passwordModel.Id}");
 
-        _logger.LogInformation($"Password created: {passwordModel.Id}");
-
-        return;
+            return;
+        }
+        catch (Exception exception)
+        {
+            throw new CreatePasswordServiceException($"Error calling password repository to create password for user {passwordModel.UserId}", exception);
+        }
     }
 }
