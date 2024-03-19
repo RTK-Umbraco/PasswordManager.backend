@@ -46,15 +46,15 @@ namespace PasswordManager.KeyVaults.ApplicationServices.CreateSecurityKey
             return OperationResult.Accepted(operation);
         }
 
-        Task ICreateSecurityKeyService.CreateSecurityKey(SecurityKeyModel securityKeyModel)
+        public async Task CreateSecurityKey(SecurityKeyModel securityKeyModel)
         {
             _logger.LogInformation($"Creating SecurityKey: {securityKeyModel.Id}");
 
-            _securityKeyRepository.Upsert(securityKeyModel);
+            await _securityKeyRepository.Upsert(securityKeyModel);
 
             _logger.LogInformation($"SecurityKey created: {securityKeyModel.Id}");
 
-            return Task.CompletedTask;
+            return;
         }
     }
 }
