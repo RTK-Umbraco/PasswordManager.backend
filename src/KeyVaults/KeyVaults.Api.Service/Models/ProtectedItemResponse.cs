@@ -3,19 +3,15 @@ using System.Text.Json.Serialization;
 
 namespace PasswordManager.KeyVaults.Api.Service.Models
 {
-    [SwaggerSchema(Nullable = false, Required = new[] { "securityKeyId", "protectedItem" })]
+    [SwaggerSchema(Nullable = false, Required = new[] { "protectedItems" })]
     public class ProtectedItemResponse
     {
-        [JsonPropertyName("securityKeyId")]
-        public Guid SecurityKeyId { get; set; }
+        [JsonPropertyName("protectedItems")]
+        public IEnumerable<string> ProtectedItems { get; set; }
 
-        [JsonPropertyName("protectedItem")]
-        public string ProtectedItem { get; set; }
-
-        public ProtectedItemResponse(Guid securityKeyId, string protectedItem)
+        public ProtectedItemResponse(IEnumerable<string> protectedItems)
         {
-            SecurityKeyId = securityKeyId;
-            ProtectedItem = protectedItem;
+            ProtectedItems = protectedItems;
         }
     }
 }

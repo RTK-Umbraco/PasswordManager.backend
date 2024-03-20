@@ -21,4 +21,14 @@ public class GetPasswordService : IGetPasswordService
     {
         return await _passwordRepository.GetAll();
     }
+
+    public async Task<IEnumerable<PasswordModel>> GetPasswordsByUserId(Guid userId)
+    {
+        return await _passwordRepository.GetPasswordsByUserId(userId);
+    }
+
+    public async Task<IEnumerable<PasswordModel>> GetPasswordsByUserIdWithUrl(Guid userId, string url)
+    {
+        return await _passwordRepository.GetUserPasswordsWithUrl(userId, url);
+    }
 }

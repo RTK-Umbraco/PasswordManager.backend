@@ -8,5 +8,5 @@ dotnet new tool-manifest
 
 ### Generating Api Client
 ```
-dotnet apigenerator generate -b PasswordManager -n KeyVaults -s src\KeyVaults\KeyVaults.Client\swagger.json -o src\KeyVaults\KeyVaults.Client
+dotnet apigenerator generate -b PasswordManager -n KeyVaults -s C:\Code\PasswordManager\src\KeyVaults\KeyVaults.Client\swagger.json -o C:\Code\PasswordManager\src\KeyVaults\KeyVaults.Client
 ```
