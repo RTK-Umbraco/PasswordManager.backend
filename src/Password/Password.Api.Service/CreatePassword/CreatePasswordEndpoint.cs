@@ -30,7 +30,7 @@ public class CreatePasswordEndpoint : EndpointBaseAsync.WithRequest<CreatePasswo
 ]
     public override async Task<ActionResult> HandleAsync([FromBody] CreatePasswordRequestWithBody request, CancellationToken cancellationToken = default)
     {
-        var passwordModel = PasswordModel.CreatePassword(request.Details.Url, request.Details.FriendlyName, request.Details.Username, request.Details.Password);
+        var passwordModel = PasswordModel.CreatePassword(request.Details.UserId, request.Details.Url, request.Details.FriendlyName, request.Details.Username, request.Details.Password);
 
         var operationResult = await _createPasswordService.RequestCreatePassword(passwordModel, new OperationDetails(request.CreatedByUserId));
 
@@ -53,7 +53,7 @@ public sealed class CreatePasswordRequestWithBody : UserOperationRequest<CreateP
 {
 }
 
-[SwaggerSchema(Nullable = false, Required = new[] { "url", "friendlyName", "username", "password" })]
+[SwaggerSchema(Nullable = false, Required = new[] { "url", "friendlyName", "username", "password", "userId" })]
 public sealed class CreatePasswordRequestDetails
 {
     [JsonPropertyName("url")]
@@ -67,4 +67,7 @@ public sealed class CreatePasswordRequestDetails
 
     [JsonPropertyName("password")]
     public string Password { get; set; }
+
+    [JsonPropertyName("userId")]
+    public Guid UserId { get; set; }
 }

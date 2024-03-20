@@ -1,13 +1,16 @@
 ﻿using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
+using PasswordManager.Users.ApplicationServices.GetUser;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace PasswordManager.Users.Api.Service.GetUser;
 
 public class GetUserEndpoint : EndpointBaseAsync.WithRequest<Guid>.WithActionResult<UserResponse>
 {
-    public GetUserEndpoint()
+    private readonly IGetUserService _getUserService;
+    public GetUserEndpoint(IGetUserService getUserService)
     {
+        _getUserService = getUserService;
     }
 
     [HttpGet("api/users/{userId:guid}")]
@@ -21,6 +24,13 @@ public class GetUserEndpoint : EndpointBaseAsync.WithRequest<Guid>.WithActionRes
     ]
     public override async Task<ActionResult<UserResponse>> HandleAsync([FromRoute] Guid userId, CancellationToken cancellationToken = default)
     {
-        return new ActionResult<UserResponse>(new UserResponse(userId));
+        var passwordModel = await _getUserService.GetUser(userId);
+
+        if (passwordModel is null)
+            return Problem(title: "User could not be found",
+                           detail: $"User having id: '{userId}' not found",
+                           statusCode: StatusCodes.Status404NotFound);
+
+        return new ActionResult<UserResponse>(UserResponseMapper.Map(passwordModel));
     }
 }

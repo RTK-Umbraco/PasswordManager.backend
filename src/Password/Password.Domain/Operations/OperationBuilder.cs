@@ -11,6 +11,7 @@ public static class OperationBuilder
     {
         var data = new Dictionary<string, string>()
         {
+            { OperationDataConstants.PasswordCreateUserId, passwordModel.UserId.ToString() },
             { OperationDataConstants.PasswordCreateUrl, passwordModel.Url },
             { OperationDataConstants.PasswordCreateFriendlyName, passwordModel.FriendlyName },
             { OperationDataConstants.PasswordCreateUsername, passwordModel.Username },

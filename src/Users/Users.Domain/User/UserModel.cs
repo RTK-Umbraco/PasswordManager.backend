@@ -3,11 +3,7 @@ public class UserModel : BaseModel
 {
     public Guid FirebaseId { get; }
 
-    public UserModel(Guid id, DateTime createdUtc, DateTime modifiedUtc) : base(id, createdUtc, modifiedUtc)
-    {
-    }
-    
-    public UserModel(Guid id, DateTime createdUtc, DateTime modifiedUtc, Guid firebaseId) : base(id, createdUtc, modifiedUtc)
+    public UserModel(Guid id, DateTime createdUtc, DateTime modifiedUtc, bool deleted, Guid firebaseId) : base(id, createdUtc, modifiedUtc, deleted)
     {
         FirebaseId = firebaseId;
     }

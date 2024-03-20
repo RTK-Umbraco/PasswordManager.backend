@@ -46,6 +46,4 @@ public class OperationRepository : BaseRepository<Operation, OperationEntity>, I
     {
         return OperationMapper.Map(model);
     }
-
-  
 }

@@ -19,7 +19,7 @@ public class GetUserPasswordsEndpoint : EndpointBaseAsync.WithRequest<Guid>.With
         Summary = "Get user passwords by user id",
         Description = "Get user passwords",
         OperationId = "GetUserPasswords",
-        Tags = new[] { "User" })
+        Tags = new[] { "Password" })
         ]
     public override async Task<ActionResult<IEnumerable<UserPasswordResponse>>> HandleAsync(Guid userId, CancellationToken cancellationToken = default)
     {

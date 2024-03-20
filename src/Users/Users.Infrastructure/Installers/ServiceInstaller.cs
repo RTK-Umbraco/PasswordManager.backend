@@ -1,13 +1,13 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using PasswordManager.Users.Infrastructure.Startup;
+﻿using PasswordManager.Users.Infrastructure.Startup;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using PasswordManager.Users.ApplicationServices.Repositories.Operations;
 using PasswordManager.Users.ApplicationServices.Repositories.User;
 using PasswordManager.Users.Infrastructure.UserRepository;
-using PasswordManager.Password.ApplicationServices.Repositories.Password;
-using PasswordManager.Password.Infrastructure.PasswordRepository;
 using PasswordManager.Users.ApplicationServices.Components;
+using Microsoft.Extensions.DependencyInjection;
+using Umbraco.Cloud.Passwordmanager.Password.Api.Client;
+using Umbraco.Cloud.Passwordmanager.Keyvaults.Api.Client;
 
 namespace PasswordManager.Users.Infrastructure.Installers;
 
@@ -25,16 +25,48 @@ public sealed class ServiceInstaller : IDependencyInstaller
         var connectionString = configuration[Constants.ConfigurationKeys.SqlDbConnectionString];
 
         serviceCollection.AddDbContext<UserContext>(options => options.UseSqlServer(connectionString));
-        serviceCollection.AddDbContext<PasswordContext>(options => options.UseSqlServer(connectionString));
 
         serviceCollection.AddScoped<IUserRepository, UserRepository.UserRepository>();
-        serviceCollection.AddScoped<IPasswordRepository, PasswordRepository>();
         serviceCollection.AddScoped<IOperationRepository, OperationRepository.OperationRepository>();
     }
 
     private static void AddComponents(IServiceCollection serviceCollection, IConfiguration configuration)
     {
+        SetupPasswordIntegration(serviceCollection, configuration);
         serviceCollection.AddScoped<IPasswordComponent, PasswordComponent.PasswordComponent>();
+
+        SetupKeyVaultIntegration(serviceCollection, configuration);
+        serviceCollection.AddScoped<IKeyVaultComponent, KeyVaultComponent.KeyVaultComponent>();
+    }
+
+    private static void SetupPasswordIntegration(IServiceCollection serviceCollection, IConfiguration configuration)
+    {
+        var httpClientName = Constants.HttpClientNames.Password;
+
+        serviceCollection.AddHttpClient(httpClientName, c => { c.BaseAddress = new Uri("http://localhost:60440"); });
+
+        serviceCollection.AddTransient<IPasswordmanagerPasswordApiClient, PasswordmanagerPasswordApiClient>(c =>
+        {
+            var clientFactory = c.GetRequiredService<IHttpClientFactory>();
+            var client = clientFactory.CreateClient(httpClientName);
+
+            return new PasswordmanagerPasswordApiClient(string.Empty, client);
+        });
+    }
+
+    private static void SetupKeyVaultIntegration(IServiceCollection serviceCollection, IConfiguration configuration)
+    {
+        var httpClientName = Constants.HttpClientNames.KeyVault;
+
+        serviceCollection.AddHttpClient(httpClientName, c => { c.BaseAddress = new Uri("http://localhost:60431"); });
+
+        serviceCollection.AddTransient<IPasswordmanagerKeyvaultsApiClient, PasswordmanagerKeyvaultsApiClient>(c =>
+        {
+            var clientFactory = c.GetRequiredService<IHttpClientFactory>();
+            var client = clientFactory.CreateClient(httpClientName);
+
+            return new PasswordmanagerKeyvaultsApiClient(string.Empty, client);
+        });
     }
 }
 

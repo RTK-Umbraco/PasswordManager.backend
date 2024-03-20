@@ -3,5 +3,5 @@
 namespace PasswordManager.Users.ApplicationServices.GetUserPasswords;
 public interface IGetUserPasswordsService
 {
-    Task<IEnumerable<PasswordModel>> GetUserPasswords(Guid userId);
+    Task<IEnumerable<UserPasswordModel>> GetUserPasswords(Guid userId);
 }
