@@ -10,8 +10,7 @@ internal static class SecurityKeyEntityMapper
             model.CreatedUtc,
             model.ModifiedUtc,
             model.Deleted,
-            model.SecretKey,
-            model.ObjectId
+            model.SecretKey
             );
     }
 
@@ -22,8 +21,7 @@ internal static class SecurityKeyEntityMapper
             entity.CreatedUtc,
             entity.ModifiedUtc,
             entity.Deleted,
-            entity.SecretKey,
-            entity.ObjectId
+            entity.SecretKey
             );
     }
 }

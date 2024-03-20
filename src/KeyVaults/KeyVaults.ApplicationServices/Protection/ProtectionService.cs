@@ -4,7 +4,7 @@ namespace PasswordManager.KeyVaults.ApplicationServices.Protection
 {
     public class ProtectionService : IProtectionService
     {
-        public string Protect(string plainText, string key)
+        public string Protect(string item, string key)
         {
             // Converts from base64 string to byte array
             byte[] keyBytes = Convert.FromBase64String(key);
@@ -30,7 +30,7 @@ namespace PasswordManager.KeyVaults.ApplicationServices.Protection
                     {
                         using (var sw = new StreamWriter(cs))
                         {
-                            sw.Write(plainText);
+                            sw.Write(item);
                         }
                     }
                     encryptedBytes = ms.ToArray();
@@ -47,12 +47,12 @@ namespace PasswordManager.KeyVaults.ApplicationServices.Protection
             }
         }
 
-        public string Unprotect(string protectedText, string key)
+        public string Unprotect(string protectedItem, string key)
         {
 
             using (var aes = Aes.Create())
             {
-                byte[] encryptedBytesWithIv = Convert.FromBase64String(protectedText);
+                byte[] encryptedBytesWithIv = Convert.FromBase64String(protectedItem);
                 aes.Key = Convert.FromBase64String(key);
 
                 // Extract the IV from concatenated bytes
@@ -60,13 +60,13 @@ namespace PasswordManager.KeyVaults.ApplicationServices.Protection
                 Array.Copy(encryptedBytesWithIv, iv, iv.Length);
                 aes.IV = iv;
 
-                // Extracts protected text from the concatenated bytes
+                // Extracts protected item from the concatenated bytes
                 byte[] protectedBytes = new byte[encryptedBytesWithIv.Length - aes.IV.Length];
                 Array.Copy(encryptedBytesWithIv, aes.IV.Length, protectedBytes, 0, protectedBytes.Length);
 
                 ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
 
-                string decryptedText;
+                string decryptedItem;
 
                 // Decrypt the bytes
                 using (var ms = new MemoryStream(protectedBytes))
@@ -75,12 +75,12 @@ namespace PasswordManager.KeyVaults.ApplicationServices.Protection
                     {
                         using (var sr = new StreamReader(cs))
                         {
-                            decryptedText = sr.ReadToEnd();
+                            decryptedItem = sr.ReadToEnd();
                         }
                     }
                 }
 
-                return decryptedText;
+                return decryptedItem;
             }
         }
 

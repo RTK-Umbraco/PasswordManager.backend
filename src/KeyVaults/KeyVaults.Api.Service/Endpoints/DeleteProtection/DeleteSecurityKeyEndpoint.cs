@@ -24,13 +24,13 @@ namespace PasswordManager.KeyVaults.Api.Service.Endpoints.DeleteProtection
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(
         Summary = "Deletes SecurityKey",
-        Description = "Deletes the SecurityKey tied to the requested objectId",
+        Description = "Deletes a SecurityKey from it's id",
         OperationId = "DeleteSecurityKey",
         Tags = new[] { "KeyVault" })
         ]
         public override async Task<ActionResult> HandleAsync([FromQuery] DeleteSecurityKeyRequestWithBody request, CancellationToken cancellationToken = default)
         {
-            var operationResult = await _deleteSecurityKeyService.RequestDeleteSecurityKey(request.Details.ObjectId, new OperationDetails(request.CreatedByUserId));
+            var operationResult = await _deleteSecurityKeyService.RequestDeleteSecurityKey(request.Details.SecurityKeyId, new OperationDetails(request.CreatedByUserId));
 
             return operationResult.Status switch
             {
@@ -48,10 +48,10 @@ namespace PasswordManager.KeyVaults.Api.Service.Endpoints.DeleteProtection
     {
     }
 
-    [SwaggerSchema(Nullable = false, Required = new[] { "objectId" })]
+    [SwaggerSchema(Nullable = false, Required = new[] { "securityKeyId" })]
     public sealed class DeleteSecurityKeyRequest
     {
-        [JsonPropertyName("objectId")]
-        public Guid ObjectId { get; set; }
+        [JsonPropertyName("securityKeyId")]
+        public Guid SecurityKeyId { get; set; }
     }
 }

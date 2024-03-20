@@ -6,7 +6,7 @@ namespace KeyVaults.Worker.Service.DeleteSecurityKey
     public class DeleteSecurityKeyOperationHelper
     {
         internal static SecurityKeyModel Map(Guid securityKeyId, Operation operation)
-            => new SecurityKeyModel(securityKeyId, GetSecurityKeySecretKey(operation), GetSecurityKeyObjectId(operation));
+            => new SecurityKeyModel(securityKeyId, GetSecurityKeySecretKey(operation));
 
         private static string GetSecurityKeyOperationData(Operation operation, string operationDataConstant)
         {
@@ -18,13 +18,5 @@ namespace KeyVaults.Worker.Service.DeleteSecurityKey
 
         private static string GetSecurityKeySecretKey(Operation operation)
             => GetSecurityKeyOperationData(operation, OperationDataConstants.DeleteSecurityKeySecretKey);
-
-        private static Guid GetSecurityKeyObjectId(Operation operation)
-        {
-            var objectIdStr = GetSecurityKeyOperationData(operation, OperationDataConstants.DeleteSecurityKeyObjectId);
-            if (!Guid.TryParse(objectIdStr, out Guid objectId))
-                throw new InvalidOperationException($"Invalid or missing SecurityKey ObjectId in operation with request id: {operation.RequestId}");
-            return objectId;
-        }
     }
 }

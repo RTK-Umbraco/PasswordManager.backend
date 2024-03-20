@@ -43,7 +43,6 @@ namespace PasswordManager.KeyVaults.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     SecretKey = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ObjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ClusterId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CreatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),

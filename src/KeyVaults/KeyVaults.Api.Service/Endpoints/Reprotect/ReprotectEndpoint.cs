@@ -6,13 +6,13 @@ using PasswordManager.KeyVaults.Domain.Operations;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Text.Json.Serialization;
 
-namespace PasswordManager.KeyVaults.Api.Service.Endpoints.ReprotectText
+namespace PasswordManager.KeyVaults.Api.Service.Endpoints.Reprotect
 {
-    public class ReprotectTextEndpoint : EndpointBaseAsync.WithRequest<ReprotectTextRequestWithBody>.WithActionResult<ProtectedTextResponse>
+    public class ReprotectEndpoint : EndpointBaseAsync.WithRequest<ReprotectItemRequestWithBody>.WithActionResult<ProtectedItemResponse>
     {
         private readonly IKeyVaultManagerService _keyVaultManagerService;
 
-        public ReprotectTextEndpoint(IKeyVaultManagerService keyVaultManagerService)
+        public ReprotectEndpoint(IKeyVaultManagerService keyVaultManagerService)
         {
             _keyVaultManagerService = keyVaultManagerService;
         }
@@ -22,20 +22,20 @@ namespace PasswordManager.KeyVaults.Api.Service.Endpoints.ReprotectText
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(
-        Summary = "Reprotects text",
-        Description = "Generates a new secretkey and returns the protected object in a new form",
-        OperationId = "ReprotectText",
+        Summary = "Reprotects",
+        Description = "Generates a new secretkey and returns the protected item in a new form",
+        OperationId = "Reprotect",
         Tags = new[] { "KeyVault" })
         ]
-        public override async Task<ActionResult<ProtectedTextResponse>> HandleAsync([FromQuery] ReprotectTextRequestWithBody request, CancellationToken cancellationToken = default)
+        public override async Task<ActionResult<ProtectedItemResponse>> HandleAsync([FromQuery] ReprotectItemRequestWithBody request, CancellationToken cancellationToken = default)
         {
             try
             {
                 OperationDetails operationDetails = new OperationDetails(request.CreatedByUserId);
 
-                var protectedText = await _keyVaultManagerService.RequestReprotect(request.Details.ObjectId, request.Details.ProtectedText, operationDetails);
+                var protectedItem = await _keyVaultManagerService.RequestReprotect(request.Details.SecurityKeyId, request.Details.ProtectedItem, operationDetails);
 
-                var response = new ProtectedTextResponse(protectedText);
+                var response = new ProtectedItemResponse(request.Details.SecurityKeyId, protectedItem);
 
                 return Ok(response);
             }
@@ -50,17 +50,17 @@ namespace PasswordManager.KeyVaults.Api.Service.Endpoints.ReprotectText
         }
     }
 
-    public sealed class ReprotectTextRequestWithBody : SecurityKeyOperationRequest<ReprotectTextRequestDetails>
+    public sealed class ReprotectItemRequestWithBody : SecurityKeyOperationRequest<ReprotectItemRequestDetails>
     { 
     }
 
-    [SwaggerSchema(Nullable = false, Required = new[] { "objectId", "protectedText" })]
-    public sealed class ReprotectTextRequestDetails
+    [SwaggerSchema(Nullable = false, Required = new[] { "securityKeyId", "protectedItem" })]
+    public sealed class ReprotectItemRequestDetails
     {
-        [JsonPropertyName("objectId")]
-        public Guid ObjectId { get; set; }
+        [JsonPropertyName("securityKeyId")]
+        public Guid SecurityKeyId { get; set; }
 
-        [JsonPropertyName("protectedText")]
-        public string ProtectedText { get; set; }
+        [JsonPropertyName("protectedItem")]
+        public string ProtectedItem { get; set; }
     }
 }

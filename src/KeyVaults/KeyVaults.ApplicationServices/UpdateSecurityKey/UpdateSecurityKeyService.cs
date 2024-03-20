@@ -29,7 +29,7 @@ namespace PasswordManager.KeyVaults.ApplicationServices.UpdateSecurityKey
             _logger.LogInformation($"Request update for security key {securityKeyModel.Id}");
 
             // Check if the security key exists
-            var existingSecurityKey = await _securityKeyRepository.Get(securityKeyModel.Id);
+            var existingSecurityKey = await _securityKeyRepository.GetById(securityKeyModel.Id);
             if (existingSecurityKey == null)
             {
                 _logger.LogInformation($"SecurityKey with id: {securityKeyModel.Id} does not exist");
