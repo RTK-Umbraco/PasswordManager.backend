@@ -21,7 +21,7 @@ public sealed class PasswordComponent : IPasswordComponent
         {
             _logger.LogInformation("Requesting to create password");
             await _passwordmanagerPasswordApiClient.CreatePasswordAsync(new CreatePasswordRequestWithBody(userPasswordModel.UserId.ToString(),
-                new CreatePasswordRequestDetails(userPasswordModel.FriendlyName, userPasswordModel.Password, userPasswordModel.Url, userPasswordModel.UserId, userPasswordModel.Password)));
+                new CreatePasswordRequestDetails(userPasswordModel.FriendlyName, userPasswordModel.Password, userPasswordModel.Url, userPasswordModel.UserId, userPasswordModel.Username)));
         }
         catch (ApiException exception)
         {

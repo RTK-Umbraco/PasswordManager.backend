@@ -51,49 +51,49 @@ namespace Umbraco.Cloud.Passwordmanager.Keyvaults.Api.Client
         System.Threading.Tasks.Task<SwaggerResponse<OperationResponse>> GetOperationByRequestIdAsync(string requestId, System.Threading.CancellationToken cancellationToken);
 
         /// <summary>
-        /// Protects text
+        /// Protects an item
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ProtectedTextResponse>> ProtectTextAsync(string created_by_user_id, ProtectTextRequestDetails body);
+        System.Threading.Tasks.Task<SwaggerResponse<ProtectedItemResponse>> ProtectItemAsync(string created_by_user_id, ProtectItemRequestDetails body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Protects text
+        /// Protects an item
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ProtectedTextResponse>> ProtectTextAsync(string created_by_user_id, ProtectTextRequestDetails body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<SwaggerResponse<ProtectedItemResponse>> ProtectItemAsync(string created_by_user_id, ProtectItemRequestDetails body, System.Threading.CancellationToken cancellationToken);
 
         /// <summary>
-        /// Reprotects text
+        /// Reprotects
         /// </summary>
         /// <returns>Accepted</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<OperationAcceptedResponse>> ReprotectTextAsync(string created_by_user_id, ReprotectTextRequestDetails body);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <summary>
-        /// Reprotects text
-        /// </summary>
-        /// <returns>Accepted</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<OperationAcceptedResponse>> ReprotectTextAsync(string created_by_user_id, ReprotectTextRequestDetails body, System.Threading.CancellationToken cancellationToken);
-
-        /// <summary>
-        /// Unprotects text
-        /// </summary>
-        /// <returns>Accepted</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<OperationAcceptedResponse>> UnprotectTextAsync(string created_by_user_id, UnprotectTextRequestDetails body);
+        System.Threading.Tasks.Task<SwaggerResponse<OperationAcceptedResponse>> ReprotectAsync(string created_by_user_id, ReprotectItemRequestDetails body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Unprotects text
+        /// Reprotects
         /// </summary>
         /// <returns>Accepted</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<OperationAcceptedResponse>> UnprotectTextAsync(string created_by_user_id, UnprotectTextRequestDetails body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<SwaggerResponse<OperationAcceptedResponse>> ReprotectAsync(string created_by_user_id, ReprotectItemRequestDetails body, System.Threading.CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Unprotects item
+        /// </summary>
+        /// <returns>Accepted</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<SwaggerResponse<OperationAcceptedResponse>> UnprotectItemAsync(string created_by_user_id, UnprotectItemRequestDetails body);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Unprotects item
+        /// </summary>
+        /// <returns>Accepted</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<SwaggerResponse<OperationAcceptedResponse>> UnprotectItemAsync(string created_by_user_id, UnprotectItemRequestDetails body, System.Threading.CancellationToken cancellationToken);
 
     }
 
@@ -335,22 +335,22 @@ namespace Umbraco.Cloud.Passwordmanager.Keyvaults.Api.Client
         }
 
         /// <summary>
-        /// Protects text
+        /// Protects an item
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<ProtectedTextResponse>> ProtectTextAsync(string created_by_user_id, ProtectTextRequestDetails body)
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<ProtectedItemResponse>> ProtectItemAsync(string created_by_user_id, ProtectItemRequestDetails body)
         {
-            return ProtectTextAsync(created_by_user_id, body, System.Threading.CancellationToken.None);
+            return ProtectItemAsync(created_by_user_id, body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Protects text
+        /// Protects an item
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ProtectedTextResponse>> ProtectTextAsync(string created_by_user_id, ProtectTextRequestDetails body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ProtectedItemResponse>> ProtectItemAsync(string created_by_user_id, ProtectItemRequestDetails body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/keyvaults/protect");
@@ -394,12 +394,12 @@ namespace Umbraco.Cloud.Passwordmanager.Keyvaults.Api.Client
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProtectedTextResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ProtectedItemResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            return new SwaggerResponse<ProtectedTextResponse>(status_, headers_, objectResponse_.Object);
+                            return new SwaggerResponse<ProtectedItemResponse>(status_, headers_, objectResponse_.Object);
                         }
                         else
                         if (status_ == 400)
@@ -442,22 +442,22 @@ namespace Umbraco.Cloud.Passwordmanager.Keyvaults.Api.Client
         }
 
         /// <summary>
-        /// Reprotects text
+        /// Reprotects
         /// </summary>
         /// <returns>Accepted</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<OperationAcceptedResponse>> ReprotectTextAsync(string created_by_user_id, ReprotectTextRequestDetails body)
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<OperationAcceptedResponse>> ReprotectAsync(string created_by_user_id, ReprotectItemRequestDetails body)
         {
-            return ReprotectTextAsync(created_by_user_id, body, System.Threading.CancellationToken.None);
+            return ReprotectAsync(created_by_user_id, body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Reprotects text
+        /// Reprotects
         /// </summary>
         /// <returns>Accepted</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<OperationAcceptedResponse>> ReprotectTextAsync(string created_by_user_id, ReprotectTextRequestDetails body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<OperationAcceptedResponse>> ReprotectAsync(string created_by_user_id, ReprotectItemRequestDetails body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/keyvaults/reprotect");
@@ -549,22 +549,22 @@ namespace Umbraco.Cloud.Passwordmanager.Keyvaults.Api.Client
         }
 
         /// <summary>
-        /// Unprotects text
+        /// Unprotects item
         /// </summary>
         /// <returns>Accepted</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<OperationAcceptedResponse>> UnprotectTextAsync(string created_by_user_id, UnprotectTextRequestDetails body)
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<OperationAcceptedResponse>> UnprotectItemAsync(string created_by_user_id, UnprotectItemRequestDetails body)
         {
-            return UnprotectTextAsync(created_by_user_id, body, System.Threading.CancellationToken.None);
+            return UnprotectItemAsync(created_by_user_id, body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Unprotects text
+        /// Unprotects item
         /// </summary>
         /// <returns>Accepted</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<OperationAcceptedResponse>> UnprotectTextAsync(string created_by_user_id, UnprotectTextRequestDetails body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<OperationAcceptedResponse>> UnprotectItemAsync(string created_by_user_id, UnprotectItemRequestDetails body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/keyvaults/unprotect");
@@ -760,16 +760,16 @@ namespace Umbraco.Cloud.Passwordmanager.Keyvaults.Api.Client
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public DeleteSecurityKeyRequest(System.Guid @objectId)
+        public DeleteSecurityKeyRequest(System.Guid @securityKeyId)
 
         {
 
-            this.ObjectId = @objectId;
+            this.SecurityKeyId = @securityKeyId;
 
         }
-        [System.Text.Json.Serialization.JsonPropertyName("objectId")]
+        [System.Text.Json.Serialization.JsonPropertyName("securityKeyId")]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.Guid ObjectId { get; init; }
+        public System.Guid SecurityKeyId { get; init; }
 
     }
 
@@ -929,92 +929,92 @@ namespace Umbraco.Cloud.Passwordmanager.Keyvaults.Api.Client
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v9.0.0.0))")]
-    public partial record ProtectTextRequestDetails
+    public partial record ProtectItemRequestDetails
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public ProtectTextRequestDetails(System.Guid @objectId, string @plainText)
+        public ProtectItemRequestDetails(string @item)
 
         {
 
-            this.ObjectId = @objectId;
-
-            this.PlainText = @plainText;
+            this.Item = @item;
 
         }
-        [System.Text.Json.Serialization.JsonPropertyName("objectId")]
+        [System.Text.Json.Serialization.JsonPropertyName("item")]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.Guid ObjectId { get; init; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("plainText")]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string PlainText { get; init; }
+        public string Item { get; init; }
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v9.0.0.0))")]
-    public partial record ProtectedTextResponse
+    public partial record ProtectedItemResponse
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public ProtectedTextResponse(string @protectedText)
+        public ProtectedItemResponse(string @protectedItem, System.Guid @securityKeyId)
 
         {
 
-            this.ProtectedText = @protectedText;
+            this.SecurityKeyId = @securityKeyId;
+
+            this.ProtectedItem = @protectedItem;
 
         }
-        [System.Text.Json.Serialization.JsonPropertyName("protectedText")]
+        [System.Text.Json.Serialization.JsonPropertyName("securityKeyId")]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string ProtectedText { get; init; }
+        public System.Guid SecurityKeyId { get; init; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("protectedItem")]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string ProtectedItem { get; init; }
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v9.0.0.0))")]
-    public partial record ReprotectTextRequestDetails
+    public partial record ReprotectItemRequestDetails
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public ReprotectTextRequestDetails(System.Guid @objectId, string @protectedText)
+        public ReprotectItemRequestDetails(string @protectedItem, System.Guid @securityKeyId)
 
         {
 
-            this.ObjectId = @objectId;
+            this.SecurityKeyId = @securityKeyId;
 
-            this.ProtectedText = @protectedText;
+            this.ProtectedItem = @protectedItem;
 
         }
-        [System.Text.Json.Serialization.JsonPropertyName("objectId")]
+        [System.Text.Json.Serialization.JsonPropertyName("securityKeyId")]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.Guid ObjectId { get; init; }
+        public System.Guid SecurityKeyId { get; init; }
 
-        [System.Text.Json.Serialization.JsonPropertyName("protectedText")]
+        [System.Text.Json.Serialization.JsonPropertyName("protectedItem")]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string ProtectedText { get; init; }
+        public string ProtectedItem { get; init; }
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v9.0.0.0))")]
-    public partial record UnprotectTextRequestDetails
+    public partial record UnprotectItemRequestDetails
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public UnprotectTextRequestDetails(System.Guid @objectId, string @protectedText)
+        public UnprotectItemRequestDetails(string @protectedItem, System.Guid @securityKeyId)
 
         {
 
-            this.ObjectId = @objectId;
+            this.SecurityKeyId = @securityKeyId;
 
-            this.ProtectedText = @protectedText;
+            this.ProtectedItem = @protectedItem;
 
         }
-        [System.Text.Json.Serialization.JsonPropertyName("objectId")]
+        [System.Text.Json.Serialization.JsonPropertyName("securityKeyId")]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.Guid ObjectId { get; init; }
+        public System.Guid SecurityKeyId { get; init; }
 
-        [System.Text.Json.Serialization.JsonPropertyName("protectedText")]
+        [System.Text.Json.Serialization.JsonPropertyName("protectedItem")]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string ProtectedText { get; init; }
+        public string ProtectedItem { get; init; }
 
     }
 

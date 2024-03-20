@@ -43,7 +43,7 @@ public sealed class ServiceInstaller : IDependencyInstaller
     {
         var httpClientName = Constants.HttpClientNames.Password;
 
-        serviceCollection.AddHttpClient(httpClientName, c => { c.BaseAddress = new Uri("http://localhost:62600"); });
+        serviceCollection.AddHttpClient(httpClientName, c => { c.BaseAddress = new Uri("http://localhost:60440"); });
 
         serviceCollection.AddTransient<IPasswordmanagerPasswordApiClient, PasswordmanagerPasswordApiClient>(c =>
         {

@@ -20,20 +20,20 @@ public sealed class KeyVaultComponent : IKeyVaultComponent
         try
         {
             _logger.LogInformation("Requesting to create password");
-            var encryptedPassword = await _passwordmanagerKeyvaultsApiClient.ProtectTextAsync(userPasswordModel.UserId.ToString(), 
-                new ProtectTextRequestDetails(userPasswordModel.UserId, userPasswordModel.Password));
+            var encryptedPassword = await _passwordmanagerKeyvaultsApiClient.ProtectItemAsync(userPasswordModel.UserId.ToString(), 
+                new ProtectItemRequestDetails(userPasswordModel.Password));
 
             var encryptedPasswordResult = encryptedPassword.Result;
 
-            return encryptedPasswordResult.ProtectedText;
+            return encryptedPasswordResult.ProtectedItem;
 
         }
         catch (ApiException exception)
         {
-            _logger.LogError(exception, "Could not request password, service returned {StatusCode} and message {ErrorMessage}",
+            _logger.LogError(exception, "Could not encrypt password, service returned {StatusCode} and message {ErrorMessage}",
                exception.StatusCode, exception.Message);
 
-            throw new PasswordComponentException("Error calling PasswordApiClient.CreatePasswordAsync", exception);
+            throw new KeyVaultComponentException("Error calling KeyVaultApiClient.ProtectItemAsync", exception);
         }
     }
 }

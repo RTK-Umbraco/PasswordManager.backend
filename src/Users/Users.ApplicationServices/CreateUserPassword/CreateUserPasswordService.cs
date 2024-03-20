@@ -39,21 +39,26 @@ public class CreateUserPasswordService : ICreateUserPasswordService
             return OperationResult.InvalidState("Cannot create user password because user was marked as deleted");
         }
 
-        var encryptedPassword = await _keyVaultComponent.CreateEncryptedPassword(userPasswordModel);
-
-        if (encryptedPassword is null)
+        try
         {
-            return OperationResult.InvalidState("Cannot create encrypted password for user");
+            var encryptedPassword = await _keyVaultComponent.CreateEncryptedPassword(userPasswordModel);
 
+            if (string.IsNullOrEmpty(encryptedPassword))
+            {
+                return OperationResult.InvalidState("Cannot create encrypted password for user");
+            }
+            userPasswordModel.SetEncryptedPassword(encryptedPassword);
+
+            var operation = await _operationService.QueueOperation(OperationBuilder.CreateUserPassword(userPasswordModel, operationDetails.CreatedBy));
+
+            await _bus.Send(new CreateUserPasswordCommand(operation.RequestId));
+
+            return OperationResult.Accepted(operation);
         }
-
-        userPasswordModel.SetEncryptedPassword(encryptedPassword);
-
-        var operation = await _operationService.QueueOperation(OperationBuilder.CreateUserPassword(userPasswordModel, operationDetails.CreatedBy));
-
-        await _bus.Send(new CreateUserPasswordCommand(operation.RequestId));
-
-        return OperationResult.Accepted(operation);
+        catch (KeyVaultComponentException exception)
+        {
+            return OperationResult.InvalidState(exception.Message);
+        }
     }
 
     public async Task CreateUserPassword(UserPasswordModel userPasswordModel)

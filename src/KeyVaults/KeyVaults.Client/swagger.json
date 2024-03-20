@@ -11,7 +11,7 @@
           "KeyVault"
         ],
         "summary": "Deletes SecurityKey",
-        "description": "Deletes the SecurityKey tied to the requested objectId",
+        "description": "Deletes a SecurityKey from it's id",
         "operationId": "DeleteSecurityKey",
         "parameters": [
           {
@@ -172,9 +172,9 @@
         "tags": [
           "KeyVault"
         ],
-        "summary": "Protects text",
-        "description": "Creates a SecurityKey object and returns received text in protected form",
-        "operationId": "ProtectText",
+        "summary": "Protects an item",
+        "description": "Creates a SecurityKey object and returns received item in protected form along with a SecurityKeyId",
+        "operationId": "ProtectItem",
         "parameters": [
           {
             "name": "created-by-user-id",
@@ -189,17 +189,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProtectTextRequestDetails"
+                "$ref": "#/components/schemas/ProtectItemRequestDetails"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProtectTextRequestDetails"
+                "$ref": "#/components/schemas/ProtectItemRequestDetails"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ProtectTextRequestDetails"
+                "$ref": "#/components/schemas/ProtectItemRequestDetails"
               }
             }
           }
@@ -210,17 +210,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProtectedTextResponse"
+                  "$ref": "#/components/schemas/ProtectedItemResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProtectedTextResponse"
+                  "$ref": "#/components/schemas/ProtectedItemResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProtectedTextResponse"
+                  "$ref": "#/components/schemas/ProtectedItemResponse"
                 }
               }
             }
@@ -273,9 +273,9 @@
         "tags": [
           "KeyVault"
         ],
-        "summary": "Reprotects text",
-        "description": "Generates a new secretkey and returns the protected object in a new form",
-        "operationId": "ReprotectText",
+        "summary": "Reprotects",
+        "description": "Generates a new secretkey and returns the protected item in a new form",
+        "operationId": "Reprotect",
         "parameters": [
           {
             "name": "created-by-user-id",
@@ -290,17 +290,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ReprotectTextRequestDetails"
+                "$ref": "#/components/schemas/ReprotectItemRequestDetails"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ReprotectTextRequestDetails"
+                "$ref": "#/components/schemas/ReprotectItemRequestDetails"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ReprotectTextRequestDetails"
+                "$ref": "#/components/schemas/ReprotectItemRequestDetails"
               }
             }
           }
@@ -374,9 +374,9 @@
         "tags": [
           "KeyVault"
         ],
-        "summary": "Unprotects text",
-        "description": "Unprotects text from received objectId and protectedText",
-        "operationId": "UnprotectText",
+        "summary": "Unprotects item",
+        "description": "Unprotects item from received objectId and protectedItem",
+        "operationId": "UnprotectItem",
         "parameters": [
           {
             "name": "created-by-user-id",
@@ -391,17 +391,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UnprotectTextRequestDetails"
+                "$ref": "#/components/schemas/UnprotectItemRequestDetails"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/UnprotectTextRequestDetails"
+                "$ref": "#/components/schemas/UnprotectItemRequestDetails"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/UnprotectTextRequestDetails"
+                "$ref": "#/components/schemas/UnprotectItemRequestDetails"
               }
             }
           }
@@ -475,11 +475,11 @@
     "schemas": {
       "DeleteSecurityKeyRequest": {
         "required": [
-          "objectId"
+          "securityKeyId"
         ],
         "type": "object",
         "properties": {
-          "objectId": {
+          "securityKeyId": {
             "type": "string",
             "format": "uuid"
           }
@@ -582,64 +582,64 @@
         },
         "additionalProperties": {}
       },
-      "ProtectTextRequestDetails": {
+      "ProtectItemRequestDetails": {
         "required": [
-          "objectId",
-          "plainText"
+          "item"
         ],
         "type": "object",
         "properties": {
-          "objectId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "plainText": {
+          "item": {
             "type": "string"
           }
         },
         "additionalProperties": false
       },
-      "ProtectedTextResponse": {
+      "ProtectedItemResponse": {
         "required": [
-          "protectedText"
+          "protectedItem",
+          "securityKeyId"
         ],
         "type": "object",
         "properties": {
-          "protectedText": {
+          "securityKeyId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "protectedItem": {
             "type": "string"
           }
         },
         "additionalProperties": false
       },
-      "ReprotectTextRequestDetails": {
+      "ReprotectItemRequestDetails": {
         "required": [
-          "objectId",
-          "protectedText"
+          "protectedItem",
+          "securityKeyId"
         ],
         "type": "object",
         "properties": {
-          "objectId": {
+          "securityKeyId": {
             "type": "string",
             "format": "uuid"
           },
-          "protectedText": {
+          "protectedItem": {
             "type": "string"
           }
         },
         "additionalProperties": false
       },
-      "UnprotectTextRequestDetails": {
+      "UnprotectItemRequestDetails": {
         "required": [
-          "objectId",
-          "protectedText"
+          "protectedItem",
+          "securityKeyId"
         ],
         "type": "object",
         "properties": {
-          "objectId": {
+          "securityKeyId": {
             "type": "string",
             "format": "uuid"
           },
-          "protectedText": {
+          "protectedItem": {
             "type": "string"
           }
         },

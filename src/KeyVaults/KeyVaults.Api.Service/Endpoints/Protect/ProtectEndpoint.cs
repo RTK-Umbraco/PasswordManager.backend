@@ -18,7 +18,7 @@ namespace PasswordManager.KeyVaults.Api.Service.Endpoints.Protect
         }
 
         [HttpPost("api/keyvaults/protect")]
-        [ProducesResponseType(typeof(ProtectedTextResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProtectedItemResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(
