@@ -7,7 +7,7 @@ using Password.Messages.CreatePassword;
 using PasswordManager.Password.ApplicationServices.Operations;
 
 namespace PasswordManager.Password.ApplicationServices.CreatePassword;
-    public sealed class CreatePasswordService : ICreatePasswordService
+public sealed class CreatePasswordService : ICreatePasswordService
 {
     private readonly IOperationService _operationService;
     private readonly IBus _bus;
@@ -26,7 +26,6 @@ namespace PasswordManager.Password.ApplicationServices.CreatePassword;
     {
         _logger.LogInformation($"Request creating password {passwordModel.Id}");
 
-        //Encrypt password here. The reason why is that we don't want to store the plain text password in the operation table. 
         var operation = await _operationService.QueueOperation(OperationBuilder.CreatePassword(passwordModel, operationDetails.CreatedBy));
 
         await _bus.Send(new CreatePasswordCommand(operation.RequestId));
@@ -39,13 +38,17 @@ namespace PasswordManager.Password.ApplicationServices.CreatePassword;
     public async Task CreatePassword(PasswordModel passwordModel)
     {
         _logger.LogInformation($"Creating password: {passwordModel.Id}");
+        try
+        {
+            await _passwordRepository.Add(passwordModel);
 
-        var password = new PasswordModel(passwordModel.Id, passwordModel.Url, passwordModel.FriendlyName, passwordModel.Username, passwordModel.Password);
+            _logger.LogInformation($"Password created: {passwordModel.Id}");
 
-        await _passwordRepository.Add(password);
-
-        _logger.LogInformation($"Password created: {passwordModel.Id}");
-
-        return;
+            return;
+        }
+        catch (Exception exception)
+        {
+            throw new CreatePasswordServiceException($"Error calling password repository to create password for user {passwordModel.UserId}", exception);
+        }
     }
 }

@@ -1,10 +1,10 @@
 ﻿namespace Password.Messages;
-public abstract class AbstractPasswordFailedEvent
+public abstract class AbstractPasswordFailedEvent : AbstractPasswordEvent
 {
-    public string ErrorMessage { get; }
+    public string Message { get; }
 
-    protected AbstractPasswordFailedEvent(string errorMessage)
+    protected AbstractPasswordFailedEvent(Guid passwordId, string requestId, string message) : base(passwordId, requestId)
     {
-        ErrorMessage = errorMessage;
+        Message = message;
     }
 }

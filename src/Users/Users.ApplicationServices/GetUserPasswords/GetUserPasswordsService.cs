@@ -11,8 +11,9 @@ public sealed class GetUserPasswordsService : IGetUserPasswordsService
         _passwordComponent = passwordComponent;
     }
 
-    public async Task<IEnumerable<PasswordModel>> GetUserPasswords(Guid userId)
+    public async Task<IEnumerable<UserPasswordModel>> GetUserPasswords(Guid userId)
     {
-        return await _passwordComponent.GetUserPasswords(userId);
+        //return await _passwordComponent.GetUserPasswords(userId);
+        throw new NotImplementedException();
     }
 }

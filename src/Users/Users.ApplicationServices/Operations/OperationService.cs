@@ -3,7 +3,7 @@ using PasswordManager.Users.Domain.Operations;
 using Microsoft.Extensions.Logging;
 
 namespace PasswordManager.Users.ApplicationServices.Operations;
-internal class OperationService : IOperationService
+public class OperationService : IOperationService
 {
     private readonly ILogger<OperationService> _logger;
     private readonly IOperationRepository _operationRepository;

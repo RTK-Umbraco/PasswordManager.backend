@@ -53,7 +53,6 @@ namespace PasswordManager.KeyVaults.ApplicationServices.CreateSecurityKey
             await _securityKeyRepository.Upsert(securityKeyModel);
 
             _logger.LogInformation($"SecurityKey created: {securityKeyModel.Id}");
-
             return;
         }
     }
