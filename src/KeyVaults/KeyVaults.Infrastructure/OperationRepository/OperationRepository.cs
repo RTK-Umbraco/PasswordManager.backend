@@ -6,27 +6,44 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Immutable;
 
 namespace PasswordManager.KeyVaults.Infrastructure.OperationRepository;
-public class OperationRepository : BaseRepository<Operation, OperationEntity, SecurityKeyContext>, IOperationRepository
+public class OperationRepository : BaseRepository<Operation, OperationEntity>, IOperationRepository
 {
-    public OperationRepository(SecurityKeyContext context) : base(context, OperationMapper.Map, OperationMapper.Map)
+    public OperationRepository(SecurityKeyContext context) : base(context)
     {
     }
 
     public async Task<Operation?> GetByRequestId(string requestId)
     {
-        var operationEntity = await Context.Operations
+        var operationEntity = await GetOperationsDbSet()
             .Where(x => x.RequestId == requestId)
             .AsNoTracking()
             .SingleOrDefaultAsync();
-        return operationEntity is null ? null : MapEntityToModel(operationEntity);
+        return operationEntity is null ? null : Map(operationEntity);
     }
 
-    public async Task<ICollection<Operation>> GetSecurityKeyOperations(Guid securitykeyId)
+    public async Task<ICollection<Operation>> GetSecurityKeyOperations(Guid securityKeyid)
     {
-        var securitykey = await Context.Operations
-                    .Where(x => x.SecurityKeyId == securitykeyId)
+        var user = await GetOperationsDbSet()
+                    .Where(x => x.SecurityKeyId == securityKeyid)
                     .AsNoTracking()
                     .ToListAsync();
-        return securitykey.Select(MapEntityToModel).ToImmutableHashSet();
+        return user.Select(Map).ToImmutableHashSet();
+    }
+
+    private DbSet<OperationEntity> GetOperationsDbSet()
+    {
+        if (Context.Operations is null)
+            throw new InvalidOperationException("Database configuration not setup correctly");
+        return Context.Operations;
+    }
+
+    protected override Operation Map(OperationEntity entity)
+    {
+        return OperationMapper.Map(entity);
+    }
+
+    protected override OperationEntity Map(Operation model)
+    {
+        return OperationMapper.Map(model);
     }
 }
