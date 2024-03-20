@@ -12,8 +12,7 @@ public class RebusInstaller : IDependencyInstaller
         // For now skip any further configuration if we are running tests
         if (options.HostEnvironment.IsEnvironment("integration-test")) return;
 
-        var serviceBusConnectionString =
-            options.Configuration[Infrastructure.Constants.ConfigurationKeys.ServiceBusConnectionString];
+        var serviceBusConnectionString = "Endpoint=sb://sb-passwordmanager-servicebus.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=w8DGNEpb44MfTiLp+GS18zea9b4UanhYT+ASbJ1fHCY=";
 
         if (string.IsNullOrWhiteSpace(serviceBusConnectionString))
             throw new InvalidOperationException("Unable to resolve service bus connection string named " +

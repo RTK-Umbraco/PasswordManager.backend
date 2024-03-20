@@ -9,5 +9,6 @@ public class UserConfiguration : BaseEntityConfiguration<UserEntity>
         base.Configure(builder);
 
         builder.Property(p => p.FirebaseId).IsRequired();
+        builder.Property(p => p.SecretKey).IsRequired();
     }
 }
