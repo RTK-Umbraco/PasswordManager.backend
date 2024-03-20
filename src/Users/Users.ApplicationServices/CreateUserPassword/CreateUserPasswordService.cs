@@ -41,7 +41,7 @@ public class CreateUserPasswordService : ICreateUserPasswordService
 
         try
         {
-            var encryptedPassword = await _keyVaultComponent.CreateEncryptedPassword(userPasswordModel);
+            var encryptedPassword = await _keyVaultComponent.CreateEncryptedPassword(userPasswordModel, user.SecretKey);
 
             if (string.IsNullOrEmpty(encryptedPassword))
             {
