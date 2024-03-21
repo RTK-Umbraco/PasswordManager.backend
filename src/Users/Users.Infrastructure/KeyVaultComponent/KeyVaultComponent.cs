@@ -20,13 +20,13 @@ public sealed class KeyVaultComponent : IKeyVaultComponent
         try
         {
             _logger.LogInformation("Requesting to create password");
-            var encryptedPassword = await _passwordmanagerKeyvaultsApiClient.ProtectItemAsync(userPasswordModel.UserId.ToString(), 
-                new ProtectItemRequestDetails(userPasswordModel.Password, secretKey));
+            //var encryptedPassword = await _passwordmanagerKeyvaultsApiClient.ProtectItemAsync(userPasswordModel.UserId.ToString(), 
+            //    new ProtectItemRequestDetails(userPasswordModel.Password, secretKey));
 
-            var encryptedPasswordResult = encryptedPassword.Result;
+            //var encryptedPasswordResult = encryptedPassword.Result;
 
-            return encryptedPasswordResult.ProtectedItem;
-
+            //return encryptedPasswordResult.ProtectedItem;
+            throw new NotImplementedException();
         }
         catch (ApiException exception)
         {
