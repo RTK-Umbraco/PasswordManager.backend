@@ -9,13 +9,6 @@ public static class Constants
 
     public static class Services
     {
-        public static string ApiName => $"{Infrastructure.Constants.Service.BoundedContext}.{Infrastructure.Constants.Service.ServiceName} API";
-    }
-
-    public static class Service
-    {
-        public static string ApiName => $"{Infrastructure.Constants.Service.BoundedContext}.{Infrastructure.Constants.Service.ServiceName} API";
-        public static string FullyQualifiedName => $"{Infrastructure.Constants.Service.BoundedContext}.{Infrastructure.Constants.Service.ServiceName}.Api.Service";
-        public static string ApplicationType => "Api.Service";
+        public static string ApiName => $"Protection API";
     }
 }

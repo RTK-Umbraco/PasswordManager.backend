@@ -9,7 +9,8 @@ internal static class UserEntityMapper
             model.Id,
             model.CreatedUtc,
             model.ModifiedUtc,
-            model.FirebaseId
+            model.FirebaseId,
+            model.SecretKey
             );
     }
 
@@ -20,7 +21,8 @@ internal static class UserEntityMapper
             entity.CreatedUtc,
             entity.ModifiedUtc,
             entity.Deleted,
-            entity.FirebaseId
+            entity.FirebaseId,
+            entity.SecretKey
             );
     }
 }

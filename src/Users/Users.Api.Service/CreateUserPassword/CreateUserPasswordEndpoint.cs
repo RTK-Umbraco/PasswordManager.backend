@@ -1,6 +1,5 @@
 ﻿using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using PasswordManager.Users.Api.Service.GetOperation;
 using PasswordManager.Users.Api.Service.Models;
 using PasswordManager.Users.ApplicationServices.CreateUserPassword;

@@ -41,12 +41,13 @@ public class CreateUserPasswordService : ICreateUserPasswordService
 
         try
         {
-            var encryptedPassword = await _keyVaultComponent.CreateEncryptedPassword(userPasswordModel);
+            var encryptedPassword = await _keyVaultComponent.CreateEncryptedPassword(userPasswordModel, user.SecretKey);
 
             if (string.IsNullOrEmpty(encryptedPassword))
             {
                 return OperationResult.InvalidState("Cannot create encrypted password for user");
             }
+
             userPasswordModel.SetEncryptedPassword(encryptedPassword);
 
             var operation = await _operationService.QueueOperation(OperationBuilder.CreateUserPassword(userPasswordModel, operationDetails.CreatedBy));

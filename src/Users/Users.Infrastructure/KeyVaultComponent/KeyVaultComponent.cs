@@ -15,13 +15,13 @@ public sealed class KeyVaultComponent : IKeyVaultComponent
         _logger = logger;
     }
 
-    public async Task<string> CreateEncryptedPassword(UserPasswordModel userPasswordModel)
+    public async Task<string> CreateEncryptedPassword(UserPasswordModel userPasswordModel, string secretKey)
     {
         try
         {
             _logger.LogInformation("Requesting to create password");
-            var encryptedPassword = await _passwordmanagerKeyvaultsApiClient.ProtectItemAsync(userPasswordModel.UserId.ToString(), 
-                new ProtectItemRequestDetails(userPasswordModel.Password));
+            var encryptedPassword = await _passwordmanagerKeyvaultsApiClient.ProtectItemAsync( 
+                new ProtectItemRequestDetails(userPasswordModel.Password, secretKey));
 
             var encryptedPasswordResult = encryptedPassword.Result;
 

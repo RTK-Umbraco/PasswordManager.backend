@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PasswordManager.Users.Infrastructure.UserRepository;
 
@@ -11,9 +12,11 @@ using PasswordManager.Users.Infrastructure.UserRepository;
 namespace PasswordManager.Users.Infrastructure.Migrations
 {
     [DbContext(typeof(UserContext))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    [Migration("20240320085933_AddSecretKeyToUserEntity")]
+    partial class AddSecretKeyToUserEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -118,9 +121,8 @@ namespace PasswordManager.Users.Infrastructure.Migrations
                     b.Property<DateTime>("ModifiedUtc")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("SecretKey")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("SecretKey")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 

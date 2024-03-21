@@ -1,20 +1,19 @@
 ﻿using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
 using PasswordManager.KeyVaults.Api.Service.Models;
-using PasswordManager.KeyVaults.ApplicationServices.KeyVaultManager;
-using PasswordManager.KeyVaults.Domain.Operations;
+using PasswordManager.KeyVaults.ApplicationServices.Protection;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Text.Json.Serialization;
 
 namespace PasswordManager.KeyVaults.Api.Service.Endpoints.Protect
 {
-    public class ProtectEndpoint : EndpointBaseAsync.WithRequest<ProtectItemRequestWithBody>.WithActionResult<ProtectedItemResponse>
+    public class ProtectEndpoint : EndpointBaseAsync.WithRequest<ProtectItemRequestDetails>.WithActionResult<ProtectedItemResponse>
     {
-        private readonly IKeyVaultManagerService _keyVaultManagerService;
+        private readonly IProtectionService _protectionService;
 
-        public ProtectEndpoint(IKeyVaultManagerService keyVaultManagerService)
+        public ProtectEndpoint(IProtectionService protectionService)
         {
-            _keyVaultManagerService = keyVaultManagerService;
+            _protectionService = protectionService;
         }
 
         [HttpPost("api/keyvaults/protect")]
@@ -23,23 +22,21 @@ namespace PasswordManager.KeyVaults.Api.Service.Endpoints.Protect
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(
         Summary = "Protects an item",
-        Description = "Creates a SecurityKey object and returns received item in protected form along with a SecurityKeyId",
+        Description = "Returns received item in protected form",
         OperationId = "ProtectItem",
         Tags = new[] { "KeyVault" })
         ]
-        public override async Task<ActionResult<ProtectedItemResponse>> HandleAsync([FromQuery] ProtectItemRequestWithBody request, CancellationToken cancellationToken = default)
+        public override async Task<ActionResult<ProtectedItemResponse>> HandleAsync([FromBody] ProtectItemRequestDetails request, CancellationToken cancellationToken = default)
         {
             try
             {
-                OperationDetails operationDetails = new OperationDetails(request.CreatedByUserId);
+                var protectedItem = _protectionService.Protect(request.Item, request.SecretKey);
 
-                var protectedItem = await _keyVaultManagerService.RequestProtect(request.Details.Item, operationDetails);
-
-                var response = new ProtectedItemResponse(protectedItem.SecurityKeyId, protectedItem.ProtectedItem);
+                var response = new ProtectedItemResponse(protectedItem);
 
                 return Ok(response);
             }
-            catch (KeyVaultManagerServiceException ex)
+            catch (ProtectionServiceException ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -50,13 +47,12 @@ namespace PasswordManager.KeyVaults.Api.Service.Endpoints.Protect
         }
     }
 
-    public sealed class ProtectItemRequestWithBody : SecurityKeyOperationRequest<ProtectItemRequestDetails>
-    {
-    }
-
-    [SwaggerSchema(Nullable = false, Required = new[] { "item" })]
+    [SwaggerSchema(Nullable = false, Required = new[] { "secretKey", "items" })]
     public sealed class ProtectItemRequestDetails
     {
+        [JsonPropertyName("secretKey")]
+        public string SecretKey { get; set; }
+
         [JsonPropertyName("item")]
         public string Item { get; set; }
     }

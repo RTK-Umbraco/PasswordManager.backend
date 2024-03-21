@@ -2,6 +2,7 @@
 public class PasswordModel : BaseModel
 {
     public Guid UserId { get; }
+    public Guid SecurityKeyId { get; }
     public string Url { get; }
     public string FriendlyName { get; }
     public string Username { get; }

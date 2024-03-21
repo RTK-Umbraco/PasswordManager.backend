@@ -1,25 +1,21 @@
-﻿using PasswordManager.KeyVaults.Infrastructure.Installers;
-using Microsoft.OpenApi.Models;
+﻿using Microsoft.OpenApi.Models;
 using System.Reflection;
 
 namespace PasswordManager.KeyVaults.Api.Service.Installers;
 
-public class SwaggerInstaller : IDependencyInstaller
+public class SwaggerInstaller
 {
-    public void Install(IServiceCollection serviceCollection, DependencyInstallerOptions options)
+    public void Install(IServiceCollection serviceCollection)
     {
         serviceCollection.AddSwaggerGen(c =>
         {
             c.SwaggerDoc("v1", new OpenApiInfo
             {
-                Title = Constants.Service.ApiName,
+                Title = Constants.Services.ApiName,
                 Version = "v1"
             });
 
             c.EnableAnnotations();
-
-            if (Infrastructure.Constants.Environment.IsDevelopment == false)
-                return;
 
             var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
             var path = Path.Combine(AppContext.BaseDirectory, xmlFile);

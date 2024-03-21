@@ -1,9 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using PasswordManager.KeyVaults.ApplicationServices.Extensions;
-using PasswordManager.KeyVaults.Infrastructure.Extensions;
 
 namespace PasswordManager.KeyVaults.Api.Service;
-
 public class Startup
 {
     public IConfiguration Configuration { get; set; }
@@ -41,9 +39,6 @@ public class Startup
 
         app.UseSwagger();
 
-        if (env.IsDevelopment() || env.IsStaging() || Infrastructure.Constants.Environment.IsGeneratingApi)
-            app.UseDeveloperExceptionPage();
-
         app.UseSwaggerUI(options =>
         {
             options.RoutePrefix = string.Empty;
@@ -57,11 +52,5 @@ public class Startup
             endpoints.MapControllers();
             endpoints.MapSwagger();
         });
-
-        if (env.IsEnvironment("integration-test") || Infrastructure.Constants.Environment.IsGeneratingApi)
-            return;
-
-        app.EnsureDatabaseMigrated();
-        //If you want to add rebus you need to add it here!
     }
 }
