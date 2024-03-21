@@ -14,9 +14,4 @@
     <PackageReference Include="Rebus" Version="8.0.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\KeyVaults.Domain\KeyVaults.Domain.csproj" />
-    <ProjectReference Include="..\KeyVaults.Messages\KeyVaults.Messages.csproj" />
-  </ItemGroup>
-
 </Project>

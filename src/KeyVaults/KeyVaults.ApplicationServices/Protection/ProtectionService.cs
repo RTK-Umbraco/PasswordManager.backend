@@ -6,14 +6,23 @@ namespace PasswordManager.KeyVaults.ApplicationServices.Protection
     {
         public string Protect(string item, string key)
         {
-            // Converts from base64 string to byte array
-            byte[] keyBytes = Convert.FromBase64String(key);
-
             using (var aes = Aes.Create())
             {
+                byte[] keyBytes;
+
+                // Converts from base64 string to byte array
+                try
+                {
+                    keyBytes = Convert.FromBase64String(key);
+                }
+                catch (Exception ex)
+                {
+                    throw new ProtectionServiceException("ERROR: Could not convert key from Base64");
+                }
+
                 if (aes.ValidKeySize(keyBytes.Length * 8) == false)
                 {
-                    throw new ArgumentException("Invalid key length", nameof(key));
+                    throw new ProtectionServiceException($"ERROR: Key size does not meet requirements! Key size: '{keyBytes.Length * 8} bit', Accepted key sizes: 128 bit, 192 bit, 256 bit");
                 }
 
                 aes.Key = keyBytes;
@@ -49,11 +58,30 @@ namespace PasswordManager.KeyVaults.ApplicationServices.Protection
 
         public string Unprotect(string protectedItem, string key)
         {
-
             using (var aes = Aes.Create())
             {
-                byte[] encryptedBytesWithIv = Convert.FromBase64String(protectedItem);
-                aes.Key = Convert.FromBase64String(key);
+                // Extract the protected item from the base64 string
+                byte[] encryptedBytesWithIv;
+                try
+                {
+                    encryptedBytesWithIv = Convert.FromBase64String(protectedItem);
+                } catch (Exception ex)
+                {
+                    throw new ProtectionServiceException("ERROR: Could not convert protected item from Base64");
+                }
+
+                // Extract the key from the base64 string
+                byte[] keyBytes;
+                try
+                {
+                    keyBytes = Convert.FromBase64String(key);
+                } catch (Exception ex)
+                {
+                    throw new ProtectionServiceException("ERROR: Could not convert key from Base64");
+                }
+
+                // Set the key
+                aes.Key = keyBytes;
 
                 // Extract the IV from concatenated bytes
                 byte[] iv = new byte[aes.IV.Length];
@@ -82,25 +110,6 @@ namespace PasswordManager.KeyVaults.ApplicationServices.Protection
 
                 return decryptedItem;
             }
-        }
-
-        public string GenerateSecretKey(int bitLength)
-        {
-            if (bitLength != 128 && bitLength != 192 && bitLength != 256)
-            {
-                throw new ArgumentException("AES key length must be 128, 192, or 256 bits.");
-            }
-
-            int byteLength = bitLength / 8;
-            byte[] keyBytes = GenerateRandomBytes(byteLength);
-            return Convert.ToBase64String(keyBytes);
-        }
-
-        private byte[] GenerateRandomBytes(int length)
-        {
-            byte[] randomBytes = new byte[length];
-            RandomNumberGenerator.Create().GetBytes(randomBytes);
-            return randomBytes;
         }
     }
 }

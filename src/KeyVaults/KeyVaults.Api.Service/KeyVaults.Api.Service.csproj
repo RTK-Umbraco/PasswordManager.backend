@@ -34,7 +34,5 @@
 
   <ItemGroup>
     <ProjectReference Include="..\KeyVaults.ApplicationServices\KeyVaults.ApplicationServices.csproj" />
-    <ProjectReference Include="..\KeyVaults.Domain\KeyVaults.Domain.csproj" />
-    <ProjectReference Include="..\KeyVaults.Infrastructure\KeyVaults.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

@@ -21,41 +21,11 @@ namespace Umbraco.Cloud.Passwordmanager.Keyvaults.Api.Client
     public partial interface IPasswordmanagerKeyvaultsApiClient
     {
         /// <summary>
-        /// Deletes SecurityKey
-        /// </summary>
-        /// <returns>Accepted</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<OperationAcceptedResponse>> DeleteSecurityKeyAsync(string created_by_user_id, DeleteSecurityKeyRequest body);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <summary>
-        /// Deletes SecurityKey
-        /// </summary>
-        /// <returns>Accepted</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<OperationAcceptedResponse>> DeleteSecurityKeyAsync(string created_by_user_id, DeleteSecurityKeyRequest body, System.Threading.CancellationToken cancellationToken);
-
-        /// <summary>
-        /// Get operation by request id
-        /// </summary>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<OperationResponse>> GetOperationByRequestIdAsync(string requestId);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <summary>
-        /// Get operation by request id
-        /// </summary>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<OperationResponse>> GetOperationByRequestIdAsync(string requestId, System.Threading.CancellationToken cancellationToken);
-
-        /// <summary>
         /// Protects an item
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ProtectedItemResponse>> ProtectItemAsync(string created_by_user_id, ProtectItemRequestDetails body);
+        System.Threading.Tasks.Task<SwaggerResponse<ProtectedItemResponse>> ProtectItemAsync(ProtectItemRequestDetails body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -63,37 +33,22 @@ namespace Umbraco.Cloud.Passwordmanager.Keyvaults.Api.Client
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ProtectedItemResponse>> ProtectItemAsync(string created_by_user_id, ProtectItemRequestDetails body, System.Threading.CancellationToken cancellationToken);
-
-        /// <summary>
-        /// Reprotects
-        /// </summary>
-        /// <returns>Accepted</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<OperationAcceptedResponse>> ReprotectAsync(string created_by_user_id, ReprotectItemRequestDetails body);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <summary>
-        /// Reprotects
-        /// </summary>
-        /// <returns>Accepted</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<OperationAcceptedResponse>> ReprotectAsync(string created_by_user_id, ReprotectItemRequestDetails body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<SwaggerResponse<ProtectedItemResponse>> ProtectItemAsync(ProtectItemRequestDetails body, System.Threading.CancellationToken cancellationToken);
 
         /// <summary>
         /// Unprotects item
         /// </summary>
-        /// <returns>Accepted</returns>
+        /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<OperationAcceptedResponse>> UnprotectItemAsync(string created_by_user_id, UnprotectItemRequestDetails body);
+        System.Threading.Tasks.Task<SwaggerResponse<ItemResponse>> UnprotectItemAsync(UnprotectItemRequestDetails body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Unprotects item
         /// </summary>
-        /// <returns>Accepted</returns>
+        /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<OperationAcceptedResponse>> UnprotectItemAsync(string created_by_user_id, UnprotectItemRequestDetails body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<SwaggerResponse<ItemResponse>> UnprotectItemAsync(UnprotectItemRequestDetails body, System.Threading.CancellationToken cancellationToken);
 
     }
 
@@ -133,215 +88,13 @@ namespace Umbraco.Cloud.Passwordmanager.Keyvaults.Api.Client
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
 
         /// <summary>
-        /// Deletes SecurityKey
-        /// </summary>
-        /// <returns>Accepted</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<OperationAcceptedResponse>> DeleteSecurityKeyAsync(string created_by_user_id, DeleteSecurityKeyRequest body)
-        {
-            return DeleteSecurityKeyAsync(created_by_user_id, body, System.Threading.CancellationToken.None);
-        }
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <summary>
-        /// Deletes SecurityKey
-        /// </summary>
-        /// <returns>Accepted</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<OperationAcceptedResponse>> DeleteSecurityKeyAsync(string created_by_user_id, DeleteSecurityKeyRequest body, System.Threading.CancellationToken cancellationToken)
-        {
-            var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/keyvaults/delete");
-
-            var client_ = _httpClient;
-            var disposeClient_ = false;
-            try
-            {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
-                {
-
-                    if (created_by_user_id == null)
-                        throw new System.ArgumentNullException("created_by_user_id");
-                    request_.Headers.TryAddWithoutValidation("created-by-user-id", ConvertToString(created_by_user_id, System.Globalization.CultureInfo.InvariantCulture));
-                    var content_ = new System.Net.Http.StringContent(System.Text.Json.JsonSerializer.Serialize(body, _settings.Value));
-                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
-                    request_.Content = content_;
-                    request_.Method = new System.Net.Http.HttpMethod("DELETE");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
-
-                    PrepareRequest(client_, request_, urlBuilder_);
-
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
-
-                    PrepareRequest(client_, request_, url_);
-
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 202)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<OperationAcceptedResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<OperationAcceptedResponse>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Not Found", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 500)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Server Error", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
-        }
-
-        /// <summary>
-        /// Get operation by request id
-        /// </summary>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<OperationResponse>> GetOperationByRequestIdAsync(string requestId)
-        {
-            return GetOperationByRequestIdAsync(requestId, System.Threading.CancellationToken.None);
-        }
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <summary>
-        /// Get operation by request id
-        /// </summary>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<OperationResponse>> GetOperationByRequestIdAsync(string requestId, System.Threading.CancellationToken cancellationToken)
-        {
-            var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/operations?");
-            if (requestId != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("requestId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(requestId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            urlBuilder_.Length--;
-
-            var client_ = _httpClient;
-            var disposeClient_ = false;
-            try
-            {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
-                {
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
-
-                    PrepareRequest(client_, request_, urlBuilder_);
-
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
-
-                    PrepareRequest(client_, request_, url_);
-
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<OperationResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<OperationResponse>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 404)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Not Found", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
-        }
-
-        /// <summary>
         /// Protects an item
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<ProtectedItemResponse>> ProtectItemAsync(string created_by_user_id, ProtectItemRequestDetails body)
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<ProtectedItemResponse>> ProtectItemAsync(ProtectItemRequestDetails body)
         {
-            return ProtectItemAsync(created_by_user_id, body, System.Threading.CancellationToken.None);
+            return ProtectItemAsync(body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -350,7 +103,7 @@ namespace Umbraco.Cloud.Passwordmanager.Keyvaults.Api.Client
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ProtectedItemResponse>> ProtectItemAsync(string created_by_user_id, ProtectItemRequestDetails body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ProtectedItemResponse>> ProtectItemAsync(ProtectItemRequestDetails body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/keyvaults/protect");
@@ -361,10 +114,6 @@ namespace Umbraco.Cloud.Passwordmanager.Keyvaults.Api.Client
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-
-                    if (created_by_user_id == null)
-                        throw new System.ArgumentNullException("created_by_user_id");
-                    request_.Headers.TryAddWithoutValidation("created-by-user-id", ConvertToString(created_by_user_id, System.Globalization.CultureInfo.InvariantCulture));
                     var content_ = new System.Net.Http.StringContent(System.Text.Json.JsonSerializer.Serialize(body, _settings.Value));
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
@@ -442,129 +191,22 @@ namespace Umbraco.Cloud.Passwordmanager.Keyvaults.Api.Client
         }
 
         /// <summary>
-        /// Reprotects
-        /// </summary>
-        /// <returns>Accepted</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<OperationAcceptedResponse>> ReprotectAsync(string created_by_user_id, ReprotectItemRequestDetails body)
-        {
-            return ReprotectAsync(created_by_user_id, body, System.Threading.CancellationToken.None);
-        }
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <summary>
-        /// Reprotects
-        /// </summary>
-        /// <returns>Accepted</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<OperationAcceptedResponse>> ReprotectAsync(string created_by_user_id, ReprotectItemRequestDetails body, System.Threading.CancellationToken cancellationToken)
-        {
-            var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/keyvaults/reprotect");
-
-            var client_ = _httpClient;
-            var disposeClient_ = false;
-            try
-            {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
-                {
-
-                    if (created_by_user_id == null)
-                        throw new System.ArgumentNullException("created_by_user_id");
-                    request_.Headers.TryAddWithoutValidation("created-by-user-id", ConvertToString(created_by_user_id, System.Globalization.CultureInfo.InvariantCulture));
-                    var content_ = new System.Net.Http.StringContent(System.Text.Json.JsonSerializer.Serialize(body, _settings.Value));
-                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
-                    request_.Content = content_;
-                    request_.Method = new System.Net.Http.HttpMethod("POST");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
-
-                    PrepareRequest(client_, request_, urlBuilder_);
-
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
-
-                    PrepareRequest(client_, request_, url_);
-
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    var disposeResponse_ = true;
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-
-                        ProcessResponse(client_, response_);
-
-                        var status_ = (int)response_.StatusCode;
-                        if (status_ == 202)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<OperationAcceptedResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return new SwaggerResponse<OperationAcceptedResponse>(status_, headers_, objectResponse_.Object);
-                        }
-                        else
-                        if (status_ == 400)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ == 500)
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            throw new ApiException<ProblemDetails>("Server Error", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
-                        }
-                    }
-                    finally
-                    {
-                        if (disposeResponse_)
-                            response_.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-                if (disposeClient_)
-                    client_.Dispose();
-            }
-        }
-
-        /// <summary>
         /// Unprotects item
         /// </summary>
-        /// <returns>Accepted</returns>
+        /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<OperationAcceptedResponse>> UnprotectItemAsync(string created_by_user_id, UnprotectItemRequestDetails body)
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<ItemResponse>> UnprotectItemAsync(UnprotectItemRequestDetails body)
         {
-            return UnprotectItemAsync(created_by_user_id, body, System.Threading.CancellationToken.None);
+            return UnprotectItemAsync(body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
         /// Unprotects item
         /// </summary>
-        /// <returns>Accepted</returns>
+        /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<OperationAcceptedResponse>> UnprotectItemAsync(string created_by_user_id, UnprotectItemRequestDetails body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ItemResponse>> UnprotectItemAsync(UnprotectItemRequestDetails body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/keyvaults/unprotect");
@@ -575,10 +217,6 @@ namespace Umbraco.Cloud.Passwordmanager.Keyvaults.Api.Client
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-
-                    if (created_by_user_id == null)
-                        throw new System.ArgumentNullException("created_by_user_id");
-                    request_.Headers.TryAddWithoutValidation("created-by-user-id", ConvertToString(created_by_user_id, System.Globalization.CultureInfo.InvariantCulture));
                     var content_ = new System.Net.Http.StringContent(System.Text.Json.JsonSerializer.Serialize(body, _settings.Value));
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
@@ -606,14 +244,14 @@ namespace Umbraco.Cloud.Passwordmanager.Keyvaults.Api.Client
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 202)
+                        if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<OperationAcceptedResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ItemResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            return new SwaggerResponse<OperationAcceptedResponse>(status_, headers_, objectResponse_.Object);
+                            return new SwaggerResponse<ItemResponse>(status_, headers_, objectResponse_.Object);
                         }
                         else
                         if (status_ == 400)
@@ -756,129 +394,20 @@ namespace Umbraco.Cloud.Passwordmanager.Keyvaults.Api.Client
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v9.0.0.0))")]
-    public partial record DeleteSecurityKeyRequest
+    public partial record ItemResponse
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public DeleteSecurityKeyRequest(System.Guid @securityKeyId)
+        public ItemResponse(System.Collections.Generic.ICollection<string> @items)
 
         {
 
-            this.SecurityKeyId = @securityKeyId;
+            this.Items = @items;
 
         }
-        [System.Text.Json.Serialization.JsonPropertyName("securityKeyId")]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.Guid SecurityKeyId { get; init; }
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v9.0.0.0))")]
-    public partial record OperationAcceptedResponse
-    {
-        [System.Text.Json.Serialization.JsonConstructor]
-
-        public OperationAcceptedResponse(string @requestId)
-
-        {
-
-            this.RequestId = @requestId;
-
-        }
-        [System.Text.Json.Serialization.JsonPropertyName("requestId")]
-        public string RequestId { get; init; }
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v9.0.0.0))")]
-    public partial record OperationResponse
-    {
-        [System.Text.Json.Serialization.JsonConstructor]
-
-        public OperationResponse(System.DateTime? @completedUtc, string @createdBy, System.DateTime? @createdUtc, System.Guid? @customerId, System.Collections.Generic.IDictionary<string, string> @data, System.DateTime? @lastModifiedUtc, OperationType? @operationName, OperationStatus? @operationStatus, string @requestId)
-
-        {
-
-            this.RequestId = @requestId;
-
-            this.CustomerId = @customerId;
-
-            this.OperationName = @operationName;
-
-            this.OperationStatus = @operationStatus;
-
-            this.CreatedBy = @createdBy;
-
-            this.CreatedUtc = @createdUtc;
-
-            this.LastModifiedUtc = @lastModifiedUtc;
-
-            this.CompletedUtc = @completedUtc;
-
-            this.Data = @data;
-
-        }
-        [System.Text.Json.Serialization.JsonPropertyName("requestId")]
-        public string RequestId { get; init; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("customerId")]
-        public System.Guid? CustomerId { get; init; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("operationName")]
-        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
-        public OperationType? OperationName { get; init; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("operationStatus")]
-        [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
-        public OperationStatus? OperationStatus { get; init; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("createdBy")]
-        public string CreatedBy { get; init; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("createdUtc")]
-        public System.DateTime? CreatedUtc { get; init; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("lastModifiedUtc")]
-        public System.DateTime? LastModifiedUtc { get; init; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("completedUtc")]
-        public System.DateTime? CompletedUtc { get; init; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("data")]
-        public System.Collections.Generic.IDictionary<string, string> Data { get; init; }
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v9.0.0.0))")]
-    public enum OperationStatus
-    {
-
-        [System.Runtime.Serialization.EnumMember(Value = @"Queued")]
-        Queued = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"Processing")]
-        Processing = 1,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"Completed")]
-        Completed = 2,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"Failed")]
-        Failed = 3,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v9.0.0.0))")]
-    public enum OperationType
-    {
-
-        [System.Runtime.Serialization.EnumMember(Value = @"CreateSecurityKey")]
-        CreateSecurityKey = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"UpdateSecurityKey")]
-        UpdateSecurityKey = 1,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"DeleteSecurityKey")]
-        DeleteSecurityKey = 2,
+        [System.Text.Json.Serialization.JsonPropertyName("items")]
+        [System.ComponentModel.DataAnnotations.Required]
+        public System.Collections.Generic.ICollection<string> Items { get; init; }
 
     }
 
@@ -933,15 +462,20 @@ namespace Umbraco.Cloud.Passwordmanager.Keyvaults.Api.Client
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public ProtectItemRequestDetails(string @item)
+        public ProtectItemRequestDetails(string @item, string @secretKey)
 
         {
+
+            this.SecretKey = @secretKey;
 
             this.Item = @item;
 
         }
-        [System.Text.Json.Serialization.JsonPropertyName("item")]
+        [System.Text.Json.Serialization.JsonPropertyName("secretKey")]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string SecretKey { get; init; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("item")]
         public string Item { get; init; }
 
     }
@@ -951,43 +485,13 @@ namespace Umbraco.Cloud.Passwordmanager.Keyvaults.Api.Client
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public ProtectedItemResponse(string @protectedItem, System.Guid @securityKeyId)
+        public ProtectedItemResponse(string @protectedItem)
 
         {
-
-            this.SecurityKeyId = @securityKeyId;
 
             this.ProtectedItem = @protectedItem;
 
         }
-        [System.Text.Json.Serialization.JsonPropertyName("securityKeyId")]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.Guid SecurityKeyId { get; init; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("protectedItem")]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string ProtectedItem { get; init; }
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v9.0.0.0))")]
-    public partial record ReprotectItemRequestDetails
-    {
-        [System.Text.Json.Serialization.JsonConstructor]
-
-        public ReprotectItemRequestDetails(string @protectedItem, System.Guid @securityKeyId)
-
-        {
-
-            this.SecurityKeyId = @securityKeyId;
-
-            this.ProtectedItem = @protectedItem;
-
-        }
-        [System.Text.Json.Serialization.JsonPropertyName("securityKeyId")]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.Guid SecurityKeyId { get; init; }
-
         [System.Text.Json.Serialization.JsonPropertyName("protectedItem")]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         public string ProtectedItem { get; init; }
@@ -999,22 +503,22 @@ namespace Umbraco.Cloud.Passwordmanager.Keyvaults.Api.Client
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public UnprotectItemRequestDetails(string @protectedItem, System.Guid @securityKeyId)
+        public UnprotectItemRequestDetails(System.Collections.Generic.ICollection<string> @protectedItems, string @secretKey)
 
         {
 
-            this.SecurityKeyId = @securityKeyId;
+            this.SecretKey = @secretKey;
 
-            this.ProtectedItem = @protectedItem;
+            this.ProtectedItems = @protectedItems;
 
         }
-        [System.Text.Json.Serialization.JsonPropertyName("securityKeyId")]
+        [System.Text.Json.Serialization.JsonPropertyName("secretKey")]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.Guid SecurityKeyId { get; init; }
+        public string SecretKey { get; init; }
 
-        [System.Text.Json.Serialization.JsonPropertyName("protectedItem")]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string ProtectedItem { get; init; }
+        [System.Text.Json.Serialization.JsonPropertyName("protectedItems")]
+        [System.ComponentModel.DataAnnotations.Required]
+        public System.Collections.Generic.ICollection<string> ProtectedItems { get; init; }
 
     }
 

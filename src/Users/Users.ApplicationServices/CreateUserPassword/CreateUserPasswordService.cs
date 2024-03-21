@@ -47,6 +47,7 @@ public class CreateUserPasswordService : ICreateUserPasswordService
             {
                 return OperationResult.InvalidState("Cannot create encrypted password for user");
             }
+
             userPasswordModel.SetEncryptedPassword(encryptedPassword);
 
             var operation = await _operationService.QueueOperation(OperationBuilder.CreateUserPassword(userPasswordModel, operationDetails.CreatedBy));
