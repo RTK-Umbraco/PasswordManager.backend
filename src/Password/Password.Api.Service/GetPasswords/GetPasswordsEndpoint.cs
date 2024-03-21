@@ -1,10 +1,10 @@
 ﻿using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
-using PasswordManager.Password.Api.Service.Endpoints.GetPassword;
+using PasswordManager.Password.Api.Service.GetPassword;
 using PasswordManager.Password.ApplicationServices.GetPassword;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace PasswordManager.Password.Api.Service.Endpoints.GetPasswords;
+namespace PasswordManager.Password.Api.Service.GetPasswords;
 
 public sealed class GetPasswordsEndpoint : EndpointBaseAsync.WithoutRequest.WithActionResult<IEnumerable<PasswordResponse>>
 {

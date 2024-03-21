@@ -1,12 +1,11 @@
 ﻿using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
-using PasswordManager.Password.Api.Service.Endpoints.GetPassword;
-using PasswordManager.Password.Api.Service.Models;
+using PasswordManager.Password.Api.Service.GetPassword;
 using PasswordManager.Password.ApplicationServices.GetPassword;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Text.Json.Serialization;
 
-namespace PasswordManager.Password.Api.Service.Endpoints.GetPasswordsByUserUrl
+namespace PasswordManager.Password.Api.Service.GetPasswordsByUserUrl
 {
     public sealed class GetPasswordsByUserIdWithUrlEndpoint : EndpointBaseAsync.WithRequest<GetPasswordByUserIdWithUrlRequestDetails>.WithActionResult<IEnumerable<PasswordResponse>>
     {

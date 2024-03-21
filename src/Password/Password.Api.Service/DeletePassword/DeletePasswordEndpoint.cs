@@ -1,13 +1,13 @@
 ﻿using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
-using PasswordManager.Password.Api.Service.Endpoints.GetOperation;
+using PasswordManager.Password.Api.Service.GetOperation;
 using PasswordManager.Password.Api.Service.Models;
 using PasswordManager.Password.ApplicationServices.DeletePassword;
 using PasswordManager.Password.Domain.Operations;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Text.Json.Serialization;
 
-namespace PasswordManager.Password.Api.Service.Endpoints.DeletePassword
+namespace PasswordManager.Password.Api.Service.DeletePassword
 {
     public sealed class DeletePasswordEndpoint : EndpointBaseAsync.WithRequest<DeletePasswordRequestWithBody>.WithoutResult
     {

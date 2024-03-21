@@ -4,7 +4,7 @@ using PasswordManager.Password.ApplicationServices.PasswordGenerator;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Text.Json.Serialization;
 
-namespace PasswordManager.Password.Api.Service.Endpoints.GeneratePassword
+namespace PasswordManager.Password.Api.Service.GeneratePassword
 {
     public sealed class GeneratePasswordEndpoint : EndpointBaseAsync.WithRequest<GeneratePasswordRequest>.WithActionResult<GeneratePasswordResponse>
     {
