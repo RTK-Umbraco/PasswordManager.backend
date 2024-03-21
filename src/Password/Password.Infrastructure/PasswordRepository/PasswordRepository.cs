@@ -21,10 +21,19 @@ public class PasswordRepository : BaseRepository<PasswordModel, PasswordEntity>,
         await Upsert(passwordModel);
     }
 
-    public async Task<IEnumerable<PasswordModel>> GetUserPasswords(Guid userId)
+    public async Task<IEnumerable<PasswordModel>> GetPasswordsByUserId(Guid userId)
     {
         var userPasswords = await GetUserDbSet()
             .Where(p => p.UserId == userId && p.Deleted == false)
+            .ToListAsync();
+
+        return userPasswords.Select(Map);
+    }
+
+    public async Task<IEnumerable<PasswordModel>> GetUserPasswordsWithUrl(Guid userId, string url)
+    {
+        var userPasswords = await GetUserDbSet()
+            .Where(p => p.UserId == userId && p.Url == url && p.Deleted == false)
             .ToListAsync();
 
         return userPasswords.Select(Map);
