@@ -6,17 +6,18 @@ namespace PasswordManager.Users.ApplicationServices.GetUserPasswords;
 public sealed class GetUserPasswordsService : IGetUserPasswordsService
 {
     private readonly IPasswordComponent _passwordComponent;
+    private readonly IKeyVaultComponent _KeyVaultComponent;
     private readonly IUserRepository _userRepository;
 
-    public GetUserPasswordsService(IPasswordComponent passwordComponent, IUserRepository userRepository)
+    public GetUserPasswordsService(IPasswordComponent passwordComponent, IUserRepository userRepository, IKeyVaultComponent keyVaultComponent)
     {
         _passwordComponent = passwordComponent;
         _userRepository = userRepository;
+        _KeyVaultComponent = keyVaultComponent;
     }
 
     public async Task<IEnumerable<UserPasswordModel>> GetUserPasswordsByUrl(Guid userId, string url)
     {
-        //return await _passwordComponent.GetUserPasswords(userId);
         var user = await _userRepository.Get(userId);
 
         if (user is null)
@@ -29,8 +30,10 @@ public sealed class GetUserPasswordsService : IGetUserPasswordsService
             throw new GetUserPasswordsServiceException("Cannot get user password because the user is marked as deleted");
         }
 
-        var passwords = await _passwordComponent.GetUserPassword(userId, url);
+        var encryptedPasswords = await _passwordComponent.GetUserPassword(userId, url);
 
-        throw new NotImplementedException();
+        var decryptedPassword = await _KeyVaultComponent.DecryptPasswords(encryptedPasswords, user.SecretKey);
+
+        return decryptedPassword;
     }
 }

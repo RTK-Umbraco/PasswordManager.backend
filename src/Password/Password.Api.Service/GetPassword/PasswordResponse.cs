@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace PasswordManager.Password.Api.Service.GetPassword;
 
-[SwaggerSchema(Nullable = false, Required = new[] { "id", "url", "friendlyName", "username", "password" })]
+[SwaggerSchema(Nullable = false, Required = new[] { "id", "url", "friendlyName", "username", "password", "userId" })]
 public class PasswordResponse
 {
     [JsonPropertyName("id")]
@@ -21,13 +21,17 @@ public class PasswordResponse
     [JsonPropertyName("password")]
     public string Password { get; set; }
 
-    public PasswordResponse(Guid id, string url, string friendlyName, string username, string password)
+    [JsonPropertyName("userId")]
+    public Guid UserId { get; set; }
+
+    public PasswordResponse(Guid id, string url, string friendlyName, string username, string password, Guid userId)
     {
         Id = id;
         Url = url;
         FriendlyName = friendlyName;
         Username = username;
         Password = password;
+        UserId = userId;
     }
 }
 

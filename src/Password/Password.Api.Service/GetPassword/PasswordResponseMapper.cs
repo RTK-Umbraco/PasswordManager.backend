@@ -1,4 +1,5 @@
-﻿using PasswordManager.Password.Domain.Password;
+﻿using PasswordManager.Password.Api.Service.Models;
+using PasswordManager.Password.Domain.Password;
 
 namespace PasswordManager.Password.Api.Service.GetPassword;
 
@@ -10,13 +11,16 @@ internal static class PasswordResponseMapper
                                                     passwordModel.Url,
                                                     passwordModel.FriendlyName,
                                                     passwordModel.Username,
-                                                    passwordModel.Password);
+                                                    passwordModel.Password,
+                                                    passwordModel.UserId);
 
         return passwordResponse;
     }
 
-    internal static IEnumerable<PasswordResponse> Map(IEnumerable<PasswordModel> passwordModels)
+    internal static PasswordResponses Map(IEnumerable<PasswordModel> passwordModels)
     {
-        return passwordModels.Select(Map);
+        var passwordResponses = passwordModels.Select(Map);
+
+        return new PasswordResponses(passwordModels.Select(Map));
     }
 }

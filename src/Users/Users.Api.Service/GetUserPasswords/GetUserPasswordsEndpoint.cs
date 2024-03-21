@@ -15,16 +15,16 @@ public class GetUserPasswordsEndpoint : EndpointBaseAsync.WithRequest<GetUserPas
         _getUserPasswordsService = getUserPasswordsService;
     }
 
-    [HttpGet("api/users/{userId}/passwords")]
-    [ProducesResponseType(typeof(UserPasswordResponse), StatusCodes.Status200OK)]
+    [HttpPost("api/users/{userId}/passwords/url")]
+    [ProducesResponseType(typeof(IEnumerable<UserPasswordResponse>), StatusCodes.Status200OK)]
     [SwaggerOperation(
         Summary = "Get user passwords by user id and url",
         Description = "Get user passwords by url",
-        OperationId = "GetUserPasswords",
+        OperationId = "GetUserPasswordsByUrl",
         Tags = new[] { "Password" })
         ]
 
-    public override async Task<ActionResult<IEnumerable<UserPasswordResponse>>> HandleAsync([FromRoute] GetUserPasswordRequestWithBody request, CancellationToken cancellationToken = default)
+    public override async Task<ActionResult<IEnumerable<UserPasswordResponse>>> HandleAsync([FromQuery] GetUserPasswordRequestWithBody request, CancellationToken cancellationToken = default)
     {
         var userPasswordModel = await _getUserPasswordsService.GetUserPasswordsByUrl(request.UserId, request.Details.Url);
 

@@ -1,13 +1,14 @@
 ﻿using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
 using PasswordManager.Password.Api.Service.GetPassword;
+using PasswordManager.Password.Api.Service.Models;
 using PasswordManager.Password.ApplicationServices.GetPassword;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Text.Json.Serialization;
 
 namespace PasswordManager.Password.Api.Service.GetPasswordsByUserId
 {
-    public sealed class GetPasswordsByUserIdEndpoint : EndpointBaseAsync.WithRequest<GetPasswordByUserIdRequestDetails>.WithActionResult<IEnumerable<PasswordResponse>>
+    public sealed class GetPasswordsByUserIdEndpoint : EndpointBaseAsync.WithRequest<GetPasswordByUserIdRequestDetails>.WithActionResult<PasswordResponses>
     {
         private readonly IGetPasswordService _getPasswordService;
 
@@ -26,11 +27,11 @@ namespace PasswordManager.Password.Api.Service.GetPasswordsByUserId
             OperationId = "GetPasswordsFromUserId",
             Tags = new[] { "Password" })
         ]
-        public override async Task<ActionResult<IEnumerable<PasswordResponse>>> HandleAsync([FromQuery] GetPasswordByUserIdRequestDetails request, CancellationToken cancellationToken = default)
+        public override async Task<ActionResult<PasswordResponses>> HandleAsync([FromQuery] GetPasswordByUserIdRequestDetails request, CancellationToken cancellationToken = default)
         {
             var passwordModels = await _getPasswordService.GetPasswordsByUserId(request.UserId);
 
-            return new ActionResult<IEnumerable<PasswordResponse>>(PasswordResponseMapper.Map(passwordModels));
+            return new ActionResult<PasswordResponses>(PasswordResponseMapper.Map(passwordModels));
         }
     }
 

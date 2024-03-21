@@ -1,12 +1,13 @@
 ﻿using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
 using PasswordManager.Password.Api.Service.GetPassword;
+using PasswordManager.Password.Api.Service.Models;
 using PasswordManager.Password.ApplicationServices.GetPassword;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace PasswordManager.Password.Api.Service.GetPasswords;
 
-public sealed class GetPasswordsEndpoint : EndpointBaseAsync.WithoutRequest.WithActionResult<IEnumerable<PasswordResponse>>
+public sealed class GetPasswordsEndpoint : EndpointBaseAsync.WithoutRequest.WithActionResult<PasswordResponses>
 {
     private readonly IGetPasswordService _getPasswordService;
 
@@ -25,10 +26,10 @@ public sealed class GetPasswordsEndpoint : EndpointBaseAsync.WithoutRequest.With
         OperationId = "GetPasswords",
         Tags = new[] { "Password" })
     ]
-    public override async Task<ActionResult<IEnumerable<PasswordResponse>>> HandleAsync(CancellationToken cancellationToken = default)
+    public override async Task<ActionResult<PasswordResponses>> HandleAsync(CancellationToken cancellationToken = default)
     {
         var passwordModels = await _getPasswordService.GetPasswords();
 
-        return new ActionResult<IEnumerable<PasswordResponse>>(PasswordResponseMapper.Map(passwordModels));
+        return new ActionResult<PasswordResponses>(PasswordResponseMapper.Map(passwordModels));
     }
 }

@@ -1,13 +1,14 @@
 ﻿using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
 using PasswordManager.Password.Api.Service.GetPassword;
+using PasswordManager.Password.Api.Service.Models;
 using PasswordManager.Password.ApplicationServices.GetPassword;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Text.Json.Serialization;
 
 namespace PasswordManager.Password.Api.Service.GetPasswordsByUserUrl
 {
-    public sealed class GetPasswordsByUserIdWithUrlEndpoint : EndpointBaseAsync.WithRequest<GetPasswordByUserIdWithUrlRequestDetails>.WithActionResult<IEnumerable<PasswordResponse>>
+    public sealed class GetPasswordsByUserIdWithUrlEndpoint : EndpointBaseAsync.WithRequest<GetPasswordByUserIdWithUrlRequestDetails>.WithActionResult<PasswordResponses>
     {
         private readonly IGetPasswordService _getPasswordService;
 
@@ -17,8 +18,8 @@ namespace PasswordManager.Password.Api.Service.GetPasswordsByUserUrl
         }
 
 
-        [HttpGet("api/passwords/user/url")]
-        [ProducesResponseType(typeof(PasswordResponse), StatusCodes.Status200OK)]
+        [HttpGet("api/passwords/users/url")]
+        [ProducesResponseType(typeof(PasswordResponses), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         [SwaggerOperation(
             Summary = "Gets Passwords from UserId with Url",
@@ -26,11 +27,11 @@ namespace PasswordManager.Password.Api.Service.GetPasswordsByUserUrl
             OperationId = "GetPasswordsFromUserIdWithUrl",
             Tags = new[] { "Password" })
         ]
-        public override async Task<ActionResult<IEnumerable<PasswordResponse>>> HandleAsync([FromQuery] GetPasswordByUserIdWithUrlRequestDetails request, CancellationToken cancellationToken = default)
+        public override async Task<ActionResult<PasswordResponses>> HandleAsync([FromBody] GetPasswordByUserIdWithUrlRequestDetails request, CancellationToken cancellationToken = default)
         {
             var passwordModels = await _getPasswordService.GetPasswordsByUserIdWithUrl(request.UserId, request.Url);
 
-            return new ActionResult<IEnumerable<PasswordResponse>>(PasswordResponseMapper.Map(passwordModels));
+            return new ActionResult<PasswordResponses>(PasswordResponseMapper.Map(passwordModels));
         }
     }
 
