@@ -3,5 +3,5 @@
 namespace PasswordManager.Users.ApplicationServices.Components;
 public interface IKeyVaultComponent
 {
-    Task<string> CreateEncryptedPassword(UserPasswordModel userPasswordModel, Guid secretKey);
+    Task<string> CreateEncryptedPassword(UserPasswordModel userPasswordModel, string secretKey);
 }

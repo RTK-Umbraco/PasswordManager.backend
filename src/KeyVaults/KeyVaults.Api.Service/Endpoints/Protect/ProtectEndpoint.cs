@@ -30,12 +30,7 @@ namespace PasswordManager.KeyVaults.Api.Service.Endpoints.Protect
         {
             try
             {
-                var protectedItem = new List<string>();
-
-                foreach (var item in request.Items)
-                {
-                    protectedItem.Add(_protectionService.Protect(item, request.SecretKey));
-                }
+                var protectedItem = _protectionService.Protect(request.Item, request.SecretKey);
 
                 var response = new ProtectedItemResponse(protectedItem);
 
@@ -58,7 +53,7 @@ namespace PasswordManager.KeyVaults.Api.Service.Endpoints.Protect
         [JsonPropertyName("secretKey")]
         public string SecretKey { get; set; }
 
-        [JsonPropertyName("items")]
-        public IEnumerable<string> Items { get; set; }
+        [JsonPropertyName("item")]
+        public string Item { get; set; }
     }
 }

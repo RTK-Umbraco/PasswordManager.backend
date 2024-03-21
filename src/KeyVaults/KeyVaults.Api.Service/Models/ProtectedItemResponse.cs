@@ -3,15 +3,15 @@ using System.Text.Json.Serialization;
 
 namespace PasswordManager.KeyVaults.Api.Service.Models
 {
-    [SwaggerSchema(Nullable = false, Required = new[] { "protectedItems" })]
+    [SwaggerSchema(Nullable = false, Required = new[] { "protectedItem" })]
     public class ProtectedItemResponse
     {
-        [JsonPropertyName("protectedItems")]
-        public IEnumerable<string> ProtectedItems { get; set; }
+        [JsonPropertyName("protectedItem")]
+        public string ProtectedItem { get; set; }
 
-        public ProtectedItemResponse(IEnumerable<string> protectedItems)
+        public ProtectedItemResponse(string protectedItem)
         {
-            ProtectedItems = protectedItems;
+            ProtectedItem = protectedItem;
         }
     }
 }
