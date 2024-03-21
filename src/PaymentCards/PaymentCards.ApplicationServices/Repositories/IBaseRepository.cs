@@ -1,9 +1,10 @@
 ﻿using PasswordManager.PaymentCards.Domain;
 
 namespace PasswordManager.PaymentCards.ApplicationServices.Repositories;
-public interface IBaseRepository<T> where T : BaseModel
+public interface IBaseRepository<TModel> where TModel : BaseModel
 {
-    Task<T?> Get(Guid id);
-    Task<ICollection<T>> GetAll();
-    Task<T> Upsert(T baseModel);
+    Task<TModel?> GetById(Guid id);
+    Task<ICollection<TModel>> GetAll();
+    Task<TModel> Upsert(TModel model);
+    Task Delete(Guid id);
 }

@@ -8,7 +8,12 @@ internal static class PaymentCardEntityMapper
         return new PaymentCardEntity(
             model.Id,
             model.CreatedUtc,
-            model.ModifiedUtc
+            model.ModifiedUtc,
+            model.Deleted,
+            model.UserId,
+            model.CardNumber,
+            model.CardHolderName,
+            model.ExpiryDate
             );
     }
 
@@ -17,7 +22,12 @@ internal static class PaymentCardEntityMapper
         return new PaymentCardModel(
             entity.Id,
             entity.CreatedUtc,
-            entity.ModifiedUtc
+            entity.ModifiedUtc,
+            entity.Deleted,
+            entity.UserId,
+            entity.CardNumber,
+            entity.CardHolderName,
+            entity.ExpiryDate
             );
     }
 }

@@ -1,5 +1,6 @@
 ﻿using PasswordManager.PaymentCards.Infrastructure.Installers;
 using Rebus.Config;
+using Rebus.Routing.TypeBased;
 
 namespace PasswordManager.PaymentCards.Api.Service.Installers;
 
@@ -10,7 +11,7 @@ public class RebusInstaller : IDependencyInstaller
         // For now skip any further configuration if we are running tests
         if (options.HostEnvironment.IsEnvironment("integration-test")) return;
 
-        var serviceBusConnectionString =
+        var serviceBusConnectionString = 
             options.Configuration[Infrastructure.Constants.ConfigurationKeys.ServiceBusConnectionString];
 
         if (string.IsNullOrWhiteSpace(serviceBusConnectionString))
@@ -21,8 +22,8 @@ public class RebusInstaller : IDependencyInstaller
         serviceCollection.AddRebus((configure, provider) => configure
             .Logging(l => l.MicrosoftExtensionsLogging(provider.GetRequiredService<ILoggerFactory>()))
             .Transport(t => t.UseAzureServiceBusAsOneWayClient(serviceBusConnectionString))
-            //Routing here. Map command
-            //Example --> .MapAssemblyOf<CreateCustomerCommand>(Constants.ServiceBus.InputQueue))
+            .Routing(r => r.TypeBased()
+            .MapAssemblyOf<Program>(Infrastructure.Constants.ServiceBus.InputQueue))
         );
     }
 }

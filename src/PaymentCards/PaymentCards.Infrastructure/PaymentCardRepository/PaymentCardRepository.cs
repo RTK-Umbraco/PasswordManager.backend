@@ -4,26 +4,15 @@ using PasswordManager.PaymentCards.Infrastructure.BaseRepository;
 using Microsoft.EntityFrameworkCore;
 
 namespace PasswordManager.PaymentCards.Infrastructure.PaymentCardRepository;
-public class PaymentCardRepository : BaseRepository<PaymentCardModel, PaymentCardEntity>, IPaymentCardRepository
+public class PaymentCardRepository : BaseRepository<PaymentCardModel, PaymentCardEntity, PaymentCardContext>, IPaymentCardRepository
 {
-    public PaymentCardRepository(PaymentCardContext context) : base(context)
+    public PaymentCardRepository(PaymentCardContext context) : base(context, PaymentCardEntityMapper.Map, PaymentCardEntityMapper.Map)
     {
     }
 
-    private DbSet<PaymentCardEntity> GetUserDbSet()
-    {
-        if (Context.PaymentCards is null)
-            throw new InvalidOperationException("Database configuration not setup correctly");
-        return Context.PaymentCards;
-    }
-
-    protected override PaymentCardModel Map(PaymentCardEntity entity)
-    {
-        return PaymentCardEntityMapper.Map(entity);
-    }
-
-    protected override PaymentCardEntity Map(PaymentCardModel model)
-    {
-        return PaymentCardEntityMapper.Map(model);
-    }
+    public async Task<ICollection<PaymentCardModel>> GetByUserId(Guid userId) => await Context.PaymentCards
+        .Where(x => x.UserId == userId && !x.Deleted)
+        .AsNoTracking()
+        .Select(x => MapEntityToModel(x))
+        .ToListAsync();
 }

@@ -1,4 +1,5 @@
 using PasswordManager.PaymentCards.Infrastructure.Installers;
+using PasswordManager.PaymentCards.ApplicationServices.Extensions;
 
 namespace PasswordManager.PaymentCards.Worker.Service.Installers
 {
@@ -6,7 +7,7 @@ namespace PasswordManager.PaymentCards.Worker.Service.Installers
     {
         public void Install(IServiceCollection serviceCollection, DependencyInstallerOptions options)
         {
-            //Add service dependencies
+            serviceCollection.AddApplicationServiceServices();
         }
     }
 }

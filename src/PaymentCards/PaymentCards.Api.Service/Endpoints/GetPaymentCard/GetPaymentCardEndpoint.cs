@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace PasswordManager.PaymentCards.Api.Service.GetPaymentCard;
+namespace PasswordManager.PaymentCards.Api.Service.Endpoints.GetPaymentCard;
 
 public class GetPaymentCardEndpoint : EndpointBaseAsync.WithRequest<Guid>.WithActionResult<PaymentCardResponse>
 {

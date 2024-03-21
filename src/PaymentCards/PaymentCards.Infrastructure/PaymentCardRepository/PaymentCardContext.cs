@@ -8,8 +8,8 @@ public class PaymentCardContext : DbContext
     {
     }
 
-    public DbSet<OperationEntity>? Operations { get; set; }
-    public DbSet<PaymentCardEntity>? PaymentCards { get; set; }
+    public DbSet<OperationEntity> PaymentCardsOperations { get; set; }
+    public DbSet<PaymentCardEntity> PaymentCards { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

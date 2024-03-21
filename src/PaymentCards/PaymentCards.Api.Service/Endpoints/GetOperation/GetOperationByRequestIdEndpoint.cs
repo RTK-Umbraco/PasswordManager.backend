@@ -3,8 +3,9 @@ using PasswordManager.PaymentCards.Domain.Operations;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using PasswordManager.PaymentCards.ApplicationServices.Operations;
 
-namespace PasswordManager.PaymentCards.Api.Service.GetOperation;
+namespace PasswordManager.PaymentCards.Api.Service.Endpoints.GetOperation;
 
 public class GetOperationByRequestIdEndpoint : EndpointBaseAsync.WithRequest<string>.WithActionResult<OperationResponse>
 {

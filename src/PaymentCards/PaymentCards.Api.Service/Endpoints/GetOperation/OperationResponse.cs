@@ -1,6 +1,6 @@
 ﻿using PasswordManager.PaymentCards.Domain.Operations;
 
-namespace PasswordManager.PaymentCards.Api.Service.GetOperation;
+namespace PasswordManager.PaymentCards.Api.Service.Endpoints.GetOperation;
 public record OperationResponse(string RequestId, Guid CustomerId, OperationName OperationName,
     OperationStatus OperationStatus, string CreatedBy, DateTime CreatedUtc, DateTime? LastModifiedUtc,
     DateTime? CompletedUtc, Dictionary<string, string>? Data);
