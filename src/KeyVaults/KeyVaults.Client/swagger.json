@@ -129,17 +129,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ItemResponse"
+                  "$ref": "#/components/schemas/ProtectedItemsResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ItemResponse"
+                  "$ref": "#/components/schemas/ProtectedItemsResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ItemResponse"
+                  "$ref": "#/components/schemas/ProtectedItemsResponse"
                 }
               }
             }
@@ -190,17 +190,15 @@
   },
   "components": {
     "schemas": {
-      "ItemResponse": {
-        "required": [
-          "items"
-        ],
+      "Item": {
         "type": "object",
         "properties": {
-          "items": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+          "key": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false
@@ -260,9 +258,21 @@
         },
         "additionalProperties": false
       },
+      "ProtectedItemsResponse": {
+        "type": "object",
+        "properties": {
+          "protectedItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UnprotectedItemResponse"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
       "UnprotectItemRequestDetails": {
         "required": [
-          "protectedItems",
+          "items",
           "secretKey"
         ],
         "type": "object",
@@ -270,11 +280,28 @@
           "secretKey": {
             "type": "string"
           },
-          "protectedItems": {
+          "items": {
             "type": "array",
             "items": {
-              "type": "string"
+              "$ref": "#/components/schemas/Item"
             }
+          }
+        },
+        "additionalProperties": false
+      },
+      "UnprotectedItemResponse": {
+        "required": [
+          "passwordId",
+          "unprotectedItem"
+        ],
+        "type": "object",
+        "properties": {
+          "unprotectedItem": {
+            "type": "string"
+          },
+          "passwordId": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false
