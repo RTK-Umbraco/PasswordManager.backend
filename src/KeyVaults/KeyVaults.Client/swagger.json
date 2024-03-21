@@ -1,190 +1,18 @@
 ﻿{
   "openapi": "3.0.1",
   "info": {
-    "title": "PasswordManager.KeyVaults API",
-    "version": "v1"
+    "title": "PasswordManager.KeyVaults.Api.Service",
+    "version": "1.0"
   },
   "paths": {
-    "/api/keyvaults/delete": {
-      "delete": {
-        "tags": [
-          "KeyVault"
-        ],
-        "summary": "Deletes SecurityKey",
-        "description": "Deletes a SecurityKey from it's id",
-        "operationId": "DeleteSecurityKey",
-        "parameters": [
-          {
-            "name": "created-by-user-id",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DeleteSecurityKeyRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DeleteSecurityKeyRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/DeleteSecurityKeyRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "202": {
-            "description": "Accepted",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/OperationAcceptedResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OperationAcceptedResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OperationAcceptedResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/operations": {
-      "get": {
-        "tags": [
-          "Operations"
-        ],
-        "summary": "Get operation by request id",
-        "description": "Get operation by request id",
-        "operationId": "GetOperationByRequestId",
-        "parameters": [
-          {
-            "name": "requestId",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/OperationResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OperationResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OperationResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/keyvaults/protect": {
       "post": {
         "tags": [
           "KeyVault"
         ],
         "summary": "Protects an item",
-        "description": "Creates a SecurityKey object and returns received item in protected form along with a SecurityKeyId",
+        "description": "Returns received item in protected form",
         "operationId": "ProtectItem",
-        "parameters": [
-          {
-            "name": "created-by-user-id",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -221,107 +49,6 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProtectedItemResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/keyvaults/reprotect": {
-      "post": {
-        "tags": [
-          "KeyVault"
-        ],
-        "summary": "Reprotects",
-        "description": "Generates a new secretkey and returns the protected item in a new form",
-        "operationId": "Reprotect",
-        "parameters": [
-          {
-            "name": "created-by-user-id",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ReprotectItemRequestDetails"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ReprotectItemRequestDetails"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ReprotectItemRequestDetails"
-              }
-            }
-          }
-        },
-        "responses": {
-          "202": {
-            "description": "Accepted",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/OperationAcceptedResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OperationAcceptedResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OperationAcceptedResponse"
                 }
               }
             }
@@ -377,16 +104,6 @@
         "summary": "Unprotects item",
         "description": "Unprotects item from received objectId and protectedItem",
         "operationId": "UnprotectItem",
-        "parameters": [
-          {
-            "name": "created-by-user-id",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -407,22 +124,22 @@
           }
         },
         "responses": {
-          "202": {
-            "description": "Accepted",
+          "200": {
+            "description": "Success",
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/OperationAcceptedResponse"
+                  "$ref": "#/components/schemas/ItemResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/OperationAcceptedResponse"
+                  "$ref": "#/components/schemas/ItemResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/OperationAcceptedResponse"
+                  "$ref": "#/components/schemas/ItemResponse"
                 }
               }
             }
@@ -473,87 +190,20 @@
   },
   "components": {
     "schemas": {
-      "DeleteSecurityKeyRequest": {
+      "ItemResponse": {
         "required": [
-          "securityKeyId"
+          "items"
         ],
         "type": "object",
         "properties": {
-          "securityKeyId": {
-            "type": "string",
-            "format": "uuid"
-          }
-        },
-        "additionalProperties": false
-      },
-      "OperationAcceptedResponse": {
-        "type": "object",
-        "properties": {
-          "requestId": {
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
-      "OperationResponse": {
-        "type": "object",
-        "properties": {
-          "requestId": {
-            "type": "string"
-          },
-          "customerId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "operationName": {
-            "$ref": "#/components/schemas/OperationType"
-          },
-          "operationStatus": {
-            "$ref": "#/components/schemas/OperationStatus"
-          },
-          "createdBy": {
-            "type": "string"
-          },
-          "createdUtc": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "lastModifiedUtc": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "completedUtc": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "data": {
-            "type": "object",
-            "additionalProperties": {
+          "items": {
+            "type": "array",
+            "items": {
               "type": "string"
-            },
-            "nullable": true
+            }
           }
         },
         "additionalProperties": false
-      },
-      "OperationStatus": {
-        "enum": [
-          "Queued",
-          "Processing",
-          "Completed",
-          "Failed"
-        ],
-        "type": "string"
-      },
-      "OperationType": {
-        "enum": [
-          "CreateSecurityKey",
-          "UpdateSecurityKey",
-          "DeleteSecurityKey"
-        ],
-        "type": "string"
       },
       "ProblemDetails": {
         "type": "object",
@@ -584,10 +234,14 @@
       },
       "ProtectItemRequestDetails": {
         "required": [
-          "item"
+          "items",
+          "secretKey"
         ],
         "type": "object",
         "properties": {
+          "secretKey": {
+            "type": "string"
+          },
           "item": {
             "type": "string"
           }
@@ -596,32 +250,10 @@
       },
       "ProtectedItemResponse": {
         "required": [
-          "protectedItem",
-          "securityKeyId"
+          "protectedItem"
         ],
         "type": "object",
         "properties": {
-          "securityKeyId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "protectedItem": {
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
-      "ReprotectItemRequestDetails": {
-        "required": [
-          "protectedItem",
-          "securityKeyId"
-        ],
-        "type": "object",
-        "properties": {
-          "securityKeyId": {
-            "type": "string",
-            "format": "uuid"
-          },
           "protectedItem": {
             "type": "string"
           }
@@ -630,17 +262,19 @@
       },
       "UnprotectItemRequestDetails": {
         "required": [
-          "protectedItem",
-          "securityKeyId"
+          "protectedItems",
+          "secretKey"
         ],
         "type": "object",
         "properties": {
-          "securityKeyId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "protectedItem": {
+          "secretKey": {
             "type": "string"
+          },
+          "protectedItems": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         },
         "additionalProperties": false
