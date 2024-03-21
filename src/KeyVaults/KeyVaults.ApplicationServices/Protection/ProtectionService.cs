@@ -26,9 +26,9 @@ namespace PasswordManager.KeyVaults.ApplicationServices.Protection
                 }
 
                 aes.Key = keyBytes;
-                aes.GenerateIV();
+                aes.Mode = CipherMode.ECB;
 
-                ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
+                ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, null);
 
                 byte[] encryptedBytes;
 
@@ -45,14 +45,8 @@ namespace PasswordManager.KeyVaults.ApplicationServices.Protection
                     encryptedBytes = ms.ToArray();
                 }
 
-                // Concatenate the IV with the encrypted bytes
-                byte[] encryptedBytesWithIv = new byte[aes.IV.Length + encryptedBytes.Length];
-
-                // 0 is used to indicate the position to start copying the array
-                Array.Copy(aes.IV, encryptedBytesWithIv, aes.IV.Length);
-                Array.Copy(encryptedBytes, 0, encryptedBytesWithIv, aes.IV.Length, encryptedBytes.Length);
-
-                return Convert.ToBase64String(encryptedBytesWithIv);
+                // Returns the encrypted bytes as a base64 string
+                return Convert.ToBase64String(encryptedBytes);
             }
         }
 
@@ -61,10 +55,10 @@ namespace PasswordManager.KeyVaults.ApplicationServices.Protection
             using (var aes = Aes.Create())
             {
                 // Extract the protected item from the base64 string
-                byte[] encryptedBytesWithIv;
+                byte[] encryptedBytes;
                 try
                 {
-                    encryptedBytesWithIv = Convert.FromBase64String(protectedItem);
+                    encryptedBytes = Convert.FromBase64String(protectedItem);
                 } catch (Exception ex)
                 {
                     throw new ProtectionServiceException("ERROR: Could not convert protected item from Base64");
@@ -82,22 +76,14 @@ namespace PasswordManager.KeyVaults.ApplicationServices.Protection
 
                 // Set the key
                 aes.Key = keyBytes;
+                aes.Mode = CipherMode.ECB;
 
-                // Extract the IV from concatenated bytes
-                byte[] iv = new byte[aes.IV.Length];
-                Array.Copy(encryptedBytesWithIv, iv, iv.Length);
-                aes.IV = iv;
-
-                // Extracts protected item from the concatenated bytes
-                byte[] protectedBytes = new byte[encryptedBytesWithIv.Length - aes.IV.Length];
-                Array.Copy(encryptedBytesWithIv, aes.IV.Length, protectedBytes, 0, protectedBytes.Length);
-
-                ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+                ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, null);
 
                 string decryptedItem;
 
                 // Decrypt the bytes
-                using (var ms = new MemoryStream(protectedBytes))
+                using (var ms = new MemoryStream(encryptedBytes))
                 {
                     using (var cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read))
                     {
@@ -108,6 +94,7 @@ namespace PasswordManager.KeyVaults.ApplicationServices.Protection
                     }
                 }
 
+                // Returns the decrypted item
                 return decryptedItem;
             }
         }
