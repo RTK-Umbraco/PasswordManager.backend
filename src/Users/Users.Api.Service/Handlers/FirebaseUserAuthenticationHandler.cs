@@ -43,11 +43,23 @@ namespace PasswordManager.Users.Api.Service.Handlers
             string? bearerToken = Context.Request.Headers["Authorization"];
 
             //Remove this when development is done
-            if (bearerToken == "96463f61-5783-42e8-97f3-d17d77ae7c76")
+            if (bearerToken == "test")
             {
-                FirebaseToken firebaseToken = await FirebaseAuth.GetAuth(_firebaseApp).VerifyIdTokenAsync("rnd8SmV34yW3ORciThY94vaQ2Bo2");
+                var record = await FirebaseAuth.DefaultInstance.GetUserByEmailAsync("dvuust@gmail.com");
+                var claims = new List<Claim>
+                {
+                    new Claim(FirebaseUserClaimType.ID, record.Uid ?? ""),
+                    new Claim(FirebaseUserClaimType.EMAIL, record.Email ?? ""),
+                    new Claim(FirebaseUserClaimType.EMAIL_VERIFIED, record.EmailVerified.ToString() ?? ""),
+                    new Claim(FirebaseUserClaimType.USERNAME, record.DisplayName ?? ""),
+                }.AsEnumerable();
+                ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(new List<ClaimsIdentity>()
+                {
+                    new ClaimsIdentity(claims, nameof(ClaimsIdentity))
+                });
 
-                return AuthenticateResult.Success(CreateAuthenticationTicket(firebaseToken));
+
+                return AuthenticateResult.Success(new AuthenticationTicket(claimsPrincipal, JwtBearerDefaults.AuthenticationScheme));
             }
 
             if (bearerToken == null || !bearerToken.StartsWith(BEARER_PREFIX))
