@@ -50,7 +50,7 @@ public sealed class KeyVaultComponent : IKeyVaultComponent
         {
             foreach (var decryptedPassword in decryptedPasswordsResult.ProtectedItems)
             {
-                if (decryptedPassword.PasswordId == user.PasswordId)
+                if (decryptedPassword.ItemId == user.PasswordId)
                 {
                     user.SetEncryptedPassword(decryptedPassword.UnprotectedItem);
                 }

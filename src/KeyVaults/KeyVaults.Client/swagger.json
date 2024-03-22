@@ -291,7 +291,7 @@
       },
       "UnprotectedItemResponse": {
         "required": [
-          "passwordId",
+          "itemId",
           "unprotectedItem"
         ],
         "type": "object",
@@ -299,7 +299,7 @@
           "unprotectedItem": {
             "type": "string"
           },
-          "passwordId": {
+          "itemId": {
             "type": "string",
             "format": "uuid"
           }

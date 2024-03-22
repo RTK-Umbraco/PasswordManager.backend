@@ -548,22 +548,22 @@ namespace Umbraco.Cloud.Passwordmanager.Keyvaults.Api.Client
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public UnprotectedItemResponse(System.Guid @passwordId, string @unprotectedItem)
+        public UnprotectedItemResponse(System.Guid @itemId, string @unprotectedItem)
 
         {
 
             this.UnprotectedItem = @unprotectedItem;
 
-            this.PasswordId = @passwordId;
+            this.ItemId = @itemId;
 
         }
         [System.Text.Json.Serialization.JsonPropertyName("unprotectedItem")]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         public string UnprotectedItem { get; init; }
 
-        [System.Text.Json.Serialization.JsonPropertyName("passwordId")]
+        [System.Text.Json.Serialization.JsonPropertyName("itemId")]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.Guid PasswordId { get; init; }
+        public System.Guid ItemId { get; init; }
 
     }
 
