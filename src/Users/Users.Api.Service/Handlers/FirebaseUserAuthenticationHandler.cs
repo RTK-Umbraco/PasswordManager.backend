@@ -89,9 +89,5 @@ namespace PasswordManager.Users.Api.Service.Handlers
                 new Claim(FirebaseUserClaimType.USERNAME, claims.GetValueOrDefault("name", "").ToString()!),
             };
         }
-
-        
-
-        
     }
 }

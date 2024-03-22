@@ -24,7 +24,7 @@ namespace PasswordManager.Users.Api.Service.CurrentUser
                 if (user == null)
                 {
                     user = new UserEntity(Guid.NewGuid(), DateTime.UtcNow, DateTime.UtcNow,
-                        _claimsPrincipal.FindFirstValue("id"), "test");
+                        _claimsPrincipal.FindFirstValue("id"), GenerateSecretKey(128));
                     _context.Users!.Add(user);
 
                     _context.SaveChanges();

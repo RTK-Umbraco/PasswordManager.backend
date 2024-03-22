@@ -30,7 +30,7 @@ public class GetUserPasswordsEndpoint : EndpointBaseAsync.WithRequest<GetUserPas
         Tags = new[] { "Password" })
         ]
     [Authorize(AuthenticationSchemes = "FirebaseUser")]
-    public override async Task<ActionResult<IEnumerable<UserPasswordResponse>>> HandleAsync([FromQuery] GetUserPasswordRequestWithBody request, CancellationToken cancellationToken = default)
+    public override async Task<ActionResult<IEnumerable<UserPasswordResponse>>> HandleAsync([FromBody] GetUserPasswordRequestWithBody request, CancellationToken cancellationToken = default)
     {
         var userPasswordModel = await _getUserPasswordsService.GetUserPasswordsByUrl(_currentUser.GetUser().Id, request.Details.Url);
 
