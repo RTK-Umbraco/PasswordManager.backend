@@ -24,7 +24,7 @@ public sealed class ServiceInstaller : IDependencyInstaller
     {
         var connectionString = configuration[Constants.ConfigurationKeys.SqlDbConnectionString];
 
-        serviceCollection.AddDbContext<UserContext>(options => options.UseSqlServer(connectionString));
+        serviceCollection.AddDbContext<UserContext>(options => options.UseSqlServer("Server=tcp:sqlsrv-passwordmanager.database.windows.net,1433;Initial Catalog=sqldb-passwordmanager;Persist Security Info=False;User ID=passwordManager;Password=dD&b@ClF$hDwJWQk4aKZ;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"));
 
         serviceCollection.AddScoped<IUserRepository, UserRepository.UserRepository>();
         serviceCollection.AddScoped<IOperationRepository, OperationRepository.OperationRepository>();

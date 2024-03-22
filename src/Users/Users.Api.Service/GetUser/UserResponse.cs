@@ -9,9 +9,9 @@ public class UserResponse
     [JsonPropertyName("id")]
     public Guid Id { get; set; }
     [JsonPropertyName("firebaseId")]
-    public Guid FirebaseId { get; set; }
+    public string FirebaseId { get; set; }
 
-    public UserResponse(Guid id, Guid firebaseId)
+    public UserResponse(Guid id, string firebaseId)
     {
         Id = id;
         FirebaseId = firebaseId;

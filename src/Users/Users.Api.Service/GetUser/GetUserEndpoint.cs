@@ -1,4 +1,5 @@
 ﻿using Ardalis.ApiEndpoints;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PasswordManager.Users.ApplicationServices.GetUser;
 using Swashbuckle.AspNetCore.Annotations;
@@ -22,6 +23,7 @@ public class GetUserEndpoint : EndpointBaseAsync.WithRequest<Guid>.WithActionRes
         OperationId = "GetUser",
         Tags = new[] { "User" })
     ]
+    [Authorize(AuthenticationSchemes = "FirebaseUser")]
     public override async Task<ActionResult<UserResponse>> HandleAsync([FromRoute] Guid userId, CancellationToken cancellationToken = default)
     {
         var passwordModel = await _getUserService.GetUser(userId);

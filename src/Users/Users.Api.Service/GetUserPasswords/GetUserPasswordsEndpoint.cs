@@ -1,21 +1,27 @@
 ﻿using Ardalis.ApiEndpoints;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PasswordManager.Users.Api.Service.Models;
 using PasswordManager.Users.ApplicationServices.GetUserPasswords;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Text.Json.Serialization;
+using PasswordManager.Users.Api.Service.CurrentUser;
+using PasswordManager.Users.Api.Service.Models;
 
 namespace PasswordManager.Users.Api.Service.GetUserPasswords;
 
 public class GetUserPasswordsEndpoint : EndpointBaseAsync.WithRequest<GetUserPasswordRequestWithBody>.WithActionResult<IEnumerable<UserPasswordResponse>>
 {
     private readonly IGetUserPasswordsService _getUserPasswordsService;
-    public GetUserPasswordsEndpoint(IGetUserPasswordsService getUserPasswordsService)
+    private readonly ICurrentUser _currentUser;
+
+    public GetUserPasswordsEndpoint(IGetUserPasswordsService getUserPasswordsService, ICurrentUser _currentUser)
     {
         _getUserPasswordsService = getUserPasswordsService;
+        this._currentUser = _currentUser;
     }
 
-    [HttpPost("api/users/{userId}/passwords/url")]
+    [HttpPost("api/user/passwords/url")]
     [ProducesResponseType(typeof(IEnumerable<UserPasswordResponse>), StatusCodes.Status200OK)]
     [SwaggerOperation(
         Summary = "Get user passwords by user id and url",
@@ -23,10 +29,10 @@ public class GetUserPasswordsEndpoint : EndpointBaseAsync.WithRequest<GetUserPas
         OperationId = "GetUserPasswordsByUrl",
         Tags = new[] { "Password" })
         ]
-
+    [Authorize(AuthenticationSchemes = "FirebaseUser")]
     public override async Task<ActionResult<IEnumerable<UserPasswordResponse>>> HandleAsync([FromQuery] GetUserPasswordRequestWithBody request, CancellationToken cancellationToken = default)
     {
-        var userPasswordModel = await _getUserPasswordsService.GetUserPasswordsByUrl(request.UserId, request.Details.Url);
+        var userPasswordModel = await _getUserPasswordsService.GetUserPasswordsByUrl(_currentUser.GetUser().Id, request.Details.Url);
 
         return new ActionResult<IEnumerable<UserPasswordResponse>>(userPasswordModel.Select(UserPasswordResponseMapper.Map));
     }
