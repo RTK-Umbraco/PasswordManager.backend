@@ -49,7 +49,7 @@ namespace PasswordManager.PaymentCards.ApplicationServices.PaymentCard.UpdatePay
 
         public async Task UpdatePaymentCard(PaymentCardModel paymentCardModel)
         {
-            _logger.LogInformation($"Updateing PaymentCard with ID: {paymentCardModel.Id}");
+            _logger.LogInformation($"Updating PaymentCard with ID: {paymentCardModel.Id}");
 
             await _paymentCardRepository.Upsert(paymentCardModel);
 

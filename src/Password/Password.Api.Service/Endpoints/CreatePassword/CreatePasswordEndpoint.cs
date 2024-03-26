@@ -44,7 +44,7 @@ public class CreatePasswordEndpoint : EndpointBaseAsync.WithRequest<CreatePasswo
                 statusCode: StatusCodes.Status400BadRequest),
             _ => Problem(title: "Unknown error requesting to creating password", detail: "Unknown error - check logs",
                 statusCode: StatusCodes.Status500InternalServerError),
-        };
+        };  
     }
 }
 

@@ -1,4 +1,5 @@
 ﻿using PasswordManager.PaymentCards.Infrastructure.Installers;
+using PaymentCards.Messages.CreatePaymentCard;
 using Rebus.Config;
 using Rebus.Routing.TypeBased;
 
@@ -23,7 +24,7 @@ public class RebusInstaller : IDependencyInstaller
             .Logging(l => l.MicrosoftExtensionsLogging(provider.GetRequiredService<ILoggerFactory>()))
             .Transport(t => t.UseAzureServiceBusAsOneWayClient(serviceBusConnectionString))
             .Routing(r => r.TypeBased()
-            .MapAssemblyOf<Program>(Infrastructure.Constants.ServiceBus.InputQueue))
+            .MapAssemblyOf<CreatePaymentCardCommand>(Infrastructure.Constants.ServiceBus.InputQueue))
         );
     }
 }

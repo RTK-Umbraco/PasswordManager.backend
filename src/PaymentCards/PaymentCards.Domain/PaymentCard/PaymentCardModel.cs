@@ -29,12 +29,12 @@ public class PaymentCardModel : BaseModel
         ExpiryDate = expiryDate;
     }
 
-    public PaymentCardModel Create(Guid userId, string cardNumber, string cardHolderName, string expiryDate)
+    public static PaymentCardModel CreatePaymentCard(Guid userId, string cardNumber, string cardHolderName, string expiryDate)
     {
         return new PaymentCardModel(userId, Guid.NewGuid(), cardNumber, cardHolderName, expiryDate);
     }
 
-    public PaymentCardModel Update(Guid id, string cardNumber, string cardHolderName, string expiryDate)
+    public static PaymentCardModel UpdatePaymentCard(Guid id, string cardNumber, string cardHolderName, string expiryDate)
     {
         return new PaymentCardModel(id, cardNumber, cardHolderName, expiryDate);
     }
