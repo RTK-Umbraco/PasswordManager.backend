@@ -1,9 +1,8 @@
 ﻿using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
 using PasswordManager.Password.Api.Service.Endpoints.GetOperation;
-using PasswordManager.Password.Api.Service.Endpoints.GetPassword;
 using PasswordManager.Password.Api.Service.Models;
-using PasswordManager.Password.ApplicationServices.UpdatePassword;
+using PasswordManager.Password.ApplicationServices.Password.UpdatePassword;
 using PasswordManager.Password.Domain.Operations;
 using PasswordManager.Password.Domain.Password;
 using Swashbuckle.AspNetCore.Annotations;
@@ -32,12 +31,13 @@ public sealed class UpdatePasswordEndpoint : EndpointBaseAsync.WithRequest<Updat
     ]
     public override async Task<ActionResult<PasswordResponse>> HandleAsync([FromRoute] UpdatePasswordRequestWithBody request, CancellationToken cancellationToken = default)
     {
-        var updatePasswordModel = PasswordModel.UpdatePassword(request.PasswordId,
-                                                  request.Details.Url,
-                                                  request.Details.FriendlyName,
-                                                  request.Details.Username,
-                                                  request.Details.Password
-                                                  );
+        var updatePasswordModel = PasswordModel.UpdatePassword(
+            request.PasswordId,
+            request.Details.Url,
+            request.Details.FriendlyName,
+            request.Details.Username,
+            request.Details.Password
+            );
 
         var operationResult = await _updatePasswordService.RequestUpdatePassword(updatePasswordModel, new OperationDetails(request.CreatedByUserId));
 
@@ -55,8 +55,11 @@ public sealed class UpdatePasswordEndpoint : EndpointBaseAsync.WithRequest<Updat
     }
 }
 
-public sealed class UpdatePasswordRequestWithBody : UpdatePasswordOperationRequest<UpdatePasswordRequestDetails> { }
-
+public sealed class UpdatePasswordRequestWithBody : PasswordOperationRequest<UpdatePasswordRequestDetails> 
+{
+    [FromRoute(Name = "passwordId")]
+    public Guid PasswordId { get; set; }
+}
 
 [SwaggerSchema(Nullable = false, Required = new[] { "url", "friendlyName", "username", "password" })]
 public sealed class UpdatePasswordRequestDetails

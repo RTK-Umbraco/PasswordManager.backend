@@ -13,7 +13,9 @@ internal static class PaymentCardEntityMapper
             model.UserId,
             model.CardNumber,
             model.CardHolderName,
-            model.ExpiryDate
+            model.ExpiryMonth,
+            model.ExpiryYear,
+            model.Cvv
             );
     }
 
@@ -27,7 +29,9 @@ internal static class PaymentCardEntityMapper
             entity.UserId,
             entity.CardNumber,
             entity.CardHolderName,
-            entity.ExpiryDate
+            entity.ExpiryMonth,
+            entity.ExpiryYear,
+            entity.Cvv
             );
     }
 }

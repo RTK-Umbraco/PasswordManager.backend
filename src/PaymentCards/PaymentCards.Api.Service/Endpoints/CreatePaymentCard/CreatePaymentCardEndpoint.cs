@@ -20,12 +20,12 @@ namespace PasswordManager.PaymentCards.Api.Service.Endpoints.CreatePaymentCard
             _createPaymentCardService = createPaymentCardService;
         }
 
-        [HttpPost("api/paymentcard")]
+        [HttpPost("api/paymentcards")]
         [ProducesResponseType(typeof(OperationAcceptedResponse), StatusCodes.Status202Accepted)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(
-        Summary = "Creates paymentcard",
+        Summary = "Create paymentcard",
         Description = "Creates a paymentcard",
         OperationId = "CreatePaymentCard",
         Tags = new[] { "PaymentCard" })
@@ -36,7 +36,9 @@ namespace PasswordManager.PaymentCards.Api.Service.Endpoints.CreatePaymentCard
                 request.Details.UserId,
                 request.Details.CardNumber,
                 request.Details.CardHolderName,
-                request.Details.ExpirationDate
+                request.Details.ExpiryMonth,
+                request.Details.ExpiryYear,
+                request.Details.Cvv
                 );
 
             var operationResult = await _createPaymentCardService.RequestCreatePaymentCard(paymentCardModel, new OperationDetails(request.CreatedByUserId));
@@ -49,7 +51,7 @@ namespace PasswordManager.PaymentCards.Api.Service.Endpoints.CreatePaymentCard
 
                 OperationResultStatus.InvalidOperationRequest => Problem(title: "Can't create paymentcard for user", detail: operationResult.GetMessage(),
                     statusCode: StatusCodes.Status400BadRequest),
-                _ => Problem(title: "Unknown error requesting to create payment card", detail: "Unknown error - check logs",
+                _ => Problem(title: "Unknown error requesting to create paymentcard", detail: "Unknown error - check logs",
                     statusCode: StatusCodes.Status500InternalServerError),
             };
         }
@@ -59,6 +61,7 @@ namespace PasswordManager.PaymentCards.Api.Service.Endpoints.CreatePaymentCard
     {
     }
 
+    [SwaggerSchema(Nullable = false, Required = new[] { "userId", "cardNumber", "cardHolderName", "expiryMonth", "expiryYear", "cvv" })]
     public sealed class CreatePaymentCardRequestDetails
     {
         [JsonPropertyName("userId")]
@@ -70,7 +73,13 @@ namespace PasswordManager.PaymentCards.Api.Service.Endpoints.CreatePaymentCard
         [JsonPropertyName("cardHolderName")]
         public string CardHolderName { get; set; }
 
-        [JsonPropertyName("expirationDate")]
-        public string ExpirationDate { get; set; }
+        [JsonPropertyName("expiryMonth")]
+        public int ExpiryMonth { get; set; }
+
+        [JsonPropertyName("expiryYear")]
+        public int ExpiryYear { get; set; }
+
+        [JsonPropertyName("cvv")]
+        public string Cvv { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Password.Messages.DeletePassword;
-using PasswordManager.Password.ApplicationServices.DeletePassword;
 using PasswordManager.Password.ApplicationServices.Operations;
+using PasswordManager.Password.ApplicationServices.Password.DeletePassword;
 using PasswordManager.Password.Domain.Operations;
 using Rebus.Handlers;
 

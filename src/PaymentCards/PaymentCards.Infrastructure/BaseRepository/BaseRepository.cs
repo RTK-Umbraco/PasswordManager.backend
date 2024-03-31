@@ -35,6 +35,7 @@ public abstract class BaseRepository<TModel, TEntity, TContext> : IBaseRepositor
     {
         var models = await _dbSet
             .AsNoTracking()
+            .Where(e => !e.Deleted)
             .Select(e => MapEntityToModel(e))
             .ToListAsync();
 
@@ -50,15 +51,16 @@ public abstract class BaseRepository<TModel, TEntity, TContext> : IBaseRepositor
         if (existingEntity != null)
         {
             Context.Entry(existingEntity).CurrentValues.SetValues(entity);
+            await SaveAsync(existingEntity);
         }
         else
         {
             await _dbSet.AddAsync(entity);
+            await SaveAsync(entity);
         }
 
-        await SaveAsync(entity);
-
-        return MapEntityToModel(entity);
+        // Returns the model
+        return MapEntityToModel(existingEntity ?? entity);
     }
 
     public async Task Delete(Guid id)

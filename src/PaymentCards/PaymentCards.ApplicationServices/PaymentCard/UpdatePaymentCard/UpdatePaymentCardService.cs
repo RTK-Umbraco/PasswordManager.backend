@@ -26,13 +26,13 @@ namespace PasswordManager.PaymentCards.ApplicationServices.PaymentCard.UpdatePay
 
         public async Task<OperationResult> RequestUpdatePaymentCard(PaymentCardModel paymentCardModel, OperationDetails operationDetails)
         {
-            _logger.LogInformation($"Request update PaymentCard with ID: {paymentCardModel.Id}");
+            _logger.LogInformation("Request update PaymentCard with ID: {paymentCardModelId}", paymentCardModel.Id);
 
             // Checks if the payment card already exists
             var existingPaymentCard = await _paymentCardRepository.GetById(paymentCardModel.Id);
             if (existingPaymentCard == null)
             {
-                _logger.LogWarning($"PaymentCard with ID: {paymentCardModel.Id}, does not exists");
+                _logger.LogWarning("PaymentCard with ID: {paymentCardModelId}, does not exists", paymentCardModel.Id);
                 return OperationResult.InvalidState("PaymentCard does not exists");
             }
 
@@ -42,18 +42,18 @@ namespace PasswordManager.PaymentCards.ApplicationServices.PaymentCard.UpdatePay
             // Sends the operation to the bus
             await _bus.Send(new UpdatePaymentCardCommand(operation.RequestId));
 
-            _logger.LogInformation($"Request added to servicebus with request ID: {operation.RequestId}, PaymentCard ID: {paymentCardModel.Id}");
+            _logger.LogInformation("Request added to servicebus with request ID: {operationRequestId}, PaymentCard ID: {paymentCardModelId}", operation.RequestId, paymentCardModel.Id);
 
             return OperationResult.Accepted(operation);
         }
 
         public async Task UpdatePaymentCard(PaymentCardModel paymentCardModel)
         {
-            _logger.LogInformation($"Updating PaymentCard with ID: {paymentCardModel.Id}");
+            _logger.LogInformation("Updating PaymentCard with ID: {paymentCardModelId}", paymentCardModel.Id);
 
             await _paymentCardRepository.Upsert(paymentCardModel);
 
-            _logger.LogInformation($"PaymentCard with ID: {paymentCardModel.Id} updated");
+            _logger.LogInformation("PaymentCard with ID: {paymentCardModelId} updated", paymentCardModel.Id);
             return;
         }
     }

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PasswordManager.Password.Api.Service.Endpoints.GetOperation;
 using PasswordManager.Password.Api.Service.Models;
-using PasswordManager.Password.ApplicationServices.DeletePassword;
+using PasswordManager.Password.ApplicationServices.Password.DeletePassword;
 using PasswordManager.Password.Domain.Operations;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Text.Json.Serialization;
@@ -18,7 +18,7 @@ namespace PasswordManager.Password.Api.Service.Endpoints.DeletePassword
             _deletePasswordService = deletePasswordService;
         }
 
-        [HttpDelete("api/password/")]
+        [HttpDelete("api/passwords/{passwordId:guid}")]
         [ProducesResponseType(typeof(OperationAcceptedResponse), StatusCodes.Status202Accepted)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
@@ -30,7 +30,7 @@ namespace PasswordManager.Password.Api.Service.Endpoints.DeletePassword
         ]
         public override async Task<ActionResult> HandleAsync([FromQuery] DeletePasswordRequestWithBody request, CancellationToken cancellationToken = default)
         {
-            var operationResult = await _deletePasswordService.RequestDeletePassword(request.Details.PasswordId, new OperationDetails(request.CreatedByUserId));
+            var operationResult = await _deletePasswordService.RequestDeletePassword(request.PasswordId, new OperationDetails(request.CreatedByUserId));
 
             return operationResult.Status switch
             {
@@ -46,14 +46,9 @@ namespace PasswordManager.Password.Api.Service.Endpoints.DeletePassword
         }
     }
 
-    public sealed class DeletePasswordRequestWithBody : UserOperationRequest<DeletePasswordRequest>
+    public sealed class DeletePasswordRequestWithBody : OperationRequest
     {
-    }
-
-    [SwaggerSchema(Nullable = false, Required = new[] { "passwordId" })]
-    public sealed class DeletePasswordRequest
-    {
-        [JsonPropertyName("passwordId")]
+        [FromRoute(Name = "passwordId")]
         public Guid PasswordId { get; set; }
     }
 }

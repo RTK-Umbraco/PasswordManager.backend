@@ -1,14 +1,14 @@
 ﻿using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
-using PasswordManager.Password.Api.Service.Endpoints.GetPassword;
+using PasswordManager.Password.Api.Service.Mappers;
 using PasswordManager.Password.Api.Service.Models;
-using PasswordManager.Password.ApplicationServices.GetPassword;
+using PasswordManager.Password.ApplicationServices.Password.GetPassword;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Text.Json.Serialization;
 
 namespace PasswordManager.Password.Api.Service.Endpoints.GetPasswordsByUserUrl
 {
-    public sealed class GetPasswordsByUserIdWithUrlEndpoint : EndpointBaseAsync.WithRequest<GetPasswordByUserIdWithUrlRequestDetails>.WithActionResult<IEnumerable<PasswordResponse>>
+    public sealed class GetPasswordsByUserIdWithUrlEndpoint : EndpointBaseAsync.WithRequest<GetPasswordByUserIdWithUrlRequest>.WithActionResult<IEnumerable<PasswordResponse>>
     {
         private readonly IGetPasswordService _getPasswordService;
 
@@ -18,25 +18,27 @@ namespace PasswordManager.Password.Api.Service.Endpoints.GetPasswordsByUserUrl
         }
 
 
-        [HttpGet("api/passwords/user/url")]
-        [ProducesResponseType(typeof(PasswordResponse), StatusCodes.Status200OK)]
+        [HttpGet("api/passwords/by-user-and-url")]
+        [ProducesResponseType(typeof(IEnumerable<PasswordResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         [SwaggerOperation(
-            Summary = "Gets Passwords from UserId with Url",
-            Description = "Gets Passwords from the UserId with the specified url",
-            OperationId = "GetPasswordsFromUserIdWithUrl",
+            Summary = "Gets Passwords by UserId and Url",
+            Description = "Retrieves passwords associated with a UserId that match a specified URL",
+            OperationId = "GetPasswordsByUserIdAndUrl",
             Tags = new[] { "Password" })
         ]
-        public override async Task<ActionResult<IEnumerable<PasswordResponse>>> HandleAsync([FromQuery] GetPasswordByUserIdWithUrlRequestDetails request, CancellationToken cancellationToken = default)
+        public override async Task<ActionResult<IEnumerable<PasswordResponse>>> HandleAsync([FromQuery] GetPasswordByUserIdWithUrlRequest request, CancellationToken cancellationToken = default)
         {
             var passwordModels = await _getPasswordService.GetPasswordsByUserIdWithUrl(request.UserId, request.Url);
 
-            return new ActionResult<IEnumerable<PasswordResponse>>(PasswordResponseMapper.Map(passwordModels));
+            var passwordResponses = PasswordResponseMapper.Map(passwordModels);
+
+            return Ok(passwordResponses);
         }
     }
 
     [SwaggerSchema(Nullable = false, Required = new[] { "userId", "url" })]
-    public sealed class GetPasswordByUserIdWithUrlRequestDetails
+    public sealed class GetPasswordByUserIdWithUrlRequest
     {
         [JsonPropertyName("userId")]
         public Guid UserId { get; set; }

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PasswordManager.Password.Api.Service.Endpoints.GetOperation;
 using PasswordManager.Password.Api.Service.Models;
-using PasswordManager.Password.ApplicationServices.CreatePassword;
+using PasswordManager.Password.ApplicationServices.Password.CreatePassword;
 using PasswordManager.Password.Domain.Operations;
 using PasswordManager.Password.Domain.Password;
 using Swashbuckle.AspNetCore.Annotations;
@@ -24,13 +24,19 @@ public class CreatePasswordEndpoint : EndpointBaseAsync.WithRequest<CreatePasswo
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     [SwaggerOperation(
     Summary = "Create password",
-    Description = "Creates password",
+    Description = "Creates a password",
     OperationId = "CreatePassword",
     Tags = new[] { "Password" })
 ]
     public override async Task<ActionResult> HandleAsync([FromBody] CreatePasswordRequestWithBody request, CancellationToken cancellationToken = default)
     {
-        var passwordModel = PasswordModel.CreatePassword(request.Details.UserId, request.Details.Url, request.Details.FriendlyName, request.Details.Username, request.Details.Password);
+        var passwordModel = PasswordModel.CreatePassword(
+            request.Details.UserId, 
+            request.Details.Url, 
+            request.Details.FriendlyName, 
+            request.Details.Username, 
+            request.Details.Password
+            );
 
         var operationResult = await _createPasswordService.RequestCreatePassword(passwordModel, new OperationDetails(request.CreatedByUserId));
 

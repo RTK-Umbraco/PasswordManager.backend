@@ -10,7 +10,7 @@ public class PaymentCardRepository : BaseRepository<PaymentCardModel, PaymentCar
     {
     }
 
-    public async Task<ICollection<PaymentCardModel>> GetByUserId(Guid userId) => await Context.PaymentCards
+    public async Task<IEnumerable<PaymentCardModel>?> GetByUserId(Guid userId) => await Context.PaymentCards
         .Where(x => x.UserId == userId && !x.Deleted)
         .AsNoTracking()
         .Select(x => MapEntityToModel(x))

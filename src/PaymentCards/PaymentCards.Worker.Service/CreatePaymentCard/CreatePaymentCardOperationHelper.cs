@@ -1,4 +1,5 @@
-﻿using PasswordManager.PaymentCards.Domain.Operations;
+﻿using Microsoft.AspNetCore.Mvc.Infrastructure;
+using PasswordManager.PaymentCards.Domain.Operations;
 using PasswordManager.PaymentCards.Domain.PaymentCards;
 
 namespace PaymentCards.Worker.Service.CreatePaymentCard
@@ -11,7 +12,9 @@ namespace PaymentCards.Worker.Service.CreatePaymentCard
                 GetPaymentCardUserId(operation), 
                 GetPaymentCardCardNumber(operation), 
                 GetPaymentCardCardHolderName(operation), 
-                GetPaymentCardExpirationDate(operation)
+                GetPaymentCardExpiryMonth(operation),
+                GetPaymentCardExpiryYear(operation),
+                GetPaymentCardCvv(operation)
                 );
 
         private static string GetPaymentCardOperationData(Operation operation, string operationDataConstant)
@@ -38,7 +41,27 @@ namespace PaymentCards.Worker.Service.CreatePaymentCard
         private static string GetPaymentCardCardHolderName(Operation operation)
             => GetPaymentCardOperationData(operation, OperationDataConstants.CreatePaymentCardCardholderName);
 
-        private static string GetPaymentCardExpirationDate(Operation operation)
-            => GetPaymentCardOperationData(operation, OperationDataConstants.CreatePaymentCardExpirationDate);
+        private static int GetPaymentCardExpiryMonth(Operation operation)
+        {
+            var expiryMonth = GetPaymentCardOperationData(operation, OperationDataConstants.CreatePaymentCardExpiryMonth);
+
+            if (int.TryParse(expiryMonth, out var expiryMonthInt) is false)
+                throw new InvalidOperationException($"Could not parse expiryMonth: {expiryMonth} to int, in operation with request id: {operation.RequestId}");
+
+            return expiryMonthInt;
+        }
+
+        private static int GetPaymentCardExpiryYear(Operation operation)
+        {
+            var expiryYear = GetPaymentCardOperationData(operation, OperationDataConstants.CreatePaymentCardExpiryYear);
+
+            if (int.TryParse(expiryYear, out var expiryYearInt) is false)
+                throw new InvalidOperationException($"Could not parse expiryYear: {expiryYear} to int, in operation with request id: {operation.RequestId}");
+
+            return expiryYearInt;
+        }
+
+        private static string GetPaymentCardCvv(Operation operation)
+            => GetPaymentCardOperationData(operation, OperationDataConstants.CreatePaymentCardCvv);
     }
 }

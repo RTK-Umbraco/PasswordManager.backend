@@ -26,15 +26,7 @@ namespace PasswordManager.PaymentCards.ApplicationServices.PaymentCard.CreatePay
 
         public async Task<OperationResult> RequestCreatePaymentCard(PaymentCardModel paymentCardModel, OperationDetails operationDetails)
         {
-            _logger.LogInformation($"Request create PaymentCard with ID: {paymentCardModel.Id}");
-
-            // Checks if the payment card already exists
-            var existingPaymentCard = await _paymentCardRepository.GetById(paymentCardModel.Id);
-            if (existingPaymentCard != null)
-            {
-                _logger.LogWarning($"PaymentCard with ID: {paymentCardModel.Id}, already exists");
-                return OperationResult.InvalidState("PaymentCard already exists");
-            }
+            _logger.LogInformation($"Request to create PaymentCard for user: {paymentCardModel.UserId}");
 
             // Creates the operation
             var operation = await _operationService.QueueOperation(OperationBuilder.CreatePaymentCard(paymentCardModel, operationDetails.CreatedBy));

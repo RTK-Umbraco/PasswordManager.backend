@@ -22,13 +22,13 @@ namespace PaymentCards.Worker.Service.CreatePaymentCard
 
         public async Task Handle(CreatePaymentCardCommand message)
         {
-            _logger.LogInformation($"Handling creation of PaymentCard command: {message.RequestId}");
+            _logger.LogInformation("Handling creation of PaymentCard command: {messageRequestId}", message.RequestId);
 
             var operation = await _operationService.GetOperationByRequestId(message.RequestId);
 
             if (operation == null)
             {
-                _logger.LogError($"Operation not found: {message.RequestId}");
+                _logger.LogError("Operation not found: {messageRequestId}", message.RequestId);
                 return;
             }
 
@@ -38,7 +38,7 @@ namespace PaymentCards.Worker.Service.CreatePaymentCard
 
             if (paymentCardModel == null)
             {
-                _logger.LogError($"PaymentCard model not found: {operation.PaymentCardId}");
+                _logger.LogError("PaymentCard model not found: {operationPaymentCardId}", message.RequestId);
                 return;
             }
 
@@ -46,7 +46,7 @@ namespace PaymentCards.Worker.Service.CreatePaymentCard
 
             await _operationService.UpdateOperationStatus(message.RequestId, OperationStatus.Completed);
 
-            _logger.LogInformation($"PaymentCard created: {operation.PaymentCardId}");
+            _logger.LogInformation("PaymentCard created: {operation.PaymentCardId}", message.RequestId);
 
             OperationResult.Completed(operation);
         }
