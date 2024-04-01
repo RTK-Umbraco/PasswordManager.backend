@@ -21,7 +21,7 @@ namespace PasswordManager.Users.Worker.Service.Installers
 
             // Configure Rebus
             var serviceBusConnectionString =
-                options.Configuration[Infrastructure.Constants.ConfigurationKeys.ServiceBusConnectionString];
+                "Endpoint=sb://sb-passwordmanager-servicebus.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=w8DGNEpb44MfTiLp+GS18zea9b4UanhYT+ASbJ1fHCY=";
 
             if (string.IsNullOrWhiteSpace(serviceBusConnectionString))
                 throw new InvalidOperationException($"Unable to resolve service bus connection string named " +

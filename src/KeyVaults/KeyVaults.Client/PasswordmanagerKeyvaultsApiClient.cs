@@ -40,7 +40,7 @@ namespace Umbraco.Cloud.Passwordmanager.Keyvaults.Api.Client
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ItemResponse>> UnprotectItemAsync(UnprotectItemRequestDetails body);
+        System.Threading.Tasks.Task<SwaggerResponse<ProtectedItemsResponse>> UnprotectItemAsync(UnprotectItemRequestDetails body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -48,7 +48,7 @@ namespace Umbraco.Cloud.Passwordmanager.Keyvaults.Api.Client
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<SwaggerResponse<ItemResponse>> UnprotectItemAsync(UnprotectItemRequestDetails body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<SwaggerResponse<ProtectedItemsResponse>> UnprotectItemAsync(UnprotectItemRequestDetails body, System.Threading.CancellationToken cancellationToken);
 
     }
 
@@ -195,7 +195,7 @@ namespace Umbraco.Cloud.Passwordmanager.Keyvaults.Api.Client
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<SwaggerResponse<ItemResponse>> UnprotectItemAsync(UnprotectItemRequestDetails body)
+        public virtual System.Threading.Tasks.Task<SwaggerResponse<ProtectedItemsResponse>> UnprotectItemAsync(UnprotectItemRequestDetails body)
         {
             return UnprotectItemAsync(body, System.Threading.CancellationToken.None);
         }
@@ -206,7 +206,7 @@ namespace Umbraco.Cloud.Passwordmanager.Keyvaults.Api.Client
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ItemResponse>> UnprotectItemAsync(UnprotectItemRequestDetails body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<SwaggerResponse<ProtectedItemsResponse>> UnprotectItemAsync(UnprotectItemRequestDetails body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/keyvaults/unprotect");
@@ -246,12 +246,12 @@ namespace Umbraco.Cloud.Passwordmanager.Keyvaults.Api.Client
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<ItemResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ProtectedItemsResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                             }
-                            return new SwaggerResponse<ItemResponse>(status_, headers_, objectResponse_.Object);
+                            return new SwaggerResponse<ProtectedItemsResponse>(status_, headers_, objectResponse_.Object);
                         }
                         else
                         if (status_ == 400)
@@ -394,20 +394,24 @@ namespace Umbraco.Cloud.Passwordmanager.Keyvaults.Api.Client
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v9.0.0.0))")]
-    public partial record ItemResponse
+    public partial record Item
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public ItemResponse(System.Collections.Generic.ICollection<string> @items)
+        public Item(System.Guid? @id, string @key)
 
         {
 
-            this.Items = @items;
+            this.Key = @key;
+
+            this.Id = @id;
 
         }
-        [System.Text.Json.Serialization.JsonPropertyName("items")]
-        [System.ComponentModel.DataAnnotations.Required]
-        public System.Collections.Generic.ICollection<string> Items { get; init; }
+        [System.Text.Json.Serialization.JsonPropertyName("key")]
+        public string Key { get; init; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("id")]
+        public System.Guid? Id { get; init; }
 
     }
 
@@ -499,26 +503,67 @@ namespace Umbraco.Cloud.Passwordmanager.Keyvaults.Api.Client
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v9.0.0.0))")]
+    public partial record ProtectedItemsResponse
+    {
+        [System.Text.Json.Serialization.JsonConstructor]
+
+        public ProtectedItemsResponse(System.Collections.Generic.ICollection<UnprotectedItemResponse> @protectedItems)
+
+        {
+
+            this.ProtectedItems = @protectedItems;
+
+        }
+        [System.Text.Json.Serialization.JsonPropertyName("protectedItems")]
+        public System.Collections.Generic.ICollection<UnprotectedItemResponse> ProtectedItems { get; init; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v9.0.0.0))")]
     public partial record UnprotectItemRequestDetails
     {
         [System.Text.Json.Serialization.JsonConstructor]
 
-        public UnprotectItemRequestDetails(System.Collections.Generic.ICollection<string> @protectedItems, string @secretKey)
+        public UnprotectItemRequestDetails(System.Collections.Generic.ICollection<Item> @items, string @secretKey)
 
         {
 
             this.SecretKey = @secretKey;
 
-            this.ProtectedItems = @protectedItems;
+            this.Items = @items;
 
         }
         [System.Text.Json.Serialization.JsonPropertyName("secretKey")]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         public string SecretKey { get; init; }
 
-        [System.Text.Json.Serialization.JsonPropertyName("protectedItems")]
+        [System.Text.Json.Serialization.JsonPropertyName("items")]
         [System.ComponentModel.DataAnnotations.Required]
-        public System.Collections.Generic.ICollection<string> ProtectedItems { get; init; }
+        public System.Collections.Generic.ICollection<Item> Items { get; init; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.15.10.0 (NJsonSchema v10.6.10.0 (Newtonsoft.Json v9.0.0.0))")]
+    public partial record UnprotectedItemResponse
+    {
+        [System.Text.Json.Serialization.JsonConstructor]
+
+        public UnprotectedItemResponse(System.Guid @itemId, string @unprotectedItem)
+
+        {
+
+            this.UnprotectedItem = @unprotectedItem;
+
+            this.ItemId = @itemId;
+
+        }
+        [System.Text.Json.Serialization.JsonPropertyName("unprotectedItem")]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string UnprotectedItem { get; init; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("itemId")]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public System.Guid ItemId { get; init; }
 
     }
 

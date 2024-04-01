@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace PasswordManager.KeyVaults.Api.Service.Endpoints.Unprotect
 {
-    public class UnprotectEndpoint : EndpointBaseAsync.WithRequest<UnprotectItemRequestDetails>.WithActionResult<ProtectedItemResponse>
+    public class UnprotectEndpoint : EndpointBaseAsync.WithRequest<UnprotectItemRequestDetails>.WithActionResult<ProtectedItemsResponse>
     {
         private readonly IProtectionService _protectionService;
 
@@ -17,7 +17,7 @@ namespace PasswordManager.KeyVaults.Api.Service.Endpoints.Unprotect
         }
 
         [HttpPost("api/keyvaults/unprotect")]
-        [ProducesResponseType(typeof(ItemResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProtectedItemsResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(
@@ -26,21 +26,20 @@ namespace PasswordManager.KeyVaults.Api.Service.Endpoints.Unprotect
         OperationId = "UnprotectItem",
         Tags = new[] { "KeyVault" })
         ]
-        public override async Task<ActionResult<ProtectedItemResponse>> HandleAsync([FromBody] UnprotectItemRequestDetails request, CancellationToken cancellationToken = default)
+        public override async Task<ActionResult<ProtectedItemsResponse>> HandleAsync([FromBody] UnprotectItemRequestDetails request, CancellationToken cancellationToken = default)
         {
             try
             {
-
-                var protectedItem = new List<string>();
-
-                foreach (var item in request.ProtectedItems)
+                List<UnprotectedItemResponse> items = new List<UnprotectedItemResponse>();
+                foreach (var item in request.Items)
                 {
-                    protectedItem.Add(_protectionService.Unprotect(item, request.SecretKey));
+                    var decryptedItem = _protectionService.Unprotect(item.Key, request.SecretKey);
+                    var protectedItemResponse = new UnprotectedItemResponse(decryptedItem, item.Id);
+
+                    items.Add(protectedItemResponse);
                 }
 
-                var response = new ItemResponse(protectedItem);
-
-                return Ok(response);
+                return new ActionResult<ProtectedItemsResponse>(new ProtectedItemsResponse(items));
             }
             catch (ProtectionServiceException ex)
             {
@@ -53,13 +52,24 @@ namespace PasswordManager.KeyVaults.Api.Service.Endpoints.Unprotect
         }
     }
 
-    [SwaggerSchema(Nullable = false, Required = new[] { "secretKey", "protectedItems" })]
+    [SwaggerSchema(Nullable = false, Required = new[] { "secretKey", "items" })]
     public sealed class UnprotectItemRequestDetails
     {
         [JsonPropertyName("secretKey")]
         public string SecretKey { get; set; }
 
-        [JsonPropertyName("protectedItems")]
-        public IEnumerable<string> ProtectedItems { get; set; }
+        [JsonPropertyName("items")]
+        public IEnumerable<Item> Items { get; set; }
+    }
+
+    public sealed class Item
+    {
+        public string Key { get; }
+        public Guid Id { get; }
+        public Item(string key, Guid id)
+        {
+            Key = key;
+            Id = id;
+        }
     }
 }
