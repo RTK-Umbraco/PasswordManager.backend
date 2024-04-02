@@ -20,7 +20,7 @@ namespace PasswordManager.PaymentCards.Api.Service.Endpoints.CreatePaymentCard
             _createPaymentCardService = createPaymentCardService;
         }
 
-        [HttpPost("api/paymentcards")]
+        [HttpPost("api/paymentcard")]
         [ProducesResponseType(typeof(OperationAcceptedResponse), StatusCodes.Status202Accepted)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]

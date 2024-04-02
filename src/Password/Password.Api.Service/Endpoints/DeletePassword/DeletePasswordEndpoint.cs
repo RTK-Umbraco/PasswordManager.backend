@@ -18,7 +18,7 @@ namespace PasswordManager.Password.Api.Service.DeletePassword
             _deletePasswordService = deletePasswordService;
         }
 
-        [HttpDelete("api/passwords/{passwordId:guid}")]
+        [HttpDelete("api/password/{passwordId:guid}")]
         [ProducesResponseType(typeof(OperationAcceptedResponse), StatusCodes.Status202Accepted)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]

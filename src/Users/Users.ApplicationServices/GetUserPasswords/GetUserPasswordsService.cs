@@ -16,6 +16,27 @@ public sealed class GetUserPasswordsService : IGetUserPasswordsService
         _KeyVaultComponent = keyVaultComponent;
     }
 
+    public async Task<IEnumerable<UserPasswordModel>> GetUserPasswords(Guid userId)
+    {
+        var user = await _userRepository.Get(userId);
+
+        if (user is null)
+        {
+            throw new GetUserPasswordsServiceException("Could not found user");
+        }
+
+        if (user.IsDeleted())
+        {
+            throw new GetUserPasswordsServiceException("Cannot get user password because the user is marked as deleted");
+        }
+
+        var encryptedPasswords = await _passwordComponent.GetUserPasswords(userId);
+
+        var decryptedPassword = await _KeyVaultComponent.DecryptPasswords(encryptedPasswords, user.SecretKey);
+
+        return decryptedPassword;
+    }
+
     public async Task<IEnumerable<UserPasswordModel>> GetUserPasswordsByUrl(Guid userId, string url)
     {
         var user = await _userRepository.Get(userId);
@@ -30,7 +51,7 @@ public sealed class GetUserPasswordsService : IGetUserPasswordsService
             throw new GetUserPasswordsServiceException("Cannot get user password because the user is marked as deleted");
         }
 
-        var encryptedPasswords = await _passwordComponent.GetUserPassword(userId, url);
+        var encryptedPasswords = await _passwordComponent.GetUserPasswordsFromUrl(userId, url);
 
         var decryptedPassword = await _KeyVaultComponent.DecryptPasswords(encryptedPasswords, user.SecretKey);
 

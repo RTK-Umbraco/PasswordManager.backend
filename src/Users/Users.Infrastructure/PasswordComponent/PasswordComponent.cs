@@ -32,11 +32,26 @@ public sealed class PasswordComponent : IPasswordComponent
         }
     }
 
-    public async  Task<IEnumerable<UserPasswordModel>> GetUserPassword(Guid userId, string url)
+    public async Task<IEnumerable<UserPasswordModel>> GetUserPasswords(Guid userId)
     {
         try
         {
-            var passwordsResponse = await _passwordmanagerPasswordApiClient.GetPasswordsFromUserIdWithUrlAsync(new GetPasswordByUserIdWithUrlRequestDetails(url, userId));
+            var passwordsResponse = await _passwordmanagerPasswordApiClient.GetPasswordsFromUserIdAsync(userId);
+
+            var passwordsResponseResult = passwordsResponse.Result;
+
+            return passwordsResponseResult.PasswordsResponses.Select(UserPasswordModelMapper.Map);
+        }catch(ApiException exception)
+        {
+            throw new PasswordComponentException("Error calling PasswordApiClient.GetPasswordAsync", exception);
+        }
+    }
+
+    public async  Task<IEnumerable<UserPasswordModel>> GetUserPasswordsFromUrl(Guid userId, string url)
+    {
+        try
+        {
+            var passwordsResponse = await _passwordmanagerPasswordApiClient.GetPasswordsByUserIdAndUrlAsync(new GetPasswordByUserIdAndUrlRequestDetails(url, userId));
 
             var passwordsResponseResult = passwordsResponse.Result;
 

@@ -18,7 +18,7 @@ namespace PasswordManager.PaymentCards.Api.Service.Endpoints.DeletePaymentCard
             _deletePaymentCardService = deletePaymentCardService;
         }
 
-        [HttpDelete("api/paymentcards/{paymentCardId:guid}")]
+        [HttpDelete("api/paymentcard/{paymentCardId:guid}")]
         public override async Task<ActionResult> HandleAsync([FromRoute] DeletePaymentCardRequestBody request, CancellationToken cancellationToken = default)
         {
             var operationResult = await _deletePaymentCardService.RequestDeletePaymentCard(request.PaymentCardId, new OperationDetails(request.CreatedByUserId));

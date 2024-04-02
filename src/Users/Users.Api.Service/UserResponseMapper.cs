@@ -1,4 +1,4 @@
-﻿using PasswordManager.Users.Api.Service.Endpoints.GetUser;
+﻿using PasswordManager.Users.Api.Service.Models;
 using PasswordManager.Users.Domain.Users;
 
 namespace PasswordManager.Users.Api.Service;

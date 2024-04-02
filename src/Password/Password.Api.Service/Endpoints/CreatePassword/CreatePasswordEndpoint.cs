@@ -18,7 +18,7 @@ public class CreatePasswordEndpoint : EndpointBaseAsync.WithRequest<CreatePasswo
         _createPasswordService = createPasswordService;
     }
 
-    [HttpPost("api/passwords")]
+    [HttpPost("api/password")]
     [ProducesResponseType(typeof(OperationAcceptedResponse), StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]

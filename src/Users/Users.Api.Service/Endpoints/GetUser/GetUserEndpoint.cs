@@ -1,6 +1,7 @@
 ﻿using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PasswordManager.Users.Api.Service.Models;
 using PasswordManager.Users.ApplicationServices.GetUser;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -14,7 +15,7 @@ public class GetUserEndpoint : EndpointBaseAsync.WithRequest<Guid>.WithActionRes
         _getUserService = getUserService;
     }
 
-    [HttpGet("api/users/{userId:guid}")]
+    [HttpGet("api/user/{userId:guid}")]
     [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [SwaggerOperation(

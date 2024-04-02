@@ -15,7 +15,7 @@ public class GetPaymentCardEndpoint : EndpointBaseAsync.WithRequest<Guid>.WithAc
         _getPaymentCardService = getPaymentCardService;
     }
 
-    [HttpGet("api/paymentcards/{paymentcardId:guid}")]
+    [HttpGet("api/paymentcard/{paymentcardId:guid}")]
     [ProducesResponseType(typeof(PaymentCardResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [SwaggerOperation(

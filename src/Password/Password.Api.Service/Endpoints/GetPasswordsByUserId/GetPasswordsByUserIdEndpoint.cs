@@ -19,7 +19,7 @@ namespace PasswordManager.Password.Api.Service.GetPasswordsByUserId
 
 
         [HttpGet("api/passwords/user")]
-        [ProducesResponseType(typeof(PasswordResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PasswordResponses), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         [SwaggerOperation(
             Summary = "Gets Passwords from UserId",

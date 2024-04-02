@@ -2,7 +2,6 @@
 using PasswordManager.Password.Domain.Password;
 
 namespace PasswordManager.Password.Api.Service.Mappers;
-
 internal static class PasswordResponseMapper
 {
     internal static PasswordResponse Map(PasswordModel passwordModel)
@@ -11,13 +10,16 @@ internal static class PasswordResponseMapper
                                                     passwordModel.Url,
                                                     passwordModel.FriendlyName,
                                                     passwordModel.Username,
-                                                    passwordModel.Password);
+                                                    passwordModel.Password,
+                                                    passwordModel.UserId);
 
         return passwordResponse;
     }
 
-    internal static IEnumerable<PasswordResponse> Map(IEnumerable<PasswordModel> passwordModels)
+    internal static PasswordResponses Map(IEnumerable<PasswordModel> passwordModels)
     {
-        return passwordModels.Select(Map);
+        var passwordResponses = passwordModels.Select(Map);
+
+        return new PasswordResponses(passwordModels.Select(Map));
     }
 }

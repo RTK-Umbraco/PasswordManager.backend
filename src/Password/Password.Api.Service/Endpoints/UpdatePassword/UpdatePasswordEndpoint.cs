@@ -1,6 +1,6 @@
 ﻿using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
-using PasswordManager.Password.Api.Service.Endpoints.GetOperation;
+using PasswordManager.Password.Api.Service.GetOperation;
 using PasswordManager.Password.Api.Service.Models;
 using PasswordManager.Password.ApplicationServices.Password.UpdatePassword;
 using PasswordManager.Password.Domain.Operations;
@@ -19,7 +19,7 @@ public sealed class UpdatePasswordEndpoint : EndpointBaseAsync.WithRequest<Updat
         _updatePasswordService = updatePasswordService;
     }
 
-    [HttpPut("api/passwords/{passwordId:guid}")]
+    [HttpPut("api/password/{passwordId:guid}")]
     [ProducesResponseType(typeof(OperationAcceptedResponse), StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]

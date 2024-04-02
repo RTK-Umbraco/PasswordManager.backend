@@ -20,7 +20,7 @@ namespace PasswordManager.PaymentCards.Api.Service.Endpoints.UpdatePaymentCard
             _updatePaymentCardService = updatePaymentCardService;
         }
 
-        [HttpPut("api/paymentcards/{paymentCardId:Guid}")]
+        [HttpPut("api/paymentcard/{paymentCardId:Guid}")]
         [ProducesResponseType(typeof(OperationAcceptedResponse), StatusCodes.Status202Accepted)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]

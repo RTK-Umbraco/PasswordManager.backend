@@ -1,7 +1,7 @@
 ﻿using Swashbuckle.AspNetCore.Annotations;
 using System.Text.Json.Serialization;
 
-namespace PasswordManager.Users.Api.Service.Endpoints.GetUser;
+namespace PasswordManager.Users.Api.Service.Models;
 
 [SwaggerSchema(Nullable = false, Required = new[] { "id" })]
 public class UserResponse
