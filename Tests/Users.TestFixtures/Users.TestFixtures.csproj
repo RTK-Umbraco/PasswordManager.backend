@@ -8,4 +8,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Users\Users.Domain\Users.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
