@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
+    <PackageReference Include="Moq" Version="4.20.70" />
     <PackageReference Include="NUnit" Version="3.13.3" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.4.2" />
     <PackageReference Include="NUnit.Analyzers" Version="3.6.1" />
@@ -25,6 +26,7 @@
     <ProjectReference Include="..\..\src\Users\Users.ApplicationServices\Users.ApplicationServices.csproj" />
     <ProjectReference Include="..\..\src\Users\Users.Domain\Users.Domain.csproj" />
     <ProjectReference Include="..\..\src\Users\Users.Infrastructure\Users.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Users\Users.Worker.Service\Users.Worker.Service.csproj" />
     <ProjectReference Include="..\Users.TestFixtures\Users.TestFixtures.csproj" />
   </ItemGroup>
 

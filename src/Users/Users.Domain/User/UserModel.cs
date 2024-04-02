@@ -1,4 +1,4 @@
-﻿namespace PasswordManager.Users.Domain.Users;
+﻿namespace PasswordManager.Users.Domain.User;
 public class UserModel : BaseModel
 {
     public string FirebaseId { get; }
