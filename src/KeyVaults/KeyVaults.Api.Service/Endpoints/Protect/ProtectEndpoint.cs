@@ -32,9 +32,7 @@ namespace PasswordManager.KeyVaults.Api.Service.Endpoints.Protect
             {
                 var protectedItem = _protectionService.Protect(request.Item, request.SecretKey);
 
-                var response = new ProtectedItemResponse(protectedItem);
-
-                return Ok(response);
+                return new ActionResult<ProtectedItemResponse>(new ProtectedItemResponse(protectedItem));
             }
             catch (ProtectionServiceException ex)
             {

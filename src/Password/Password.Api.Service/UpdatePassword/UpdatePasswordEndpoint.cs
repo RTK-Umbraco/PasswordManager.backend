@@ -8,7 +8,7 @@ using PasswordManager.Password.Domain.Password;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Text.Json.Serialization;
 
-namespace PasswordManager.Password.Api.Service.Endpoints.UpdatePassword;
+namespace PasswordManager.Password.Api.Service.UpdatePassword;
 
 public sealed class UpdatePasswordEndpoint : EndpointBaseAsync.WithRequest<UpdatePasswordRequestWithBody>.WithActionResult<PasswordResponse>
 {

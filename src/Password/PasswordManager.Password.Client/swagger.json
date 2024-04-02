@@ -540,6 +540,139 @@
           }
         }
       }
+    },
+    "/api/passwords/user": {
+      "get": {
+        "tags": [
+          "Password"
+        ],
+        "summary": "Gets Passwords from UserId",
+        "description": "Gets Passwords from UserId",
+        "operationId": "GetPasswordsFromUserId",
+        "parameters": [
+          {
+            "name": "UserId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PasswordResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PasswordResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PasswordResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/passwords/users/url": {
+      "get": {
+        "tags": [
+          "Password"
+        ],
+        "summary": "Gets Passwords from UserId with Url",
+        "description": "Gets Passwords from the UserId with the specified url",
+        "operationId": "GetPasswordsFromUserIdWithUrl",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetPasswordByUserIdWithUrlRequestDetails"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetPasswordByUserIdWithUrlRequestDetails"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetPasswordByUserIdWithUrlRequestDetails"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PasswordResponses"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PasswordResponses"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PasswordResponses"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -609,6 +742,23 @@
         "type": "object",
         "properties": {
           "password": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetPasswordByUserIdWithUrlRequestDetails": {
+        "required": [
+          "url",
+          "userId"
+        ],
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "url": {
             "type": "string"
           }
         },
@@ -689,6 +839,7 @@
           "id",
           "password",
           "url",
+          "userId",
           "username"
         ],
         "type": "object",
@@ -708,6 +859,22 @@
           },
           "password": {
             "type": "string"
+          },
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PasswordResponses": {
+        "type": "object",
+        "properties": {
+          "passwordsResponses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PasswordResponse"
+            }
           }
         },
         "additionalProperties": false

@@ -7,19 +7,23 @@ using PasswordManager.Users.Domain.Operations;
 using PasswordManager.Users.Domain.User;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Text.Json.Serialization;
+using PasswordManager.Users.Api.Service.CurrentUser;
 
 namespace PasswordManager.Users.Api.Service.Endpoints.CreateUserPassword;
 
 public class CreateUserPasswordEndpoint : EndpointBaseAsync.WithRequest<CreateUserPasswordRequestWithBody>.WithoutResult
 {
     private readonly ICreateUserPasswordService _createUserPasswordService;
+    private readonly ICurrentUser _currentUser;
 
-    public CreateUserPasswordEndpoint(ICreateUserPasswordService createUserPasswordService)
+
+    public CreateUserPasswordEndpoint(ICreateUserPasswordService createUserPasswordService, ICurrentUser currentUser)
     {
         _createUserPasswordService = createUserPasswordService;
+        _currentUser = currentUser;
     }
 
-    [HttpPost("api/users/{userId}/passwords")]
+    [HttpPost("api/user/passwords")]
     [ProducesResponseType(typeof(OperationAcceptedResponse), StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
@@ -32,7 +36,7 @@ public class CreateUserPasswordEndpoint : EndpointBaseAsync.WithRequest<CreateUs
 
     public override async Task<ActionResult> HandleAsync([FromRoute] CreateUserPasswordRequestWithBody request, CancellationToken cancellationToken = default)
     {
-        var userPasswordModel = UserPasswordModel.CreateUserPassword(request.UserId, request.Details.Url, request.Details.FriendlyName, request.Details.Username, request.Details.Password);
+        var userPasswordModel = UserPasswordModel.CreateUserPassword(_currentUser.GetUser().Id, request.Details.Url, request.Details.FriendlyName, request.Details.Username, request.Details.Password);
 
         var operationResult = await _createUserPasswordService.RequestCreateUserPassword(userPasswordModel, new OperationDetails(request.CreatedByUserId));
 

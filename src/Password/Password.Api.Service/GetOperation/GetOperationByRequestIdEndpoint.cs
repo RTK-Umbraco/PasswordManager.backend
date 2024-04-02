@@ -4,7 +4,7 @@ using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace PasswordManager.Password.Api.Service.Endpoints.GetOperation;
+namespace PasswordManager.Password.Api.Service.GetOperation;
 
 public class GetOperationByRequestIdEndpoint : EndpointBaseAsync.WithRequest<string>.WithActionResult<OperationResponse>
 {

@@ -13,7 +13,6 @@
 
 .DS_Store
 .idea
-launchSettings.json
 .sonarqube
 
 # Ignore local docker mssql storage files

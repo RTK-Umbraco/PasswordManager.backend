@@ -5,7 +5,11 @@ using PasswordManager.Password.Api.Service.Models;
 using PasswordManager.Password.ApplicationServices.Password.GetPassword;
 using Swashbuckle.AspNetCore.Annotations;
 
+<<<<<<<< HEAD:src/Password/Password.Api.Service/Endpoints/GetPasswordById/GetPasswordByIdEndpoint.cs
 namespace PasswordManager.Password.Api.Service.Endpoints.GetPasswordById;
+========
+namespace PasswordManager.Password.Api.Service.GetPassword;
+>>>>>>>> origin/feature/davu/firebase-user:src/Password/Password.Api.Service/GetPassword/GetPasswordEndpoint.cs
 
 public class GetPasswordByIdEndpoint : EndpointBaseAsync.WithRequest<Guid>.WithActionResult<PasswordResponse>
 {

@@ -6,7 +6,7 @@ using PasswordManager.Password.ApplicationServices.Password.GetPassword;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Text.Json.Serialization;
 
-namespace PasswordManager.Password.Api.Service.Endpoints.GetPasswordsByUserId
+namespace PasswordManager.Password.Api.Service.GetPasswordsByUserId
 {
     public sealed class GetPasswordsByUserIdEndpoint : EndpointBaseAsync.WithRequest<Guid>.WithActionResult<IEnumerable<PasswordResponse>>
     {
