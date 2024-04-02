@@ -1,6 +1,7 @@
 ﻿using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PasswordManager.Users.Api.Service.Mappers;
 using PasswordManager.Users.Api.Service.Models;
 using PasswordManager.Users.ApplicationServices.GetUser;
 using Swashbuckle.AspNetCore.Annotations;

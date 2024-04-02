@@ -8,6 +8,7 @@ using PasswordManager.Users.Api.Service.CurrentUser;
 using PasswordManager.Users.Api.Service.Models;
 using PasswordManager.Users.Api.Service.Mappers;
 using PasswordManager.Users.Domain.User;
+using System.ComponentModel.DataAnnotations;
 
 namespace PasswordManager.Users.Api.Service.Endpoints.GetUserPasswords;
 
@@ -22,7 +23,7 @@ public class GetUserPasswordsEndpoint : EndpointBaseAsync.WithRequest<GetUserPas
         this._currentUser = _currentUser;
     }
 
-    [HttpPost("api/user/{userId:Guid}/passwords")]
+    [HttpGet("api/user/{userId:Guid}/passwords")]
     [ProducesResponseType(typeof(IEnumerable<UserPasswordResponse>), StatusCodes.Status200OK)]
     [SwaggerOperation(
         Summary = "Get user passwords by user id and url",
@@ -35,10 +36,10 @@ public class GetUserPasswordsEndpoint : EndpointBaseAsync.WithRequest<GetUserPas
     {
         IEnumerable<UserPasswordModel> userPasswordModel;
 
-        if (request.Details.Url == null)
+        if (request.Url == null)
             userPasswordModel = await _getUserPasswordsService.GetUserPasswords(_currentUser.GetUser().Id);
         else
-            userPasswordModel = await _getUserPasswordsService.GetUserPasswordsByUrl(_currentUser.GetUser().Id, request.Details.Url);
+            userPasswordModel = await _getUserPasswordsService.GetUserPasswordsByUrl(_currentUser.GetUser().Id, request.Url);
 
         var userPasswordResponse = userPasswordModel.Select(UserPasswordResponseMapper.Map);
 
@@ -46,11 +47,12 @@ public class GetUserPasswordsEndpoint : EndpointBaseAsync.WithRequest<GetUserPas
     }
 }
 
-public sealed class GetUserPasswordRequestWithBody : UserRequest<GetUserPasswordRequestDetails> {}
-
-[SwaggerSchema(Nullable = false, Required = new[] { "url" })]
-public sealed class GetUserPasswordRequestDetails
+public sealed class GetUserPasswordRequestWithBody 
 {
-    [JsonPropertyName("url")]
-    public string Url { get; set; }
+    [FromRoute(Name = "userId")]
+    [Required]
+    public Guid UserId { get; set; }
+
+    [FromQuery]
+    public string? Url { get; set; }
 }

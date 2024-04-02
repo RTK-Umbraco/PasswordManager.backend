@@ -51,7 +51,7 @@ public sealed class PasswordComponent : IPasswordComponent
     {
         try
         {
-            var passwordsResponse = await _passwordmanagerPasswordApiClient.GetPasswordsByUserIdAndUrlAsync(new GetPasswordByUserIdAndUrlRequestDetails(url, userId));
+            var passwordsResponse = await _passwordmanagerPasswordApiClient.GetPasswordsByUserIdAndUrlAsync(userId, url);
 
             var passwordsResponseResult = passwordsResponse.Result;
 

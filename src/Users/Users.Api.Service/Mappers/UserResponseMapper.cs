@@ -1,7 +1,7 @@
 ﻿using PasswordManager.Users.Api.Service.Models;
 using PasswordManager.Users.Domain.Users;
 
-namespace PasswordManager.Users.Api.Service;
+namespace PasswordManager.Users.Api.Service.Mappers;
 
 internal static class UserResponseMapper
 {
