@@ -1,5 +1,5 @@
-using PasswordManager.Users.ApplicationServices.CreateUserPassword;
 using PasswordManager.Users.ApplicationServices.Operations;
+using PasswordManager.Users.ApplicationServices.UserPassword.CreateUserPassword;
 using PasswordManager.Users.Infrastructure.Installers;
 
 namespace PasswordManager.Users.Worker.Service.Installers

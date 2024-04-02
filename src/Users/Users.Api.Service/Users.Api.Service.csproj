@@ -42,4 +42,11 @@
     <ProjectReference Include="..\Users.Domain\Users.Domain.csproj" />
     <ProjectReference Include="..\Users.Infrastructure\Users.Infrastructure.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Endpoints\UserPaymentCard\CreateUserPaymentCard\" />
+    <Folder Include="Endpoints\UserPaymentCard\DeleteUserPaymentCard\" />
+    <Folder Include="Endpoints\UserPaymentCard\GetUserPaymentCard\" />
+    <Folder Include="Endpoints\UserPaymentCard\UpdateUserPaymentCard\" />
+  </ItemGroup>
 </Project>

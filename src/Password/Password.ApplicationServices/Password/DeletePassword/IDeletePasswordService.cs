@@ -11,6 +11,6 @@ namespace PasswordManager.Password.ApplicationServices.Password.DeletePassword
     public interface IDeletePasswordService
     {
         Task<OperationResult> RequestDeletePassword(Guid passwordId, OperationDetails operationDetails);
-        Task DeletePassword(PasswordModel deletePasswordModel);
+        Task DeletePassword(Guid passwordId);
     }
 }

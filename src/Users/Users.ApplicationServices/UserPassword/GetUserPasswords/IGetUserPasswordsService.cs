@@ -1,6 +1,6 @@
 ﻿using PasswordManager.Users.Domain.User;
 
-namespace PasswordManager.Users.ApplicationServices.GetUserPasswords;
+namespace PasswordManager.Users.ApplicationServices.UserPassword.GetUserPasswords;
 public interface IGetUserPasswordsService
 {
     Task<IEnumerable<UserPasswordModel>> GetUserPasswords(Guid userId);

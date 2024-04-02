@@ -1,6 +1,6 @@
 ﻿using PasswordManager.Users.Domain.User;
 
-namespace PasswordManager.Users.ApplicationServices.GetUser;
+namespace PasswordManager.Users.ApplicationServices.User.GetUser;
 
 public interface IGetUserService
 {

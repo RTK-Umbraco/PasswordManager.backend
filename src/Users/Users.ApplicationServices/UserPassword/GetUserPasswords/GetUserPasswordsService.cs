@@ -2,7 +2,7 @@
 using PasswordManager.Users.ApplicationServices.Repositories.User;
 using PasswordManager.Users.Domain.User;
 
-namespace PasswordManager.Users.ApplicationServices.GetUserPasswords;
+namespace PasswordManager.Users.ApplicationServices.UserPassword.GetUserPasswords;
 public sealed class GetUserPasswordsService : IGetUserPasswordsService
 {
     private readonly IPasswordComponent _passwordComponent;

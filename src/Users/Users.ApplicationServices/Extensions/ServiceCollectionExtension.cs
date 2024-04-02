@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using PasswordManager.Users.ApplicationServices.CreateUserPassword;
-using PasswordManager.Users.ApplicationServices.GetUser;
-using PasswordManager.Users.ApplicationServices.GetUserPasswords;
 using PasswordManager.Users.ApplicationServices.Operations;
+using PasswordManager.Users.ApplicationServices.User.GetUser;
+using PasswordManager.Users.ApplicationServices.UserPassword.CreateUserPassword;
+using PasswordManager.Users.ApplicationServices.UserPassword.GetUserPasswords;
 
 namespace PasswordManager.Users.ApplicationServices.Extensions;
 public static class ServiceCollectionExtension

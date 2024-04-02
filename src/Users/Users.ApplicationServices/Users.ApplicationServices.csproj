@@ -19,4 +19,8 @@
     <ProjectReference Include="..\Users.Messages\Users.Messages.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UserPassword\UpdateUserPassword\" />
+  </ItemGroup>
+
 </Project>

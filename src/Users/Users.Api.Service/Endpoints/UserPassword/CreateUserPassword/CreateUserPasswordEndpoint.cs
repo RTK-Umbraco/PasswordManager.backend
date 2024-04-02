@@ -2,14 +2,14 @@
 using Microsoft.AspNetCore.Mvc;
 using PasswordManager.Users.Api.Service.Endpoints.GetOperation;
 using PasswordManager.Users.Api.Service.Models;
-using PasswordManager.Users.ApplicationServices.CreateUserPassword;
 using PasswordManager.Users.Domain.Operations;
 using PasswordManager.Users.Domain.User;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Text.Json.Serialization;
 using PasswordManager.Users.Api.Service.CurrentUser;
+using PasswordManager.Users.ApplicationServices.UserPassword.CreateUserPassword;
 
-namespace PasswordManager.Users.Api.Service.Endpoints.CreateUserPassword;
+namespace PasswordManager.Users.Api.Service.Endpoints.UserPassword.CreateUserPassword;
 
 public class CreateUserPasswordEndpoint : EndpointBaseAsync.WithRequest<CreateUserPasswordRequestWithBody>.WithoutResult
 {

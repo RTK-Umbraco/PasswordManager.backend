@@ -1,7 +1,6 @@
 ﻿using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PasswordManager.Users.ApplicationServices.GetUserPasswords;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Text.Json.Serialization;
 using PasswordManager.Users.Api.Service.CurrentUser;
@@ -9,8 +8,9 @@ using PasswordManager.Users.Api.Service.Models;
 using PasswordManager.Users.Api.Service.Mappers;
 using PasswordManager.Users.Domain.User;
 using System.ComponentModel.DataAnnotations;
+using PasswordManager.Users.ApplicationServices.UserPassword.GetUserPasswords;
 
-namespace PasswordManager.Users.Api.Service.Endpoints.GetUserPasswords;
+namespace PasswordManager.Users.Api.Service.Endpoints.UserPassword.GetUserPasswords;
 
 public class GetUserPasswordsEndpoint : EndpointBaseAsync.WithRequest<GetUserPasswordRequestWithBody>.WithActionResult<IEnumerable<UserPasswordResponse>>
 {
@@ -47,7 +47,7 @@ public class GetUserPasswordsEndpoint : EndpointBaseAsync.WithRequest<GetUserPas
     }
 }
 
-public sealed class GetUserPasswordRequestWithBody 
+public sealed class GetUserPasswordRequestWithBody
 {
     [FromRoute(Name = "userId")]
     [Required]

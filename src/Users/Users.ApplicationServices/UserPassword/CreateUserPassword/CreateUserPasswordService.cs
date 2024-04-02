@@ -7,7 +7,7 @@ using PasswordManager.Users.Domain.User;
 using Rebus.Bus;
 using Users.Messages.CreateUserPassword;
 
-namespace PasswordManager.Users.ApplicationServices.CreateUserPassword;
+namespace PasswordManager.Users.ApplicationServices.UserPassword.CreateUserPassword;
 public class CreateUserPasswordService : ICreateUserPasswordService
 {
     private readonly IUserRepository _userRepository;

@@ -1,4 +1,4 @@
-﻿namespace PasswordManager.Users.ApplicationServices.GetUserPasswords;
+﻿namespace PasswordManager.Users.ApplicationServices.UserPassword.GetUserPasswords;
 internal class GetUserPasswordsServiceException : Exception
 {
     public GetUserPasswordsServiceException(string? message) : base(message)

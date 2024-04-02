@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PasswordManager.Users.Api.Service.Mappers;
 using PasswordManager.Users.Api.Service.Models;
-using PasswordManager.Users.ApplicationServices.GetUser;
+using PasswordManager.Users.ApplicationServices.User.GetUser;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace PasswordManager.Users.Api.Service.Endpoints.GetUser;
+namespace PasswordManager.Users.Api.Service.Endpoints.User.GetUser;
 
 public class GetUserEndpoint : EndpointBaseAsync.WithRequest<Guid>.WithActionResult<UserResponse>
 {

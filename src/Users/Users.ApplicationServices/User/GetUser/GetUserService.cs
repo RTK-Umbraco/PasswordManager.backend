@@ -1,7 +1,7 @@
 ﻿using PasswordManager.Users.ApplicationServices.Repositories.User;
 using PasswordManager.Users.Domain.User;
 
-namespace PasswordManager.Users.ApplicationServices.GetUser;
+namespace PasswordManager.Users.ApplicationServices.User.GetUser;
 internal class GetUserService : IGetUserService
 {
     private readonly IUserRepository _userRepository;
