@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
 using Password.Worker.Service.CreatePassword;
-using PasswordManager.Password.ApplicationServices.CreatePassword;
 using Rebus.Bus;
 using PasswordManager.Password.ApplicationServices.Operations;
 using NUnit.Framework;
@@ -10,6 +9,7 @@ using PasswordManager.Password.TestFixtures.Operations;
 using PasswordManager.Password.Domain.Operations;
 using PasswordManager.Password.TestFixtures.Password;
 using PasswordManager.Password.Domain.Password;
+using PasswordManager.Password.ApplicationServices.Password.CreatePassword;
 
 namespace PasswordManager.Password.Tests.CreatePassword;
 internal class CreatePasswordCommandHandlerTests

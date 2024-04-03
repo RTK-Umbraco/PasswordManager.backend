@@ -1,12 +1,14 @@
 ﻿using Microsoft.Extensions.Logging;
+using PasswordManager.User.Domain.Operations;
 using PasswordManager.Users.ApplicationServices.Components;
 using PasswordManager.Users.ApplicationServices.Operations;
 using PasswordManager.Users.Domain.Operations;
 using Rebus.Bus;
+using Users.Messages.DeleteUserPassword;
 
 namespace PasswordManager.Users.ApplicationServices.UserPassword.DeleteUserPassword
 {
-    internal class DeleteUserPasswordService : IDeleteUserPassword
+    internal class DeleteUserPasswordService : IDeleteUserPasswordService
     {
         private readonly IOperationService _operationService;
         private readonly IPasswordComponent _passwordComponent;
@@ -20,14 +22,29 @@ namespace PasswordManager.Users.ApplicationServices.UserPassword.DeleteUserPassw
             _logger = logger;
             _bus = bus;
         }
-        public Task<OperationResult> RequestDeleteUserPassword(Guid userId, OperationDetails operationDetails)
+        public async Task<OperationResult> RequestDeleteUserPassword(Guid passwordId, OperationDetails operationDetails)
         {
-            throw new NotImplementedException();
+            _logger.LogInformation("Request deleting password for user {userId}", passwordId);
+
+            var operation = await _operationService.QueueOperation(OperationBuilder.DeleteUserPassword(passwordId, operationDetails.CreatedBy));
+
+            await _bus.Send(new DeleteUserPasswordCommand(operation.RequestId));
+
+            _logger.LogInformation("Request sent to worker for deleting password: {passwordId} - requestId: {requestId}", passwordId, operation.RequestId);
+
+            return OperationResult.Accepted(operation);
         }
 
-        public Task DeleteUserPassword(Guid userId)
+        public async Task DeleteUserPassword(Guid userId, string createdByUserId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await _passwordComponent.DeleteUserPassword(userId, createdByUserId);
+            }
+            catch (PasswordComponentException exception)
+            {
+                throw new DeleteUserPasswordServiceException($"Error calling password component to delete password for user {userId}", exception);
+            }
         }
     }
 }

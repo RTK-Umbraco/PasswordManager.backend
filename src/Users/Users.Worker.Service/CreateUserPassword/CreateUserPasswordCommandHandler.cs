@@ -36,18 +36,18 @@ public class CreateUserPasswordCommandHandler : IHandleMessages<CreateUserPasswo
 
         await _operationService.UpdateOperationStatus(requestId, OperationStatus.Processing);
 
-        var createPasswordModel = CreateUserPasswordOperationHelper.Map(operation.UserId, operation);
+        var createUserPasswordModel = CreateUserPasswordOperationHelper.Map(operation.UserId, operation);
 
         try
         {
-            await _createUserPasswordService.CreateUserPassword(createPasswordModel, operation.CreatedBy);
-            await PublishSuccessEventAndMarkOperationAsCompleted(createPasswordModel.UserId, requestId);
+            await _createUserPasswordService.CreateUserPassword(createUserPasswordModel, operation.CreatedBy);
+            await PublishSuccessEventAndMarkOperationAsCompleted(createUserPasswordModel.UserId, requestId);
 
             OperationResult.Completed(operation);
         }
         catch (CreateUserPasswordServiceException exception)
         {
-            await PublishFailedEventAndMarkOperationAsFailed(createPasswordModel.UserId, requestId, exception.Message);
+            await PublishFailedEventAndMarkOperationAsFailed(createUserPasswordModel.UserId, requestId, exception.Message);
         }
     }
 

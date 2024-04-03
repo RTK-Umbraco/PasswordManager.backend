@@ -17,7 +17,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<IGetUserService, GetUserService>();
         services.AddScoped<ICreateUserPasswordService, CreateUserPasswordService>();
         services.AddScoped<IOperationService, OperationService>();
-        services.AddScoped<IDeleteUserPassword, DeleteUserPasswordService>();
+        services.AddScoped<IDeleteUserPasswordService, DeleteUserPasswordService>();
         
         return services;
     }

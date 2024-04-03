@@ -8,6 +8,7 @@ using Swashbuckle.AspNetCore.Annotations;
 using System.Text.Json.Serialization;
 using PasswordManager.Users.Api.Service.CurrentUser;
 using PasswordManager.Users.ApplicationServices.UserPassword.CreateUserPassword;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PasswordManager.Users.Api.Service.Endpoints.UserPassword.CreateUserPassword;
 
@@ -32,13 +33,14 @@ public class CreateUserPasswordEndpoint : EndpointBaseAsync.WithRequest<CreateUs
     Description = "Creates a user password",
     OperationId = "CreateUserPassword",
     Tags = new[] { "Password" })
-]
+    ]
 
+    [Authorize(AuthenticationSchemes = "FirebaseUser")]
     public override async Task<ActionResult> HandleAsync([FromRoute] CreateUserPasswordRequestWithBody request, CancellationToken cancellationToken = default)
     {
         var userPasswordModel = UserPasswordModel.CreateUserPassword(_currentUser.GetUser().Id, request.Details.Url, request.Details.FriendlyName, request.Details.Username, request.Details.Password);
 
-        var operationResult = await _createUserPasswordService.RequestCreateUserPassword(userPasswordModel, new OperationDetails(request.CreatedByUserId));
+        var operationResult = await _createUserPasswordService.RequestCreateUserPassword(userPasswordModel, new OperationDetails(_currentUser.GetUser().Id.ToString()));
 
         return operationResult.Status switch
         {

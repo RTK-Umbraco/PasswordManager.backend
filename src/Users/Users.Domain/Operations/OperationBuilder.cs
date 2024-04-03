@@ -20,4 +20,20 @@ public static class OperationBuilder
 
         return CreateOperation(passwordModel.UserId, OperationName.CreateUserPassword, createdBy, data);
     }
+
+    public static Operation UpdateUserPassword(UserPasswordModel newPassword, string createdBy)
+    {
+        var data = new Dictionary<string, string>()
+        {
+            { OperationDataConstants.NewUserPasswordUrl, newPassword.Url },
+            { OperationDataConstants.NewUserPasswordFriendlyName, newPassword.FriendlyName },
+            { OperationDataConstants.NewUserPasswordUsername, newPassword.Username },
+            { OperationDataConstants.NewUserPasswordPassword, newPassword.Password },
+        };
+
+        return CreateOperation(newPassword.UserId, OperationName.UpdateUserPassword, createdBy, data);
+    }
+
+    public static Operation DeleteUserPassword(Guid userId, string createdBy)
+        => CreateOperation(userId, OperationName.DeleteUserPassword, createdBy, null);
 }

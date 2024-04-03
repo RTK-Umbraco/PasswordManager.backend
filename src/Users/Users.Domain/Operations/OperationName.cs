@@ -2,4 +2,6 @@
 public enum OperationName
 {
     CreateUserPassword,
+    UpdateUserPassword,
+    DeleteUserPassword,
 }

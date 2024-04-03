@@ -8,7 +8,7 @@ public static class UserModelFixture
     public sealed class UserModelBuilder
     {
         private Guid _userId = Guid.NewGuid();
-        private Guid _firebaseId = Guid.NewGuid();
+        private string _firebaseId = Guid.NewGuid().ToString();
         private DateTime _createdUtc = DateTime.UtcNow.AddDays(-1);
         private DateTime _modifiedUtc = DateTime.UtcNow;
         private bool _deleted = false;
