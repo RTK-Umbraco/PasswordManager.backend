@@ -18,7 +18,7 @@ public static class OperationFixture
 
         private OperationName _operationName = OperationName.CreateUserPassword;
         private OperationStatus _operationStatus = OperationStatus.Queued;
-        private Guid _passwordId = Guid.NewGuid();
+        private Guid _userId = Guid.NewGuid();
 
         private string _requestId = "request-id";
         private string _createdBy = "created by";
@@ -30,7 +30,7 @@ public static class OperationFixture
 
         public Operation Build()
         {
-            var operationEntity = new Operation(_id, _requestId, _createdBy, _passwordId, _operationName, _operationStatus, _createdUtc, _modifiedUtc, _completedUtc, _data);
+            var operationEntity = new Operation(_id, _requestId, _createdBy, _userId, _operationName, _operationStatus, _createdUtc, _modifiedUtc, _completedUtc, _data);
 
             return operationEntity;
         }
@@ -41,9 +41,9 @@ public static class OperationFixture
             return this;
         }
 
-        public OperationBuilder WithPasswordId(Guid passwordId)
+        public OperationBuilder WithUserId(Guid passwordId)
         {
-            _passwordId = passwordId;
+            _userId = passwordId;
             return this;
         }
 

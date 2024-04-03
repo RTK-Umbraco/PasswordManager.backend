@@ -48,7 +48,6 @@ public class CreateUserPasswordCommandHandler : IHandleMessages<CreateUserPasswo
         catch (CreateUserPasswordServiceException exception)
         {
             await PublishFailedEventAndMarkOperationAsFailed(createPasswordModel.UserId, requestId, exception.Message);
-            throw;
         }
     }
 
