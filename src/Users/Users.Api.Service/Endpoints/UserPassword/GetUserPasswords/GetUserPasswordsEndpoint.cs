@@ -23,7 +23,7 @@ public class GetUserPasswordsEndpoint : EndpointBaseAsync.WithRequest<GetUserPas
         this._currentUser = _currentUser;
     }
 
-    [HttpGet("api/user/{userId:Guid}/passwords")]
+    [HttpGet("api/user/passwords")]
     [ProducesResponseType(typeof(IEnumerable<UserPasswordResponse>), StatusCodes.Status200OK)]
     [SwaggerOperation(
         Summary = "Get user passwords by user id and url",
@@ -49,10 +49,6 @@ public class GetUserPasswordsEndpoint : EndpointBaseAsync.WithRequest<GetUserPas
 
 public sealed class GetUserPasswordRequestWithBody
 {
-    [FromRoute(Name = "userId")]
-    [Required]
-    public Guid UserId { get; set; }
-
     [FromQuery]
     public string? Url { get; set; }
 }

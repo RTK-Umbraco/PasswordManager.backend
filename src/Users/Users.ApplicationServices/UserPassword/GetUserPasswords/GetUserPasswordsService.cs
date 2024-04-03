@@ -18,12 +18,7 @@ public sealed class GetUserPasswordsService : IGetUserPasswordsService
 
     public async Task<IEnumerable<UserPasswordModel>> GetUserPasswords(Guid userId)
     {
-        var user = await _userRepository.Get(userId);
-
-        if (user is null)
-        {
-            throw new GetUserPasswordsServiceException("Could not found user");
-        }
+        var user = await _userRepository.Get(userId) ?? throw new GetUserPasswordsServiceException("Could not find user");
 
         if (user.IsDeleted())
         {
@@ -39,12 +34,7 @@ public sealed class GetUserPasswordsService : IGetUserPasswordsService
 
     public async Task<IEnumerable<UserPasswordModel>> GetUserPasswordsByUrl(Guid userId, string url)
     {
-        var user = await _userRepository.Get(userId);
-
-        if (user is null)
-        {
-            throw new GetUserPasswordsServiceException("Could not found user");
-        }
+        var user = await _userRepository.Get(userId) ?? throw new GetUserPasswordsServiceException("Could not find user");
 
         if (user.IsDeleted())
         {

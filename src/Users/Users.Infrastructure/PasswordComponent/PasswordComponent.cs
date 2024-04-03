@@ -7,7 +7,7 @@ namespace PasswordManager.Users.Infrastructure.PasswordComponent;
 public sealed class PasswordComponent : IPasswordComponent
 {
     private readonly IPasswordmanagerPasswordApiClient _passwordmanagerPasswordApiClient;
-    private ILogger<PasswordComponent> _logger;
+    private readonly ILogger<PasswordComponent> _logger;
 
     public PasswordComponent(IPasswordmanagerPasswordApiClient passwordmanagerPasswordApiClient, ILogger<PasswordComponent> logger)
     {
