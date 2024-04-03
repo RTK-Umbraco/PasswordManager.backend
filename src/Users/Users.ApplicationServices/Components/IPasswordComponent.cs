@@ -3,7 +3,10 @@
 namespace PasswordManager.Users.ApplicationServices.Components;
 public interface IPasswordComponent
 {
-    Task CreateUserPassword(UserPasswordModel userPasswordModel);
+    Task CreateUserPassword(UserPasswordModel userPasswordModel, string createdByUserId);
     Task<IEnumerable<UserPasswordModel>> GetUserPasswordsFromUrl(Guid userId, string url);
     Task<IEnumerable<UserPasswordModel>> GetUserPasswords(Guid userId);
+    Task DeleteUserPassword(Guid passwordId, string createdByUserId);
+    Task UpdateUserPassword(UserPasswordModel userPasswordModel, string createdByUserId);
+    Task<string> GenerateUserPassword(int length);
 }

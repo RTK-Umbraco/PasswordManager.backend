@@ -5,5 +5,5 @@ namespace PasswordManager.Users.ApplicationServices.UserPassword.CreateUserPassw
 public interface ICreateUserPasswordService
 {
     Task<OperationResult> RequestCreateUserPassword(UserPasswordModel userPasswordModel, OperationDetails operationDetails);
-    Task CreateUserPassword(UserPasswordModel userPasswordModel);
+    Task CreateUserPassword(UserPasswordModel userPasswordModel, string createdByUserId);
 }

@@ -62,11 +62,11 @@ public class CreateUserPasswordService : ICreateUserPasswordService
         }
     }
 
-    public async Task CreateUserPassword(UserPasswordModel userPasswordModel)
+    public async Task CreateUserPassword(UserPasswordModel userPasswordModel, string createdByUserId)
     {
         try
         {
-            await _passwordComponent.CreateUserPassword(userPasswordModel);
+            await _passwordComponent.CreateUserPassword(userPasswordModel, createdByUserId);
         }
         catch (PasswordComponentException exception)
         {
