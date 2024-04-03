@@ -2,6 +2,7 @@
 using PasswordManager.User.Domain.Operations;
 using PasswordManager.Users.ApplicationServices.Components;
 using PasswordManager.Users.ApplicationServices.Operations;
+using PasswordManager.Users.ApplicationServices.Repositories.User;
 using PasswordManager.Users.Domain.Operations;
 using PasswordManager.Users.Domain.User;
 using Rebus.Bus;
@@ -14,14 +15,21 @@ namespace PasswordManager.Users.ApplicationServices.UserPassword.UpdateUserPassw
         private readonly IPasswordComponent _passwordComponent;
         private readonly IOperationService _operationService;
         private readonly IKeyVaultComponent _keyVaultComponent;
-        private readonly ILogger _logger;
+        private readonly IUserRepository _userRepository;
+        private readonly ILogger<UpdateUserPasswordService> _logger;
         private readonly IBus _bus;
 
-        public UpdateUserPasswordService(IPasswordComponent passwordComponent, IOperationService operationService, IKeyVaultComponent keyVaultComponent, ILogger logger, IBus bus)
+        public UpdateUserPasswordService(
+            IPasswordComponent passwordComponent, 
+            IOperationService operationService, 
+            IKeyVaultComponent keyVaultComponent, 
+            ILogger<UpdateUserPasswordService> logger, 
+            IBus bus, IUserRepository userRepository)
         {
             _passwordComponent = passwordComponent;
             _operationService = operationService;
             _keyVaultComponent = keyVaultComponent;
+            _userRepository = userRepository;
             _logger = logger;
             _bus = bus;
         }
@@ -30,13 +38,41 @@ namespace PasswordManager.Users.ApplicationServices.UserPassword.UpdateUserPassw
         {
             _logger.LogInformation("Request updating password for user {userId}", userPasswordModel.UserId);
 
-            var operation = await _operationService.QueueOperation(OperationBuilder.UpdateUserPassword(userPasswordModel, operationDetails.CreatedBy));
+            var user = await _userRepository.Get(userPasswordModel.UserId);
 
-            await _bus.Send(new UpdateUserPasswordCommand(operation.RequestId));
+            if (user is null)
+            {
+                return OperationResult.InvalidState("Cannot update password for user because user was not found");
+            }
 
-            _logger.LogInformation("Request sent to worker for updating password: {userId} - requestId: {requestId}", userPasswordModel.UserId, operation.RequestId);
+            if (user.IsDeleted())
+            {
+                return OperationResult.InvalidState("Cannot update user password because user was marked as deleted");
+            }
 
-            return OperationResult.Accepted(operation);
+            try
+            {
+                var encryptedPassword = await _keyVaultComponent.CreateEncryptedPassword(userPasswordModel, user.SecretKey);
+
+                if (string.IsNullOrEmpty(encryptedPassword))
+                {
+                    return OperationResult.InvalidState("Cannot create encrypted password for user");
+                }
+
+                userPasswordModel.SetEncryptedPassword(encryptedPassword);
+
+                var operation = await _operationService.QueueOperation(OperationBuilder.UpdateUserPassword(userPasswordModel, operationDetails.CreatedBy));
+
+                await _bus.Send(new UpdateUserPasswordCommand(operation.RequestId));
+
+                _logger.LogInformation("Request sent to worker for updating password: {userId} - requestId: {requestId}", userPasswordModel.UserId, operation.RequestId);
+
+                return OperationResult.Accepted(operation);
+            }
+            catch (UpdateUserPasswordServiceException exception)
+            {
+                return OperationResult.InvalidState($"Error updating password for user {userPasswordModel.UserId}. Exception: {exception}");
+            }
         }
 
         public async Task UpdateUserPassword(UserPasswordModel userPasswordModel, string createdByUserId)

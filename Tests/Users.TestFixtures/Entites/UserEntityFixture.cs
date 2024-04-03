@@ -11,7 +11,7 @@ public class UserEntityFixture
     public class UserEntityBuilder
     {
         private Guid _userId = Guid.NewGuid();
-        private Guid _firebaseId = Guid.NewGuid();
+        private string _firebaseId = Guid.NewGuid().ToString();
         private string _secretKey = "secretKey";
 
         private DateTime _createdDate = DateTime.UtcNow.AddMonths(-1).AddDays(-1);

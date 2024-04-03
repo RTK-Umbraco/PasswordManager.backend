@@ -56,6 +56,7 @@ namespace PasswordManager.Users.Api.Service.Endpoints.UserPassword.UpdateUserPas
 
     public sealed class UpdateUserPasswordRequestWithBody : UserOperationRequest<UpdateUserPasswordRequestDetails>
     {
+        [FromRoute(Name = "passwordId")]
         public Guid PasswordId { get; set; }
     }
 

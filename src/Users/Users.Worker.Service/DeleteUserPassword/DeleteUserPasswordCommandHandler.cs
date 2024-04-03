@@ -12,14 +12,12 @@ namespace Users.Worker.Service.DeleteUserPassword
         private readonly IDeleteUserPasswordService _deleteUserPasswordService;
         private readonly IOperationService _operationService;
         private readonly ILogger<DeleteUserPasswordCommandHandler> _logger;
-        private readonly IBus _bus;
 
-        public DeleteUserPasswordCommandHandler(IDeleteUserPasswordService deleteUserPasswordService, IOperationService operationService, ILogger<DeleteUserPasswordCommandHandler> logger, IBus bus)
+        public DeleteUserPasswordCommandHandler(IDeleteUserPasswordService deleteUserPasswordService, IOperationService operationService, ILogger<DeleteUserPasswordCommandHandler> logger)
         {
             _deleteUserPasswordService = deleteUserPasswordService;
             _operationService = operationService;
             _logger = logger;
-            _bus = bus;
         }
 
         public async Task Handle(DeleteUserPasswordCommand message)

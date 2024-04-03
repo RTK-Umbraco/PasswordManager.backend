@@ -13,14 +13,12 @@ namespace Users.Worker.Service.UpdateUserPassword
         private readonly IUpdateUserPasswordService _updateUserPasswordService;
         private readonly IOperationService _operationService;
         private readonly ILogger<UpdateUserPasswordCommandHandler> _logger;
-        private readonly IBus _bus;
 
-        public UpdateUserPasswordCommandHandler(IUpdateUserPasswordService updateUserPasswordService, IOperationService operationService, ILogger<UpdateUserPasswordCommandHandler> logger, IBus bus)
+        public UpdateUserPasswordCommandHandler(IUpdateUserPasswordService updateUserPasswordService, IOperationService operationService, ILogger<UpdateUserPasswordCommandHandler> logger)
         {
             _updateUserPasswordService = updateUserPasswordService;
             _operationService = operationService;
             _logger = logger;
-            _bus = bus;
         }
 
         public async Task Handle(UpdateUserPasswordCommand message)
@@ -36,7 +34,14 @@ namespace Users.Worker.Service.UpdateUserPassword
             }
 
             await _operationService.UpdateOperationStatus(operation.RequestId, OperationStatus.Processing);
-            var updateUserPasswordModel = CreateUserPasswordOperationHelper.Map(operation.UserId, operation);
+            var updateUserPasswordModel = UpdateUserPasswordOperationHelper.Map(operation.UserId, operation);
+
+            if (updateUserPasswordModel == null)
+            {
+                _logger.LogWarning("Could not map operation to update user password model for requestId {requestId}", message.RequestId);
+                await _operationService.UpdateOperationStatus(operation.RequestId, OperationStatus.Failed);
+                return;
+            }
 
             try
             {
@@ -49,7 +54,6 @@ namespace Users.Worker.Service.UpdateUserPassword
                 await _operationService.UpdateOperationStatus(operation.RequestId, OperationStatus.Failed);
                 return;
             }
-
         }
     }
 }

@@ -8,14 +8,14 @@ using Users.Messages.DeleteUserPassword;
 
 namespace PasswordManager.Users.ApplicationServices.UserPassword.DeleteUserPassword
 {
-    internal class DeleteUserPasswordService : IDeleteUserPasswordService
+    public class DeleteUserPasswordService : IDeleteUserPasswordService
     {
         private readonly IOperationService _operationService;
         private readonly IPasswordComponent _passwordComponent;
-        private readonly ILogger _logger;
+        private readonly ILogger<DeleteUserPasswordService> _logger;
         private readonly IBus _bus;
 
-        public DeleteUserPasswordService(IOperationService operationService, IPasswordComponent passwordComponent, ILogger logger, IBus bus)
+        public DeleteUserPasswordService(IOperationService operationService, IPasswordComponent passwordComponent, ILogger<DeleteUserPasswordService> logger, IBus bus)
         {
             _operationService = operationService;
             _passwordComponent = passwordComponent;
