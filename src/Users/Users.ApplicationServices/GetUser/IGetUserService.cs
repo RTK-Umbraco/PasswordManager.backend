@@ -1,4 +1,4 @@
-﻿using PasswordManager.Users.Domain.Users;
+﻿using PasswordManager.Users.Domain.User;
 
 namespace PasswordManager.Users.ApplicationServices.GetUser;
 

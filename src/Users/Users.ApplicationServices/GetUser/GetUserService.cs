@@ -1,5 +1,5 @@
 ﻿using PasswordManager.Users.ApplicationServices.Repositories.User;
-using PasswordManager.Users.Domain.Users;
+using PasswordManager.Users.Domain.User;
 
 namespace PasswordManager.Users.ApplicationServices.GetUser;
 internal class GetUserService : IGetUserService
