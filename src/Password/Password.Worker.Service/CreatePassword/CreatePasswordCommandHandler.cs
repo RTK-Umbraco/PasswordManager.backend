@@ -32,7 +32,7 @@ public sealed class CreatePasswordCommandHandler : IHandleMessages<CreatePasswor
         if (operation == null)
         {
             _logger.LogWarning($"Operation not found: {requestId}");
-            return;
+            throw new InvalidOperationException($"Could not find operation with request id {requestId} when creating password");
         }
 
         await _operationService.UpdateOperationStatus(requestId, OperationStatus.Processing);
@@ -48,7 +48,6 @@ public sealed class CreatePasswordCommandHandler : IHandleMessages<CreatePasswor
         catch (CreatePasswordServiceException exception)
         {
             await PublishFailedEventAndMarkOperationAsFailed(createPasswordModel.Id, requestId, exception.Message);
-            throw;
         }
     }
 
