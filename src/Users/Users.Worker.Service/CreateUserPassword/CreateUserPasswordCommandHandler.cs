@@ -31,7 +31,7 @@ public class CreateUserPasswordCommandHandler : IHandleMessages<CreateUserPasswo
         if (operation is null)
         {
             _logger.LogWarning($"Operation not found: {requestId}");
-            throw new InvalidOperationException($"Could not find operation with request id {requestId} when updating password");
+            throw new InvalidOperationException($"Could not find operation with request id {requestId} when creating user password");
         }
 
         await _operationService.UpdateOperationStatus(requestId, OperationStatus.Processing);
