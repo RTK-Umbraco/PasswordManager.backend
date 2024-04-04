@@ -7,7 +7,7 @@ namespace PasswordManager.Users.Infrastructure.PasswordComponent;
 public sealed class PasswordComponent : IPasswordComponent
 {
     private readonly IPasswordmanagerPasswordApiClient _passwordmanagerPasswordApiClient;
-    private ILogger<PasswordComponent> _logger;
+    private readonly ILogger<PasswordComponent> _logger;
 
     public PasswordComponent(IPasswordmanagerPasswordApiClient passwordmanagerPasswordApiClient, ILogger<PasswordComponent> logger)
     {
@@ -20,8 +20,15 @@ public sealed class PasswordComponent : IPasswordComponent
         try
         {
             _logger.LogInformation("Requesting to create password");
-            await _passwordmanagerPasswordApiClient.CreatePasswordAsync(new CreatePasswordRequestWithBody(userPasswordModel.UserId.ToString(),
-                new CreatePasswordRequestDetails(userPasswordModel.FriendlyName, userPasswordModel.Password, userPasswordModel.Url, userPasswordModel.UserId, userPasswordModel.Username)));
+            await _passwordmanagerPasswordApiClient.CreatePasswordAsync(new CreatePasswordRequestWithBody(
+                userPasswordModel.UserId.ToString(),
+                new CreatePasswordRequestDetails(
+                    userPasswordModel.FriendlyName, 
+                    userPasswordModel.Password, 
+                    userPasswordModel.Url, 
+                    userPasswordModel.UserId, 
+                    userPasswordModel.Username
+                    )));
         }
         catch (ApiException exception)
         {
@@ -32,11 +39,26 @@ public sealed class PasswordComponent : IPasswordComponent
         }
     }
 
-    public async  Task<IEnumerable<UserPasswordModel>> GetUserPassword(Guid userId, string url)
+    public async Task<IEnumerable<UserPasswordModel>> GetUserPasswords(Guid userId)
     {
         try
         {
-            var passwordsResponse = await _passwordmanagerPasswordApiClient.GetPasswordsFromUserIdWithUrlAsync(new GetPasswordByUserIdWithUrlRequestDetails(url, userId));
+            var passwordsResponse = await _passwordmanagerPasswordApiClient.GetPasswordsFromUserIdAsync(userId);
+
+            var passwordsResponseResult = passwordsResponse.Result;
+
+            return passwordsResponseResult.PasswordsResponses.Select(UserPasswordModelMapper.Map);
+        }catch(ApiException exception)
+        {
+            throw new PasswordComponentException("Error calling PasswordApiClient.GetPasswordAsync", exception);
+        }
+    }
+
+    public async  Task<IEnumerable<UserPasswordModel>> GetUserPasswordsFromUrl(Guid userId, string url)
+    {
+        try
+        {
+            var passwordsResponse = await _passwordmanagerPasswordApiClient.GetPasswordsByUserIdAndUrlAsync(userId, url);
 
             var passwordsResponseResult = passwordsResponse.Result;
 
@@ -45,6 +67,51 @@ public sealed class PasswordComponent : IPasswordComponent
         catch (ApiException exception)
         {
             throw new PasswordComponentException("Error calling PasswordApiClient.GetPasswordAsync", exception);
+        }
+    }
+
+    public async Task UpdateUserPassword(UserPasswordModel userPasswordModel)
+    {
+        try
+        {
+            var updatePasswordRequest = await _passwordmanagerPasswordApiClient.UpdatePasswordAsync(
+                userPasswordModel.PasswordId, 
+                userPasswordModel.UserId.ToString(), 
+                new UpdatePasswordRequestDetails(
+                    userPasswordModel.FriendlyName, 
+                    userPasswordModel.Password, 
+                    userPasswordModel.Url,
+                    userPasswordModel.Username
+                ));
+        }
+        catch(ApiException exception)
+        {
+            throw new PasswordComponentException("Error calling PasswordApiClient.UpdatePasswordAsync", exception);
+        }
+    }
+
+    public async Task DeleteUserPassword(Guid passwordId, string createdByUserId)
+    {
+        try
+        {
+            var deletePasswordRequest = await _passwordmanagerPasswordApiClient.DeletePasswordAsync(passwordId, createdByUserId);
+        }
+        catch (ApiException exception)
+        {
+            throw new PasswordComponentException("Error calling PasswordApiClient.UpdatePasswordAsync", exception);
+        }
+    }
+
+    public async Task<string> GenerateUserPassword(int length)
+    {
+        try
+        {
+            var generatePasswordRequest = await _passwordmanagerPasswordApiClient.GeneratePasswordAsync(length);
+            return generatePasswordRequest.Result.Password;
+        }
+        catch (ApiException exception)
+        {
+            throw new PasswordComponentException("Error calling PasswordApiClient.UpdatePasswordAsync", exception);
         }
     }
 }

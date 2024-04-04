@@ -1,9 +1,9 @@
 ﻿using Moq;
 using NUnit.Framework;
 using PasswordManager.Users.ApplicationServices.Components;
-using PasswordManager.Users.ApplicationServices.CreateUserPassword;
 using PasswordManager.Users.ApplicationServices.Operations;
 using PasswordManager.Users.ApplicationServices.Repositories.User;
+using PasswordManager.Users.ApplicationServices.UserPassword.CreateUserPassword;
 using PasswordManager.Users.Domain.Operations;
 using PasswordManager.Users.Domain.User;
 using PasswordManager.Users.TestFixtures.Operations;

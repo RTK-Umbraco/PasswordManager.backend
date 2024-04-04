@@ -1,5 +1,5 @@
-﻿using PasswordManager.Users.ApplicationServices.CreateUserPassword;
-using PasswordManager.Users.ApplicationServices.Operations;
+﻿using PasswordManager.Users.ApplicationServices.Operations;
+using PasswordManager.Users.ApplicationServices.UserPassword.CreateUserPassword;
 using PasswordManager.Users.Domain.Operations;
 using Rebus.Bus;
 using Rebus.Handlers;
@@ -36,18 +36,18 @@ public class CreateUserPasswordCommandHandler : IHandleMessages<CreateUserPasswo
 
         await _operationService.UpdateOperationStatus(requestId, OperationStatus.Processing);
 
-        var createPasswordModel = CreateUserPasswordOperationHelper.Map(operation.UserId, operation);
+        var createUserPasswordModel = CreateUserPasswordOperationHelper.Map(operation.UserId, operation);
 
         try
         {
-            await _createUserPasswordService.CreateUserPassword(createPasswordModel);
-            await PublishSuccessEventAndMarkOperationAsCompleted(createPasswordModel.UserId, requestId);
+            await _createUserPasswordService.CreateUserPassword(createUserPasswordModel);
+            await PublishSuccessEventAndMarkOperationAsCompleted(createUserPasswordModel.UserId, requestId);
 
             OperationResult.Completed(operation);
         }
         catch (CreateUserPasswordServiceException exception)
         {
-            await PublishFailedEventAndMarkOperationAsFailed(createPasswordModel.UserId, requestId, exception.Message);
+            await PublishFailedEventAndMarkOperationAsFailed(createUserPasswordModel.UserId, requestId, exception.Message);
         }
     }
 

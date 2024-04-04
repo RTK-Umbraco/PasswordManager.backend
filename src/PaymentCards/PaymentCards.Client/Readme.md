@@ -5,3 +5,15 @@ Install tool manifest file in your solution, run the following command in root. 
  ```
 dotnet new tool-manifest
 ```
+
+# Generating swagger files
+Run the PaymentCards.Api.Service solution. Click on "/swagger/v1/swagger.json" in the UI. This will open a new browser with the swagger.json. 
+Copy the json and insert the json into "..\PasswordManager.PaymentCards.Client\swagger.json"
+
+When you have done that go to next step generating client
+
+# Generating client
+From solution root
+```
+dotnet apigenerator generate -b PasswordManager -n PaymentCards -s src\PaymentCards\PasswordManager.PaymentCards.Client\swagger.json -o src\PaymentCards\PasswordManager.PaymentCards.Client
+```

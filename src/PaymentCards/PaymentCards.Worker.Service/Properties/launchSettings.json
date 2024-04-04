@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "PaymentCards.Worker.Service": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ServiceBusConnectionString": "Endpoint=sb://sb-passwordmanager-servicebus.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=w8DGNEpb44MfTiLp+GS18zea9b4UanhYT+ASbJ1fHCY=",
+        "SqlDbConnectionString": "Server=tcp:sqlsrv-passwordmanager.database.windows.net,1433;Initial Catalog=sqldb-passwordmanager;Persist Security Info=False;User ID=passwordManager;Password=dD&b@ClF$hDwJWQk4aKZ;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+      },
+      "applicationUrl": "https://localhost:62801;http://localhost:62802"
+    }
+  }
+}

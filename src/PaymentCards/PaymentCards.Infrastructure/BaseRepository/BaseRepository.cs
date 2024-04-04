@@ -1,77 +1,82 @@
 ﻿using PasswordManager.PaymentCards.ApplicationServices.Repositories;
 using PasswordManager.PaymentCards.Domain;
-using PasswordManager.PaymentCards.Infrastructure.PaymentCardRepository;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Immutable;
 
 namespace PasswordManager.PaymentCards.Infrastructure.BaseRepository;
-public abstract class BaseRepository<T, TE> : IBaseRepository<T> where T : BaseModel where TE : BaseEntity
+public abstract class BaseRepository<TModel, TEntity, TContext> : IBaseRepository<TModel>
+    where TModel : BaseModel
+    where TEntity : BaseEntity
+    where TContext : DbContext
 {
-    private readonly DbSet<TE> _dbSet;
-    protected readonly PaymentCardContext Context;
+    protected readonly TContext Context;
+    private readonly DbSet<TEntity> _dbSet;
 
-    protected BaseRepository(PaymentCardContext context)
+    // Delegates for mapping
+    protected Func<TEntity, TModel> MapEntityToModel { get; set; }
+    protected Func<TModel, TEntity> MapModelToEntity { get; set; }
+
+    protected BaseRepository(TContext context, Func<TEntity, TModel> mapEntityToModel, Func<TModel, TEntity> mapModelToEntity)
     {
         Context = context;
-        _dbSet = context.Set<TE>();
+        _dbSet = context.Set<TEntity>();
+        MapEntityToModel = mapEntityToModel ?? throw new ArgumentNullException(nameof(mapEntityToModel));
+        MapModelToEntity = mapModelToEntity ?? throw new ArgumentNullException(nameof(mapModelToEntity));
     }
 
-    public async Task<T?> Get(Guid id)
-    {
-        var fetchedEntity = await _dbSet
+    public async Task<TModel?> GetById(Guid id) =>
+        await _dbSet
             .AsNoTracking()
-            .SingleOrDefaultAsync(t => t.Id == id);
-        return fetchedEntity is null ? null : Map(fetchedEntity);
+            .Where(e => e.Id == id && !e.Deleted)
+            .Select(e => MapEntityToModel(e))
+            .SingleOrDefaultAsync();
+
+    public async Task<ICollection<TModel>> GetAll()
+    {
+        var models = await _dbSet
+            .AsNoTracking()
+            .Where(e => !e.Deleted)
+            .Select(e => MapEntityToModel(e))
+            .ToListAsync();
+
+        return models.ToImmutableHashSet();
     }
 
-    public async Task<ICollection<T>> GetAll()
+    public async Task<TModel> Upsert(TModel model)
     {
-        var all = await _dbSet.ToListAsync();
-        return all.Select(Map).ToImmutableHashSet();
+        var entity = MapModelToEntity(model);
+        var existingEntity = await _dbSet.FindAsync(entity.Id);
+
+        // If the entity exists, update it. Otherwise, add it.
+        if (existingEntity != null)
+        {
+            Context.Entry(existingEntity).CurrentValues.SetValues(entity);
+            await SaveAsync(existingEntity);
+        }
+        else
+        {
+            await _dbSet.AddAsync(entity);
+            await SaveAsync(entity);
+        }
+
+        // Returns the model
+        return MapEntityToModel(existingEntity ?? entity);
     }
 
-    public async Task<T> Upsert(T baseModel)
+    public async Task Delete(Guid id)
     {
-        var existingEntity = await GetTracked(baseModel.Id);
+        var entity = await _dbSet.FindAsync(id);
+        if (entity == null) return;
 
-        if (existingEntity == null) return await Add(baseModel);
-        // right now existing is tracked by ef core - use this to apply updates
-        var updatedEntity = Map(baseModel);
-
-        Context.Entry(existingEntity).CurrentValues.SetValues(updatedEntity); // all simple values on entity
-        existingEntity.ModifiedUtc = DateTime.UtcNow;
-
-        await Context.SaveChangesAsync();
-
-        Context.ChangeTracker.Clear();
-        return Map(existingEntity);
-    }
-
-    internal async Task<T> Add(T baseModel)
-    {
-        var entity = Map(baseModel);
-        await _dbSet.AddAsync(entity);
+        entity.Deleted = true;
         await SaveAsync(entity);
-
-        Context.ChangeTracker.Clear();
-
-        return Map(entity);
     }
 
-    private async Task<TE?> GetTracked(Guid id)
-    {
-        var fetchedEntity = await _dbSet
-            .SingleOrDefaultAsync(t => t.Id == id);
-        return fetchedEntity;
-    }
-
-    protected abstract T Map(TE entity);
-    protected abstract TE Map(T model);
-
-    private async Task SaveAsync(TE baseEntity)
+    private async Task SaveAsync(TEntity baseEntity)
     {
         baseEntity.ModifiedUtc = DateTime.UtcNow;
-
         await Context.SaveChangesAsync();
+
+        Context.ChangeTracker.Clear();
     }
 }

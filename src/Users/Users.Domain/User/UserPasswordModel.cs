@@ -34,6 +34,13 @@ public sealed class UserPasswordModel
         return userPasswordModel;
     }
 
+    public static UserPasswordModel UpdateUserPassword(Guid userId, Guid passwordId, string url, string friendlyName, string username, string password)
+    {
+        var userPasswordModel = new UserPasswordModel(userId, passwordId, url, friendlyName, username, password);
+
+        return userPasswordModel;
+    }
+
     public string SetEncryptedPassword(string encryptedPassword)
     {
         return Password = encryptedPassword;

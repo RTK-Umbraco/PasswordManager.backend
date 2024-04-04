@@ -39,16 +39,6 @@ public static class OperationBuilder
         return CreateOperation(newPasswordModel.Id, OperationName.UpdatePassword, createdBy, data);
     }
 
-    public static Operation DeletePassword(PasswordModel passwordModel, string createdBy)
-    {
-        var data = new Dictionary<string, string>()
-        {
-            { OperationDataConstants.DeletePasswordUrl, passwordModel.Url },
-            { OperationDataConstants.DeletePasswordFriendlyName, passwordModel.FriendlyName },
-            { OperationDataConstants.DeletePasswordUsername, passwordModel.Username },
-            { OperationDataConstants.DeletePasswordPassword, passwordModel.Password },
-        };
-
-        return CreateOperation(passwordModel.Id, OperationName.DeletePassword, createdBy, data);
-    }
+    public static Operation DeletePassword(PasswordModel passwordModel, string createdBy) 
+        => CreateOperation(passwordModel.Id, OperationName.DeletePassword, createdBy, null);
 }

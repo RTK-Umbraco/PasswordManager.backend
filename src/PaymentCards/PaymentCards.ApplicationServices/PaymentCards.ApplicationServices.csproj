@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PaymentCards.Domain\PaymentCards.Domain.csproj" />
+    <ProjectReference Include="..\PaymentCards.Messages\PaymentCards.Messages.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using PasswordManager.Password.ApplicationServices.CreatePassword;
-using PasswordManager.Password.ApplicationServices.DeletePassword;
-using PasswordManager.Password.ApplicationServices.GetPassword;
 using PasswordManager.Password.ApplicationServices.Operations;
+using PasswordManager.Password.ApplicationServices.Password.CreatePassword;
+using PasswordManager.Password.ApplicationServices.Password.DeletePassword;
+using PasswordManager.Password.ApplicationServices.Password.GetPassword;
+using PasswordManager.Password.ApplicationServices.Password.UpdatePassword;
 using PasswordManager.Password.ApplicationServices.PasswordGenerator;
-using PasswordManager.Password.ApplicationServices.UpdatePassword;
 
 namespace PasswordManager.Password.ApplicationServices.Extensions;
 public static class ServiceCollectionExtension

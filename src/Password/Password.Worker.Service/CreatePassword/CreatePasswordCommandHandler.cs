@@ -2,8 +2,8 @@
 using Password.Messages.CreatePassword;
 using PasswordManager.Password.ApplicationServices.Operations;
 using PasswordManager.Password.Domain.Operations;
-using PasswordManager.Password.ApplicationServices.CreatePassword;
 using Rebus.Bus;
+using PasswordManager.Password.ApplicationServices.Password.CreatePassword;
 
 namespace Password.Worker.Service.CreatePassword;
 

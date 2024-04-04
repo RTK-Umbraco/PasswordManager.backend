@@ -1,6 +1,6 @@
 ﻿using Password.Messages.DeletePassword;
-using PasswordManager.Password.ApplicationServices.DeletePassword;
 using PasswordManager.Password.ApplicationServices.Operations;
+using PasswordManager.Password.ApplicationServices.Password.DeletePassword;
 using PasswordManager.Password.Domain.Operations;
 using Rebus.Handlers;
 
@@ -33,9 +33,7 @@ namespace Password.Worker.Service.DeletePassword
 
             await _operationService.UpdateOperationStatus(message.RequestId, OperationStatus.Processing);
             
-            var deletePasswordModel = DeletePasswordOperationHandler.Map(operation.PasswordId, operation);
-            
-            await _deletePasswordService.DeletePassword(deletePasswordModel);
+            await _deletePasswordService.DeletePassword(operation.PasswordId);
             
             await _operationService.UpdateOperationStatus(message.RequestId, OperationStatus.Completed);
 

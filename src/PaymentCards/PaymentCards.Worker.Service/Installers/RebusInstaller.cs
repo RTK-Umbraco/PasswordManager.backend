@@ -2,6 +2,8 @@ using Rebus.Bus;
 using Rebus.Retry.Simple;
 using Rebus.Config;
 using PasswordManager.PaymentCards.Infrastructure.Installers;
+using Rebus.Routing.TypeBased;
+using PaymentCards.Messages.CreatePaymentCard;
 
 namespace PasswordManager.PaymentCards.Worker.Service.Installers
 {
@@ -38,8 +40,8 @@ namespace PasswordManager.PaymentCards.Worker.Service.Installers
                         .AutomaticallyRenewPeekLock();
                     t.UseNativeDeadlettering();
                 })
-                //Routing here. Map command
-                //Example --> .MapAssemblyOf<CreateCustomerCommand>(Constants.ServiceBus.InputQueue))
+                .Routing(r => r.TypeBased()
+                    .MapAssemblyOf<CreatePaymentCardCommand>(Constants.ServiceBus.InputQueue))
                 .Options(o =>
                 {
                     o.RetryStrategy(maxDeliveryAttempts: 5);

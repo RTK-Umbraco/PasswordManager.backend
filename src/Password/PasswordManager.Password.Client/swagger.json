@@ -5,13 +5,13 @@
     "version": "v1"
   },
   "paths": {
-    "/api/passwords": {
+    "/api/password": {
       "post": {
         "tags": [
           "Password"
         ],
         "summary": "Create password",
-        "description": "Creates password",
+        "description": "Creates a password",
         "operationId": "CreatePassword",
         "requestBody": {
           "content": {
@@ -94,59 +94,9 @@
             }
           }
         }
-      },
-      "get": {
-        "tags": [
-          "Password"
-        ],
-        "summary": "Gets Passwords",
-        "description": "Gets Passwords",
-        "operationId": "GetPasswords",
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/PasswordResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PasswordResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PasswordResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
       }
     },
-    "/api/password": {
+    "/api/password/{passwordId}": {
       "delete": {
         "tags": [
           "Password"
@@ -156,6 +106,15 @@
         "operationId": "DeletePassword",
         "parameters": [
           {
+            "name": "passwordId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
             "name": "created-by-user-id",
             "in": "header",
             "required": true,
@@ -164,25 +123,6 @@
             }
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DeletePasswordRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DeletePasswordRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/DeletePasswordRequest"
-              }
-            }
-          }
-        },
         "responses": {
           "202": {
             "description": "Accepted",
@@ -245,132 +185,7 @@
             }
           }
         }
-      }
-    },
-    "/api/password/generate": {
-      "get": {
-        "tags": [
-          "Password"
-        ],
-        "summary": "Generates Password",
-        "description": "Generates a password",
-        "operationId": "GeneratePassword",
-        "parameters": [
-          {
-            "name": "PasswordLength",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/GeneratePasswordResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GeneratePasswordResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GeneratePasswordResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/operations": {
-      "get": {
-        "tags": [
-          "Operations"
-        ],
-        "summary": "Get operation by request id",
-        "description": "Get operation by request id",
-        "operationId": "GetOperationByRequestId",
-        "parameters": [
-          {
-            "name": "requestId",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/OperationResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OperationResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OperationResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/passwords/{passwordId}": {
+      },
       "get": {
         "tags": [
           "Password"
@@ -541,21 +356,21 @@
         }
       }
     },
-    "/api/passwords/user": {
+    "/api/password/generate": {
       "get": {
         "tags": [
           "Password"
         ],
-        "summary": "Gets Passwords from UserId",
-        "description": "Gets Passwords from UserId",
-        "operationId": "GetPasswordsFromUserId",
+        "summary": "Generates Password",
+        "description": "Generates a password",
+        "operationId": "GeneratePassword",
         "parameters": [
           {
-            "name": "UserId",
+            "name": "PasswordLength",
             "in": "query",
             "schema": {
-              "type": "string",
-              "format": "uuid"
+              "type": "integer",
+              "format": "int32"
             }
           }
         ],
@@ -565,17 +380,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/PasswordResponse"
+                  "$ref": "#/components/schemas/GeneratePasswordResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PasswordResponse"
+                  "$ref": "#/components/schemas/GeneratePasswordResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PasswordResponse"
+                  "$ref": "#/components/schemas/GeneratePasswordResponse"
                 }
               }
             }
@@ -603,33 +418,154 @@
         }
       }
     },
-    "/api/passwords/users/url": {
+    "/api/operations": {
+      "get": {
+        "tags": [
+          "Operations"
+        ],
+        "summary": "Get operation by request id",
+        "description": "Get operation by request id",
+        "operationId": "GetOperationByRequestId",
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/passwords/user": {
       "get": {
         "tags": [
           "Password"
         ],
-        "summary": "Gets Passwords from UserId with Url",
-        "description": "Gets Passwords from the UserId with the specified url",
-        "operationId": "GetPasswordsFromUserIdWithUrl",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/GetPasswordByUserIdWithUrlRequestDetails"
+        "summary": "Gets Passwords from UserId",
+        "description": "Gets Passwords from UserId",
+        "operationId": "GetPasswordsFromUserId",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PasswordResponses"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PasswordResponses"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PasswordResponses"
+                }
               }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/GetPasswordByUserIdWithUrlRequestDetails"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/GetPasswordByUserIdWithUrlRequestDetails"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
               }
             }
           }
-        },
+        }
+      }
+    },
+    "/api/passwords/by-user-and-url": {
+      "get": {
+        "tags": [
+          "Password"
+        ],
+        "summary": "Gets Passwords by UserId and Url",
+        "description": "Retrieves passwords associated with a UserId that match a specified URL",
+        "operationId": "GetPasswordsByUserIdAndUrl",
+        "parameters": [
+          {
+            "name": "UserId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Url",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -722,19 +658,6 @@
         },
         "additionalProperties": false
       },
-      "DeletePasswordRequest": {
-        "required": [
-          "passwordId"
-        ],
-        "type": "object",
-        "properties": {
-          "passwordId": {
-            "type": "string",
-            "format": "uuid"
-          }
-        },
-        "additionalProperties": false
-      },
       "GeneratePasswordResponse": {
         "required": [
           "password"
@@ -742,23 +665,6 @@
         "type": "object",
         "properties": {
           "password": {
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
-      "GetPasswordByUserIdWithUrlRequestDetails": {
-        "required": [
-          "url",
-          "userId"
-        ],
-        "type": "object",
-        "properties": {
-          "userId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "url": {
             "type": "string"
           }
         },

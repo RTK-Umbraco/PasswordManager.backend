@@ -2,8 +2,8 @@
 using Moq;
 using NUnit.Framework;
 using Password.Messages.CreatePassword;
-using PasswordManager.Password.ApplicationServices.CreatePassword;
 using PasswordManager.Password.ApplicationServices.Operations;
+using PasswordManager.Password.ApplicationServices.Password.CreatePassword;
 using PasswordManager.Password.ApplicationServices.Repositories.Password;
 using PasswordManager.Password.Domain.Operations;
 using PasswordManager.Password.Domain.Password;

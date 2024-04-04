@@ -1,5 +1,7 @@
-using PasswordManager.Users.ApplicationServices.CreateUserPassword;
 using PasswordManager.Users.ApplicationServices.Operations;
+using PasswordManager.Users.ApplicationServices.UserPassword.CreateUserPassword;
+using PasswordManager.Users.ApplicationServices.UserPassword.DeleteUserPassword;
+using PasswordManager.Users.ApplicationServices.UserPassword.UpdateUserPassword;
 using PasswordManager.Users.Infrastructure.Installers;
 
 namespace PasswordManager.Users.Worker.Service.Installers
@@ -8,9 +10,10 @@ namespace PasswordManager.Users.Worker.Service.Installers
     {
         public void Install(IServiceCollection serviceCollection, DependencyInstallerOptions options)
         {
-            serviceCollection.AddScoped<ICreateUserPasswordService, CreateUserPasswordService>();
             serviceCollection.AddScoped<IOperationService, OperationService>();
-            //Add service dependencies
+            serviceCollection.AddScoped<ICreateUserPasswordService, CreateUserPasswordService>();
+            serviceCollection.AddScoped<IDeleteUserPasswordService, DeleteUserPasswordService>();
+            serviceCollection.AddScoped<IUpdateUserPasswordService, UpdateUserPasswordService>();
         }
     }
 }

@@ -40,6 +40,7 @@ public static class Constants
         public const string AspnetCoreDevelopmentEnvironment = "ASPNETCORE_ENVIRONMENT";
         public const string ServiceBusConnectionString = "ServiceBusConnectionString";
         public const string SqlDbConnectionString = "SqlDbConnectionString";
+        public const string FirebaseProjectCredentials = "FirebaseProjectCredentials";
     }
 
     public static class EnvironmentVariables
