@@ -7,7 +7,7 @@ namespace Users.Worker.Service.UpdateUserPassword
     {
         internal static UserPasswordModel Map(Guid userId, Operation operation)
         {
-            return new UserPasswordModel(userId, GetPasswordUrl(operation), GetPasswordLabel(operation), GetPasswordUsername(operation), GetPasswordKey(operation));
+            return UserPasswordModel.UpdateUserPassword(userId, GetPasswordId(operation), GetPasswordUrl(operation), GetPasswordLabel(operation), GetPasswordUsername(operation), GetPasswordKey(operation));
         }
 
         private static string GetUserPasswordOperationData(Operation operation, string operationDataConstant)
@@ -16,6 +16,14 @@ namespace Users.Worker.Service.UpdateUserPassword
                 throw new InvalidOperationException($"Could not find user password {operationDataConstant} in operation with request id {operation.RequestId} when creating user password");
 
             return getPasswordOperationData;
+        }
+
+        private static Guid GetPasswordId(Operation operation)
+        {
+            if (operation.Data is null || operation.Data.TryGetValue(OperationDataConstants.UserPasswordId, out var getPasswordId) is false)
+                throw new InvalidOperationException($"Could not find user password id in operation with request id {operation.RequestId} when updating user password");
+
+            return Guid.Parse(getPasswordId);
         }
 
         private static string GetPasswordUrl(Operation operation)

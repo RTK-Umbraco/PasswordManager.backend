@@ -10,6 +10,7 @@
         #endregion
 
         #region Update Password
+        public static string UserPasswordId => "userPasswordId";
         public static string NewUserPasswordUrl => "newPasswordUrl";
         public static string NewUserPasswordFriendlyName => "newPasswordFriendlyName";
         public static string NewUserPasswordUsername => "newPasswordUsername";

@@ -25,6 +25,7 @@ public static class OperationBuilder
     {
         var data = new Dictionary<string, string>()
         {
+            { OperationDataConstants.UserPasswordId, newPassword.PasswordId.ToString() },
             { OperationDataConstants.NewUserPasswordUrl, newPassword.Url },
             { OperationDataConstants.NewUserPasswordFriendlyName, newPassword.FriendlyName },
             { OperationDataConstants.NewUserPasswordUsername, newPassword.Username },

@@ -1,10 +1,8 @@
 ﻿using PasswordManager.Users.ApplicationServices.Operations;
 using PasswordManager.Users.ApplicationServices.UserPassword.UpdateUserPassword;
 using PasswordManager.Users.Domain.Operations;
-using Rebus.Bus;
 using Rebus.Handlers;
 using Users.Messages.UpdateUserPassword;
-using Users.Worker.Service.CreateUserPassword;
 
 namespace Users.Worker.Service.UpdateUserPassword
 {
