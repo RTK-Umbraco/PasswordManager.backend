@@ -40,7 +40,7 @@ public class CreateUserPasswordCommandHandler : IHandleMessages<CreateUserPasswo
 
         try
         {
-            await _createUserPasswordService.CreateUserPassword(createUserPasswordModel, operation.CreatedBy);
+            await _createUserPasswordService.CreateUserPassword(createUserPasswordModel);
             await PublishSuccessEventAndMarkOperationAsCompleted(createUserPasswordModel.UserId, requestId);
 
             OperationResult.Completed(operation);

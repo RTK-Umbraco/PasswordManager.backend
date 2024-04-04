@@ -36,5 +36,12 @@ public static class OperationBuilder
     }
 
     public static Operation DeleteUserPassword(Guid userId, string createdBy)
-        => CreateOperation(userId, OperationName.DeleteUserPassword, createdBy, null);
+    {
+        var data = new Dictionary<string, string>()
+        {
+            { OperationDataConstants.UserPasswordId, userId.ToString() }
+        };
+
+        return CreateOperation(userId, OperationName.DeleteUserPassword, createdBy, data);
+    }
 }

@@ -24,7 +24,7 @@ namespace PasswordManager.Users.ApplicationServices.UserPassword.DeleteUserPassw
         }
         public async Task<OperationResult> RequestDeleteUserPassword(Guid passwordId, OperationDetails operationDetails)
         {
-            _logger.LogInformation("Request deleting password for user {userId}", passwordId);
+            _logger.LogInformation("Request deleting password for password id {passwordId}, for user {userId}", passwordId, operationDetails.CreatedBy);
 
             var operation = await _operationService.QueueOperation(OperationBuilder.DeleteUserPassword(passwordId, operationDetails.CreatedBy));
 
@@ -35,15 +35,15 @@ namespace PasswordManager.Users.ApplicationServices.UserPassword.DeleteUserPassw
             return OperationResult.Accepted(operation);
         }
 
-        public async Task DeleteUserPassword(Guid userId, string createdByUserId)
+        public async Task DeleteUserPassword(Guid passwordId, string createdByUserId)
         {
             try
             {
-                await _passwordComponent.DeleteUserPassword(userId, createdByUserId);
+                await _passwordComponent.DeleteUserPassword(passwordId, createdByUserId);
             }
             catch (PasswordComponentException exception)
             {
-                throw new DeleteUserPasswordServiceException($"Error calling password component to delete password for user {userId}", exception);
+                throw new DeleteUserPasswordServiceException($"Error calling password component to delete password for user {passwordId}", exception);
             }
         }
     }

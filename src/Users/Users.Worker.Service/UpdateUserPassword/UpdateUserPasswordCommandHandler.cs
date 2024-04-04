@@ -43,7 +43,7 @@ namespace Users.Worker.Service.UpdateUserPassword
 
             try
             {
-                await _updateUserPasswordService.UpdateUserPassword(updateUserPasswordModel, operation.CreatedBy);
+                await _updateUserPasswordService.UpdateUserPassword(updateUserPasswordModel);
                 await _operationService.UpdateOperationStatus(operation.RequestId, OperationStatus.Completed);
             }
             catch (UpdateUserPasswordServiceException exception)

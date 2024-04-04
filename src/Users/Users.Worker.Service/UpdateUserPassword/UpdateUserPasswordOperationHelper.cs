@@ -20,9 +20,7 @@ namespace Users.Worker.Service.UpdateUserPassword
 
         private static Guid GetPasswordId(Operation operation)
         {
-            if (operation.Data is null || operation.Data.TryGetValue(OperationDataConstants.UserPasswordId, out var getPasswordId) is false)
-                throw new InvalidOperationException($"Could not find user password id in operation with request id {operation.RequestId} when updating user password");
-
+            var getPasswordId = GetUserPasswordOperationData(operation, OperationDataConstants.UserPasswordId);
             return Guid.Parse(getPasswordId);
         }
 

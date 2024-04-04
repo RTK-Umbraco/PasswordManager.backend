@@ -75,12 +75,12 @@ namespace PasswordManager.Users.ApplicationServices.UserPassword.UpdateUserPassw
             }
         }
 
-        public async Task UpdateUserPassword(UserPasswordModel userPasswordModel, string createdByUserId)
+        public async Task UpdateUserPassword(UserPasswordModel userPasswordModel)
         {
             _logger.LogInformation("Updating password {passwordId} for user {userId}", userPasswordModel.PasswordId, userPasswordModel.UserId);
             try
             {
-                await _passwordComponent.UpdateUserPassword(userPasswordModel, createdByUserId);
+                await _passwordComponent.UpdateUserPassword(userPasswordModel);
                 _logger.LogInformation("Password {passwordId} updated for user {userId}", userPasswordModel.PasswordId, userPasswordModel.UserId);
             }
             catch (PasswordComponentException exception)

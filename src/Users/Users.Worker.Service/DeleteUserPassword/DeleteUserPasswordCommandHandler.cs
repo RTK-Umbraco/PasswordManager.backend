@@ -33,10 +33,11 @@ namespace Users.Worker.Service.DeleteUserPassword
             }
 
             await _operationService.UpdateOperationStatus(operation.RequestId, OperationStatus.Processing);
+            var deletePasswordId = DeleteUserPasswordOperationHelper.Map(operation);
 
             try
             {
-                await _deleteUserPasswordService.DeleteUserPassword(operation.UserId, operation.CreatedBy);
+                await _deleteUserPasswordService.DeleteUserPassword(deletePasswordId, operation.CreatedBy);
                 await _operationService.UpdateOperationStatus(operation.RequestId, OperationStatus.Completed);
             }
             catch (DeleteUserPasswordServiceException exception)

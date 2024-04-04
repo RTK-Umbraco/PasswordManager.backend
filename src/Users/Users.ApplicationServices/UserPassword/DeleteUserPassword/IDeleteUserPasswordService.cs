@@ -4,7 +4,7 @@ namespace PasswordManager.Users.ApplicationServices.UserPassword.DeleteUserPassw
 {
     public interface IDeleteUserPasswordService
     {
-        Task<OperationResult> RequestDeleteUserPassword(Guid userId, OperationDetails operationDetails);
-        Task DeleteUserPassword(Guid userId, string createdByUserId);
+        Task<OperationResult> RequestDeleteUserPassword(Guid passwordId, OperationDetails operationDetails);
+        Task DeleteUserPassword(Guid passwordId, string createdByUserId);
     }
 }

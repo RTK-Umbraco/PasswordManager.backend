@@ -15,13 +15,13 @@ public sealed class PasswordComponent : IPasswordComponent
         _logger = logger;
     }
 
-    public async Task CreateUserPassword(UserPasswordModel userPasswordModel, string createdByUserId)
+    public async Task CreateUserPassword(UserPasswordModel userPasswordModel)
     {
         try
         {
             _logger.LogInformation("Requesting to create password");
             await _passwordmanagerPasswordApiClient.CreatePasswordAsync(new CreatePasswordRequestWithBody(
-                createdByUserId,
+                userPasswordModel.UserId.ToString(),
                 new CreatePasswordRequestDetails(
                     userPasswordModel.FriendlyName, 
                     userPasswordModel.Password, 
@@ -70,13 +70,13 @@ public sealed class PasswordComponent : IPasswordComponent
         }
     }
 
-    public async Task UpdateUserPassword(UserPasswordModel userPasswordModel, string createdByUserId)
+    public async Task UpdateUserPassword(UserPasswordModel userPasswordModel)
     {
         try
         {
             var updatePasswordRequest = await _passwordmanagerPasswordApiClient.UpdatePasswordAsync(
                 userPasswordModel.PasswordId, 
-                createdByUserId, 
+                userPasswordModel.UserId.ToString(), 
                 new UpdatePasswordRequestDetails(
                     userPasswordModel.FriendlyName, 
                     userPasswordModel.Password, 
