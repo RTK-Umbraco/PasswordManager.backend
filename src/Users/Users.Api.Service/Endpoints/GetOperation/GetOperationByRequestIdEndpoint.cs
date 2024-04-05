@@ -1,8 +1,8 @@
-﻿using PasswordManager.Users.ApplicationServices.Repositories.Operations;
-using PasswordManager.Users.Domain.Operations;
+﻿using PasswordManager.Users.Domain.Operations;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using PasswordManager.Users.ApplicationServices.Operations;
 
 namespace PasswordManager.Users.Api.Service.Endpoints.GetOperation;
 
