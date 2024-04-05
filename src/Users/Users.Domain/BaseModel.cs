@@ -6,7 +6,7 @@ public class BaseModel
     public DateTime ModifiedUtc { get; private protected init; }
     public bool Deleted { get; protected init; }
 
-    protected BaseModel(Guid id)
+    protected BaseModel(Guid id)    
     {
         Id = id;
     }
