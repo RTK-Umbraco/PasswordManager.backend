@@ -2,9 +2,17 @@
 using PasswordManager.Users.Domain.User;
 
 namespace Users.Worker.Service.CreateUserPassword;
-
+/// <summary>
+/// Helper class for mapping data from an operation to a UserPasswordModel when creating a user password.
+/// </summary>
 public class CreateUserPasswordOperationHelper
 {
+    /// <summary>
+    /// Maps data from an operation to a UserPasswordModel.
+    /// </summary>
+    /// <param name="userId">The ID of the user for whom the password is being created.</param>
+    /// <param name="operation">The operation containing data for creating the user password.</param>
+    /// <returns>A UserPasswordModel instance with mapped data.</returns>
     internal static UserPasswordModel Map(Guid userId, Operation operation)
     {
         return new UserPasswordModel(userId, GetPasswordUrl(operation), GetPasswordLabel(operation), GetPasswordUsername(operation), GetPasswordKey(operation));

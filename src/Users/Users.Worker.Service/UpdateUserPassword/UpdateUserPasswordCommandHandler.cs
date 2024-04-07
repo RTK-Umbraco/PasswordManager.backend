@@ -11,8 +11,8 @@ namespace Users.Worker.Service.UpdateUserPassword
     /// </summary>
     /// <remarks>
     /// This handler takes an <see cref="UpdateUserPasswordCommand"/>, processes it by validating
-    /// the associated operation, mapping it to an update model, and then executing the password update
-    /// through a designated service. It handles logging and operation status updates throughout the process.
+    /// the associated operation, mapping it to an update model, and then executing the password update. 
+    /// It handles logging and operation status updates throughout the process.
     /// </remarks>
     public class UpdateUserPasswordCommandHandler : IHandleMessages<UpdateUserPasswordCommand>
     {
@@ -34,8 +34,7 @@ namespace Users.Worker.Service.UpdateUserPassword
         }
 
         /// <summary>
-        /// Handles the command to update a user's password, orchestrating the process flow including logging,
-        /// operation retrieval, model mapping, and service invocation for the update, along with error handling.
+        /// Handles the command to update a user's password
         /// </summary>
         /// <param name="message">The <see cref="UpdateUserPasswordCommand"/> containing the details for the password update operation.</param>
         /// <exception cref="UpdateUserPasswordServiceException">Thrown when the password update fails due to service-related issues.</exception>
