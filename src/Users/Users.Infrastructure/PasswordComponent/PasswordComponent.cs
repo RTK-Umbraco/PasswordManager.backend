@@ -4,17 +4,29 @@ using PasswordManager.Users.Domain.User;
 using Umbraco.Cloud.Passwordmanager.Password.Api.Client;
 
 namespace PasswordManager.Users.Infrastructure.PasswordComponent;
+/// <summary>
+/// Implements password management operations, integrating with an external password management API.
+/// </summary>
 public sealed class PasswordComponent : IPasswordComponent
 {
     private readonly IPasswordmanagerPasswordApiClient _passwordmanagerPasswordApiClient;
     private readonly ILogger<PasswordComponent> _logger;
 
+    /// <summary>
+    /// Initializes a new instance with required services.
+    /// </summary>
+    /// <param name="passwordmanagerPasswordApiClient">API client for password operations.</param>
+    /// <param name="logger">Logger for logging operations.</param>
     public PasswordComponent(IPasswordmanagerPasswordApiClient passwordmanagerPasswordApiClient, ILogger<PasswordComponent> logger)
     {
         _passwordmanagerPasswordApiClient = passwordmanagerPasswordApiClient;
         _logger = logger;
     }
 
+    /// <summary>
+    /// Creates a password for a user.
+    /// </summary>
+    /// <param name="userPasswordModel">The password model to create.</param>
     public async Task CreateUserPassword(UserPasswordModel userPasswordModel)
     {
         try
@@ -39,6 +51,11 @@ public sealed class PasswordComponent : IPasswordComponent
         }
     }
 
+    /// <summary>
+    /// Retrieves all passwords for a specific user.
+    /// </summary>
+    /// <param name="userId">User's unique identifier.</param>
+    /// <returns>A collection of user password models.</returns>
     public async Task<IEnumerable<UserPasswordModel>> GetUserPasswords(Guid userId)
     {
         try
@@ -54,6 +71,12 @@ public sealed class PasswordComponent : IPasswordComponent
         }
     }
 
+    /// <summary>
+    /// Gets user passwords by URL.
+    /// </summary>
+    /// <param name="userId">User's unique identifier.</param>
+    /// <param name="url">URL associated with passwords.</param>
+    /// <returns>A collection of user password models.</returns>
     public async  Task<IEnumerable<UserPasswordModel>> GetUserPasswordsFromUrl(Guid userId, string url)
     {
         try
@@ -70,6 +93,10 @@ public sealed class PasswordComponent : IPasswordComponent
         }
     }
 
+    /// <summary>
+    /// Updates a specified user's password.
+    /// </summary>
+    /// <param name="userPasswordModel">Model with updated password info.</param>
     public async Task UpdateUserPassword(UserPasswordModel userPasswordModel)
     {
         try
@@ -90,6 +117,11 @@ public sealed class PasswordComponent : IPasswordComponent
         }
     }
 
+    /// <summary>
+    /// Deletes a user's password.
+    /// </summary>
+    /// <param name="passwordId">The password's unique identifier.</param>
+    /// <param name="createdByUserId">The user's unique identifier.</param>
     public async Task DeleteUserPassword(Guid passwordId, string createdByUserId)
     {
         try
@@ -102,6 +134,11 @@ public sealed class PasswordComponent : IPasswordComponent
         }
     }
 
+    /// <summary>
+    /// Generates a random password of a given length.
+    /// </summary>
+    /// <param name="length">The length of the password to generate.</param>
+    /// <returns>The generated password as a string.</returns>
     public async Task<string> GenerateUserPassword(int length)
     {
         try

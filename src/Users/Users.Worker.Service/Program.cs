@@ -4,7 +4,6 @@ using PasswordManager.Users.Infrastructure.Startup;
 using Microsoft.AspNetCore;
 
 namespace PasswordManager.Users.Worker.Service;
-
 public class Program
 {
     public static async Task Main(string[] args)
@@ -17,6 +16,11 @@ public class Program
             await host.RunAsync();
     }
 
+    /// <summary>
+    /// Creates an instance of the web host builder.
+    /// </summary>
+    /// <param name="args">The command-line arguments.</param>
+    /// <returns>The web host builder.</returns>
     public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
            WebHost.CreateDefaultBuilder(args)
                .ConfigureAppConfiguration(builder =>

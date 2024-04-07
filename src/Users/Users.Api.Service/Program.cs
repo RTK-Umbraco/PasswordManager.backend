@@ -17,6 +17,11 @@ public class Program
         await host.RunAsync();
     }
 
+    /// <summary>
+    /// Configures the web host builder.
+    /// </summary>
+    /// <param name="args">Command-line arguments.</param>
+    /// <returns>The configured web host builder.</returns>
     private static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
         WebHost.CreateDefaultBuilder(args)
             .ConfigureAppConfiguration((context, builder) =>

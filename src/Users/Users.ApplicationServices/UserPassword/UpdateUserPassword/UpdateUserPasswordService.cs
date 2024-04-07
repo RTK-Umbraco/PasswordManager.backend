@@ -10,6 +10,9 @@ using Users.Messages.UpdateUserPassword;
 
 namespace PasswordManager.Users.ApplicationServices.UserPassword.UpdateUserPassword
 {
+    /// <summary>
+    /// Service responsible for updating user passwords.
+    /// </summary>
     public class UpdateUserPasswordService : IUpdateUserPasswordService
     {
         private readonly IPasswordComponent _passwordComponent;
@@ -19,6 +22,15 @@ namespace PasswordManager.Users.ApplicationServices.UserPassword.UpdateUserPassw
         private readonly ILogger<UpdateUserPasswordService> _logger;
         private readonly IBus _bus;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateUserPasswordService"/> class.
+        /// </summary>
+        /// <param name="passwordComponent">The component responsible for password-related operations.</param>
+        /// <param name="operationService">The service for managing operations.</param>
+        /// <param name="keyVaultComponent">The component for managing secrets in the key vault.</param>
+        /// <param name="logger">The logger for logging messages.</param>
+        /// <param name="bus">The message bus for sending commands.</param>
+        /// <param name="userRepository">The repository for accessing user data.</param>
         public UpdateUserPasswordService(
             IPasswordComponent passwordComponent, 
             IOperationService operationService, 
@@ -34,6 +46,12 @@ namespace PasswordManager.Users.ApplicationServices.UserPassword.UpdateUserPassw
             _bus = bus;
         }
 
+        /// <summary>
+        /// Requests an update of a user's password and processes the operation result.
+        /// </summary>
+        /// <param name="userPasswordModel">The model containing the user's password details.</param>
+        /// <param name="operationDetails">The details of the operation.</param>
+        /// <returns>The result of the password update operation.</returns>
         public async Task<OperationResult> RequestUpdateUserPassword(UserPasswordModel userPasswordModel, OperationDetails operationDetails)
         {
             _logger.LogInformation("Request updating password for user {userId}", userPasswordModel.UserId);
@@ -75,6 +93,11 @@ namespace PasswordManager.Users.ApplicationServices.UserPassword.UpdateUserPassw
             }
         }
 
+        /// <summary>
+        /// Updates a user's password.
+        /// </summary>
+        /// <param name="userPasswordModel">The model containing the updated password details.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
         public async Task UpdateUserPassword(UserPasswordModel userPasswordModel)
         {
             _logger.LogInformation("Updating password {passwordId} for user {userId}", userPasswordModel.PasswordId, userPasswordModel.UserId);

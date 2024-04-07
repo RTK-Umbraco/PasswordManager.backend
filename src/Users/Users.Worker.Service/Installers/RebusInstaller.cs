@@ -5,18 +5,24 @@ using PasswordManager.Users.Infrastructure.Installers;
 
 namespace PasswordManager.Users.Worker.Service.Installers
 {
+    /// <summary>
+    /// Installs Rebus dependencies and configures Rebus during application startup.
+    /// </summary>
     public class RebusInstaller : IDependencyInstaller
     {
         /// <summary>
-        /// Events that this worker subscribes to
+        /// Events that this worker subscribes to.
         /// </summary>
         private static readonly Type[] EventSubscriptionTypes = {
             // typeof(MyFeatureHasHappenedEvents)
         };
 
+        /// <summary>
+        /// Installs Rebus dependencies and configures Rebus.
+        /// </summary>
         public void Install(IServiceCollection serviceCollection, DependencyInstallerOptions options)
         {
-            // Register handlers
+            // Register Rebus message handlers
             serviceCollection.AutoRegisterHandlersFromAssemblyOf<Program>();
 
             // Configure Rebus
@@ -48,7 +54,7 @@ namespace PasswordManager.Users.Worker.Service.Installers
         }
 
         /// <summary>
-        /// Subscribe to Rebus Topics
+        /// Subscribe to Rebus topics.
         /// </summary>
         private static async Task SubscribeToEvents(IBus bus)
         {

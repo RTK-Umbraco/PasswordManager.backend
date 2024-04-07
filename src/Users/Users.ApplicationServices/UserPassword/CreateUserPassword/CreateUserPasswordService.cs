@@ -8,6 +8,9 @@ using Rebus.Bus;
 using Users.Messages.CreateUserPassword;
 
 namespace PasswordManager.Users.ApplicationServices.UserPassword.CreateUserPassword;
+/// <summary>
+/// Service responsible for creating user passwords.
+/// </summary>
 public class CreateUserPasswordService : ICreateUserPasswordService
 {
     private readonly IUserRepository _userRepository;
@@ -16,6 +19,14 @@ public class CreateUserPasswordService : ICreateUserPasswordService
     private readonly IPasswordComponent _passwordComponent;
     private readonly IKeyVaultComponent _keyVaultComponent;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CreateUserPasswordService"/> class.
+    /// </summary>
+    /// <param name="userRepository">The repository for accessing user data.</param>
+    /// <param name="operationService">The service for managing operations.</param>
+    /// <param name="bus">The message bus for sending commands.</param>
+    /// <param name="passwordComponent">The component responsible for password-related operations.</param>
+    /// <param name="keyVaultComponent">The component for managing secrets in the key vault.</param>
     public CreateUserPasswordService(IUserRepository userRepository, IOperationService operationService, IBus bus, IPasswordComponent passwordComponent, IKeyVaultComponent keyVaultComponent)
     {
         _userRepository = userRepository;
@@ -25,6 +36,12 @@ public class CreateUserPasswordService : ICreateUserPasswordService
         _keyVaultComponent = keyVaultComponent;
     }
 
+    /// <summary>
+    /// Requests the creation of a user password and processes the operation result.
+    /// </summary>
+    /// <param name="userPasswordModel">The model containing the user's password details.</param>
+    /// <param name="operationDetails">The details of the operation.</param>
+    /// <returns>The result of the password creation operation.</returns>
     public async Task<OperationResult> RequestCreateUserPassword(UserPasswordModel userPasswordModel, OperationDetails operationDetails)
     {
         var user = await _userRepository.Get(userPasswordModel.UserId);
@@ -62,6 +79,11 @@ public class CreateUserPasswordService : ICreateUserPasswordService
         }
     }
 
+    /// <summary>
+    /// Creates a user password.
+    /// </summary>
+    /// <param name="userPasswordModel">The model containing the user's password details.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
     public async Task CreateUserPassword(UserPasswordModel userPasswordModel)
     {
         try

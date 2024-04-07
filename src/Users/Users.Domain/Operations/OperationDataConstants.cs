@@ -1,5 +1,8 @@
 ﻿namespace PasswordManager.Users.Domain.Operations
 {
+    /// <summary>
+    /// Contains constants for operation data related to user passwords.
+    /// </summary>
     public sealed class OperationDataConstants
     {
         #region Create Password

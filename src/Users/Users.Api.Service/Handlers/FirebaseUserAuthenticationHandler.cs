@@ -11,14 +11,28 @@ using PasswordManager.Users.Infrastructure.UserRepository;
 
 namespace PasswordManager.Users.Api.Service.Handlers
 {
+    /// <summary>
+    /// Handles authentication of users through Firebase, extending the default authentication handler.
+    /// </summary>
     public class FirebaseUserAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
+
+        // The prefix used for Bearer tokens in the Authorization header.
         private const string BEARER_PREFIX = "Bearer ";
 
         private readonly FirebaseApp _firebaseApp;
         private readonly ILogger<FirebaseUserAuthenticationHandler> _logger;
         protected readonly UserContext _context;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FirebaseUserAuthenticationHandler"/> class.
+        /// </summary>
+        /// <param name="options">Monitor for the options instance.</param>
+        /// <param name="logger">Factory to create a logger from.</param>
+        /// <param name="encoder">Encoder for the URLs.</param>
+        /// <param name="clock">System clock.</param>
+        /// <param name="firebaseApp">Firebase application instance.</param>
+        /// <param name="context">User context for accessing user data.</param>
         public FirebaseUserAuthenticationHandler(IOptionsMonitor<AuthenticationSchemeOptions> options,
             ILoggerFactory logger,
             UrlEncoder encoder,
@@ -32,6 +46,10 @@ namespace PasswordManager.Users.Api.Service.Handlers
             _context = context;
         }
 
+        /// <summary>
+        /// Handles the authentication asynchronously by validating the provided bearer token.
+        /// </summary>
+        /// <returns>The authentication result after validating the token.</returns>
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
             this._logger.LogInformation("Calling HandleAuthenticateAsync for FirebaseUserAuthenticationHandler");
@@ -81,6 +99,11 @@ namespace PasswordManager.Users.Api.Service.Handlers
             }
         }
 
+        /// <summary>
+        /// Creates an authentication ticket from a validated Firebase token.
+        /// </summary>
+        /// <param name="firebaseToken">The validated Firebase token.</param>
+        /// <returns>An authentication ticket.</returns>
         private AuthenticationTicket CreateAuthenticationTicket(FirebaseToken firebaseToken)
         {
             ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(new List<ClaimsIdentity>()
@@ -91,6 +114,11 @@ namespace PasswordManager.Users.Api.Service.Handlers
             return new AuthenticationTicket(claimsPrincipal, JwtBearerDefaults.AuthenticationScheme);
         }
 
+        /// <summary>
+        /// Converts the claims from a Firebase token into a list of <see cref="Claim"/>.
+        /// </summary>
+        /// <param name="claims">The claims from the Firebase token.</param>
+        /// <returns>A list of claims for the authenticated user.</returns>
         private IEnumerable<Claim> ToClaims(IReadOnlyDictionary<string, object> claims)
         {
             return new List<Claim>

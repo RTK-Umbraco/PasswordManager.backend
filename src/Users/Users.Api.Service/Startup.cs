@@ -13,18 +13,29 @@ using PasswordManager.Users.Infrastructure.Extensions;
 
 namespace PasswordManager.Users.Api.Service;
 
+/// <summary>
+/// Configures services and the HTTP request pipeline during application startup.
+/// </summary>
 public class Startup
 {
     public IConfiguration Configuration { get; set; }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Startup"/> class.
+    /// </summary>
+    /// <param name="configuration">The application configuration.</param>
     public Startup(IConfiguration configuration)
     {
         Configuration = configuration;
     }
 
+    /// <summary>
+    /// Configures services for the application.
+    /// </summary>
+    /// <param name="services">The service collection to configure.</param>
     public void ConfigureServices(IServiceCollection services)
     {
-        //Figure out if AddMvc is used
+        // Add MVC services
         services.AddMvc()
             .AddJsonOptions(options =>
             {
@@ -32,10 +43,13 @@ public class Startup
                 options.JsonSerializerOptions.Converters.Add(enumConvertor);
             });
 
+        // Add application services
         services.AddApplicationServiceServices();
 
+        // Add controllers
         services.AddControllers();
 
+        // Add Swagger generation
         services.AddSwaggerGen(c =>
         {
             c.SupportNonNullableReferenceTypes();
@@ -46,7 +60,6 @@ public class Startup
                 Name = "Authorization",
                 In = ParameterLocation.Header,
                 Scheme = JwtBearerDefaults.AuthenticationScheme,
-
             });
             c.AddSecurityRequirement(new OpenApiSecurityRequirement
             {
@@ -65,6 +78,8 @@ public class Startup
                 }
             });
         });
+
+        // Add Firebase authentication
         services.AddSingleton(FirebaseApp.Create(new AppOptions()
         {
             Credential = GoogleCredential.FromJson(Configuration[Infrastructure.Constants.ConfigurationKeys.FirebaseProjectCredentials]),
@@ -78,17 +93,24 @@ public class Startup
                 {
 
                 });
+
+        // Add current user service
         services.AddTransient<ICurrentUser, CurrentUser.CurrentUser>();
 
     }
 
+    /// <summary>
+    /// Configures the HTTP request pipeline.
+    /// </summary>
+    /// <param name="app">The application builder.</param>
+    /// <param name="env">The hosting environment.</param>
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         if (env.IsDevelopment() || env.IsStaging())
             app.UseDeveloperExceptionPage();
 
+        // Enable Swagger UI
         app.UseSwagger();
-
         if (env.IsDevelopment() || env.IsStaging() || Infrastructure.Constants.Environment.IsGeneratingApi)
             app.UseDeveloperExceptionPage();
 
@@ -109,10 +131,10 @@ public class Startup
             endpoints.MapSwagger();
         });
 
+        // Ensure database migration
         if (env.IsEnvironment("integration-test") || Infrastructure.Constants.Environment.IsGeneratingApi)
             return;
 
         app.EnsureDatabaseMigrated();
-        //If you want to add rebus you need to add it here!
     }
 }

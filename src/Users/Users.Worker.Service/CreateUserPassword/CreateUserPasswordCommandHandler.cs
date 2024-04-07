@@ -6,6 +6,10 @@ using Rebus.Handlers;
 using Users.Messages.CreateUserPassword;
 
 namespace Users.Worker.Service.CreateUserPassword;
+
+/// <summary>
+/// Handles commands to create user passwords, interfacing with relevant services and publishing events based on the outcome.
+/// </summary>
 public class CreateUserPasswordCommandHandler : IHandleMessages<CreateUserPasswordCommand>
 {
     private readonly ICreateUserPasswordService _createUserPasswordService;
@@ -13,6 +17,13 @@ public class CreateUserPasswordCommandHandler : IHandleMessages<CreateUserPasswo
     private readonly ILogger<CreateUserPasswordCommandHandler> _logger;
     private readonly IBus _bus;
 
+    /// <summary>
+    /// Initializes a new instance of the CreateUserPasswordCommandHandler class.
+    /// </summary>
+    /// <param name="createUserPasswordService">The service to create user passwords.</param>
+    /// <param name="operationService">The service managing operations.</param>
+    /// <param name="logger">The logger for logging information and warnings.</param>
+    /// <param name="bus">The bus for publishing events.</param>
     public CreateUserPasswordCommandHandler(ICreateUserPasswordService createUserPasswordService, IOperationService operationService, ILogger<CreateUserPasswordCommandHandler> logger, IBus bus)
     {
         _createUserPasswordService = createUserPasswordService;
@@ -21,6 +32,11 @@ public class CreateUserPasswordCommandHandler : IHandleMessages<CreateUserPasswo
         _bus = bus;
     }
 
+    /// <summary>
+    /// Handles the CreateUserPasswordCommand message asynchronously.
+    /// </summary>
+    /// <param name="message">The command message containing the request ID for creating a user password.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
     public async Task Handle(CreateUserPasswordCommand message)
     {
         var requestId = message.RequestId;

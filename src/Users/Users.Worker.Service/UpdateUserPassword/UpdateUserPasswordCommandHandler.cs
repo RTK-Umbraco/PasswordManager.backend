@@ -6,12 +6,26 @@ using Users.Messages.UpdateUserPassword;
 
 namespace Users.Worker.Service.UpdateUserPassword
 {
+    /// <summary>
+    /// Handles the command to update a user's password.
+    /// </summary>
+    /// <remarks>
+    /// This handler takes an <see cref="UpdateUserPasswordCommand"/>, processes it by validating
+    /// the associated operation, mapping it to an update model, and then executing the password update
+    /// through a designated service. It handles logging and operation status updates throughout the process.
+    /// </remarks>
     public class UpdateUserPasswordCommandHandler : IHandleMessages<UpdateUserPasswordCommand>
     {
         private readonly IUpdateUserPasswordService _updateUserPasswordService;
         private readonly IOperationService _operationService;
         private readonly ILogger<UpdateUserPasswordCommandHandler> _logger;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateUserPasswordCommandHandler"/> class.
+        /// </summary>
+        /// <param name="updateUserPasswordService">The service to update the user's password.</param>
+        /// <param name="operationService">The service for operation status management.</param>
+        /// <param name="logger">The logger for recording process information.</param>
         public UpdateUserPasswordCommandHandler(IUpdateUserPasswordService updateUserPasswordService, IOperationService operationService, ILogger<UpdateUserPasswordCommandHandler> logger)
         {
             _updateUserPasswordService = updateUserPasswordService;
@@ -19,6 +33,12 @@ namespace Users.Worker.Service.UpdateUserPassword
             _logger = logger;
         }
 
+        /// <summary>
+        /// Handles the command to update a user's password, orchestrating the process flow including logging,
+        /// operation retrieval, model mapping, and service invocation for the update, along with error handling.
+        /// </summary>
+        /// <param name="message">The <see cref="UpdateUserPasswordCommand"/> containing the details for the password update operation.</param>
+        /// <exception cref="UpdateUserPasswordServiceException">Thrown when the password update fails due to service-related issues.</exception>
         public async Task Handle(UpdateUserPasswordCommand message)
         {
             _logger.LogInformation("Handling update user password command {requestId}", message.RequestId);

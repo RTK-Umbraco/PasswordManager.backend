@@ -4,21 +4,31 @@ using Rebus.Routing.TypeBased;
 using Users.Messages.CreateUserPassword;
 
 namespace PasswordManager.Users.Api.Service.Installers;
-
+/// <summary>
+/// Installer for configuring Rebus messaging for the API.
+/// </summary>
 public class RebusInstaller : IDependencyInstaller
 {
+    /// <summary>
+    /// Installs Rebus messaging services for communication between components.
+    /// </summary>
+    /// <param name="serviceCollection">The service collection to which Rebus services will be added.</param>
+    /// <param name="options">Options for dependency installation.</param>
     public void Install(IServiceCollection serviceCollection, DependencyInstallerOptions options)
     {
-        // For now skip any further configuration if we are running tests
+        // For integration tests, skip further configuration
         if (options.HostEnvironment.IsEnvironment("integration-test")) return;
 
+        // Retrieve the service bus connection string
         var serviceBusConnectionString = "Endpoint=sb://sb-passwordmanager-servicebus.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=w8DGNEpb44MfTiLp+GS18zea9b4UanhYT+ASbJ1fHCY=";
 
+        // Ensure the service bus connection string is not empty
         if (string.IsNullOrWhiteSpace(serviceBusConnectionString))
             throw new InvalidOperationException("Unable to resolve service bus connection string named " +
                                                 $"{PasswordManager.Users.Infrastructure.Constants.ConfigurationKeys.ServiceBusConnectionString} " +
                                                 "from environment variables");
 
+        // Configure Rebus with Azure Service Bus transport
         serviceCollection.AddRebus((configure, provider) => configure
             .Logging(l => l.MicrosoftExtensionsLogging(provider.GetRequiredService<ILoggerFactory>()))
             .Transport(t => t.UseAzureServiceBusAsOneWayClient(serviceBusConnectionString))

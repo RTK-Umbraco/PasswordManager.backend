@@ -3,17 +3,30 @@ using PasswordManager.Users.Domain.Operations;
 using Microsoft.Extensions.Logging;
 
 namespace PasswordManager.Users.ApplicationServices.Operations;
+/// <summary>
+/// Service responsible for managing operations.
+/// </summary>
 public class OperationService : IOperationService
 {
     private readonly ILogger<OperationService> _logger;
     private readonly IOperationRepository _operationRepository;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="OperationService"/> class.
+    /// </summary>
+    /// <param name="logger">The logger for logging messages.</param>
+    /// <param name="operationRepository">The repository for accessing operation data.</param>
     public OperationService(ILogger<OperationService> logger, IOperationRepository operationRepository)
     {
         _logger = logger;
         _operationRepository = operationRepository;
     }
 
+    /// <summary>
+    /// Queues an operation for processing and stores it in the repository.
+    /// </summary>
+    /// <param name="operation">The operation to be queued.</param>
+    /// <returns>The operation after it has been stored in the repository.</returns>
     public async Task<Operation> QueueOperation(Operation operation)
     {
         if (operation.Status != OperationStatus.Queued)
@@ -23,6 +36,11 @@ public class OperationService : IOperationService
         return storedOperation;
     }
 
+    /// <summary>
+    /// Retrieves an operation by its request ID.
+    /// </summary>
+    /// <param name="requestId">The request ID of the operation to retrieve.</param>
+    /// <returns>The operation with the specified request ID, or null if not found.</returns>
     public async Task<Operation?> GetOperationByRequestId(string requestId)
     {
         _logger.LogTrace("Getting operation for request id {RequestId}", requestId);
@@ -36,6 +54,12 @@ public class OperationService : IOperationService
         return operation;
     }
 
+    /// <summary>
+    /// Updates the status of an operation.
+    /// </summary>
+    /// <param name="requestId">The request ID of the operation to update.</param>
+    /// <param name="operationStatus">The new status of the operation.</param>
+    /// <returns>The updated operation after status has been changed.</returns>
     public async Task<Operation?> UpdateOperationStatus(string requestId, OperationStatus operationStatus)
     {
         _logger.LogTrace("Updating operation status for request id {RequestId} to {OperationStatus}", requestId,
@@ -74,6 +98,11 @@ public class OperationService : IOperationService
         return updatedOperation;
     }
 
+    /// <summary>
+    /// Retrieves all operations associated with a specific user.
+    /// </summary>
+    /// <param name="userId">The ID of the user whose operations to retrieve.</param>
+    /// <returns>A collection of operations associated with the specified user.</returns>
     public async Task<ICollection<Operation>> GetUserOperations(Guid UserId)
     {
         _logger.LogTrace("Getting all operations for User: {UserId}", UserId);

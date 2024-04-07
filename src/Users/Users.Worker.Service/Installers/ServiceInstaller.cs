@@ -6,8 +6,16 @@ using PasswordManager.Users.Infrastructure.Installers;
 
 namespace PasswordManager.Users.Worker.Service.Installers
 {
+    /// <summary>
+    /// Installs service dependencies during application startup.
+    /// </summary>
     public class ServiceInstaller : IDependencyInstaller
     {
+        /// <summary>
+        /// Installs service dependencies.
+        /// </summary>
+        /// <param name="serviceCollection">The collection of services to install.</param>
+        /// <param name="options">The options for dependency installation.</param>
         public void Install(IServiceCollection serviceCollection, DependencyInstallerOptions options)
         {
             serviceCollection.AddScoped<IOperationService, OperationService>();

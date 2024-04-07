@@ -9,17 +9,31 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace PasswordManager.Users.Api.Service.Endpoints.UserPassword.DeleteUserPassword
 {
+    /// <summary>
+    /// Endpoint for deleting a user's password.
+    /// </summary>
     public class DeleteUserPasswordEndpoint : EndpointBaseAsync.WithRequest<Guid>.WithoutResult
     {
         private readonly IDeleteUserPasswordService _deleteUserPasswordService;
         private readonly ICurrentUser _currentUser;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DeleteUserPasswordEndpoint"/> class.
+        /// </summary>
+        /// <param name="deleteUserPasswordService">The service used to delete user passwords.</param>
+        /// <param name="currentUser">The current user session.</param>
         public DeleteUserPasswordEndpoint(IDeleteUserPasswordService deleteUserPasswordService, ICurrentUser currentUser)
         {
             _deleteUserPasswordService = deleteUserPasswordService;
             _currentUser = currentUser;
         }
 
+        /// <summary>
+        /// Handles the HTTP DELETE request to delete a user's password.
+        /// </summary>
+        /// <param name="passwordId">The unique identifier of the user's password to be deleted.</param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+        /// <returns>A task that represents the asynchronous operation, including the action result.</returns>
         [HttpDelete("api/user/password/{passwordId}")]
         [ProducesResponseType(typeof(OperationAcceptedResponse), StatusCodes.Status202Accepted)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
